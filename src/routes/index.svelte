@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 
 	let roomIdJoin: string;
 	let roomIdCreate: string = generateRoomId();
@@ -11,7 +12,7 @@
 	}
 
 	function joinRoom() {
-		if (roomIdJoin) goto('/' + roomIdJoin);
+		if (roomIdJoin) goto(base + '/' + roomIdJoin);
 	}
 </script>
 
