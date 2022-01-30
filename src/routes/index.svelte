@@ -31,8 +31,8 @@
 	function createRoom() {}
 </script>
 
-{#if loaded}
-	<div id="main" class="w-screen h-screen flex justify-center">
+<div id="main" class="w-screen h-screen flex justify-center">
+	{#if loaded}
 		<div class="flex justify-center p-5 lg:p-10 h-full w-full lg:w-1/2">
 			<div class="flex flex-col justify-between h-full w-full">
 				<div class="flex flex-col items-center w-full">
@@ -88,8 +88,8 @@
 				</div>
 			</div>
 		</div>
-	</div>
-{/if}
+	{/if}
+</div>
 
 <style lang="postcss">
 	#main {
