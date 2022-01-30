@@ -8,6 +8,8 @@
 	let roomIdCreate: string = generateRoomId();
 
 	onMount(() => {
+    console.log($page.url.pathname);
+    console.log(base);
 		if ($page.url.pathname !== base + '/') {
 			roomIdJoin = $page.url.pathname.substring(1);
 			joinRoom();
