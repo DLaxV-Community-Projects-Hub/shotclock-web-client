@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
+	import { base } from '$app/paths';
 
 	import Fa from 'svelte-fa';
 	import { faVolumeUp, faVolumeMute } from '@fortawesome/free-solid-svg-icons';
@@ -93,20 +94,20 @@
 </div>
 
 <style lang="postcss">
-  #main {
-    @apply bg-black text-white;
-  }
+	#main {
+		@apply bg-black text-white;
+	}
 
-  .clock {
-    font-family: 'SevenSeg';
-    font-size: 65vmin;
-  }
+	.clock {
+		font-family: 'SevenSeg';
+		font-size: 65vmin;
+	}
 
 	@font-face {
 		font-family: 'SevenSeg';
 		font-style: normal;
-		src: url('fonts/DSEG7Classic-Regular.ttf') format('ttf'),
-			url('fonts/DSEG7Classic-Regular.woff2') format('woff2'),
-			url('fonts/DSEG7Classic-Regular.woff') format('woff');
+		src: url('{base}/fonts/DSEG7Classic-Regular.ttf') format('ttf'),
+			url('{base}/fonts/DSEG7Classic-Regular.woff2') format('woff2'),
+			url('{base}/fonts/DSEG7Classic-Regular.woff') format('woff');
 	}
 </style>
