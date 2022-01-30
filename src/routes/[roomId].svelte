@@ -21,7 +21,7 @@
 
 	onMount(() => {
 		join();
-		audio = new Audio('audio/beep.mp3');
+		audio = new Audio(base + '/audio/beep.mp3');
 	});
 
 	function activateAudio() {
@@ -106,8 +106,8 @@
 	@font-face {
 		font-family: 'SevenSeg';
 		font-style: normal;
-		src: url('{base}/fonts/DSEG7Classic-Regular.ttf') format('ttf'),
-			url('{base}/fonts/DSEG7Classic-Regular.woff2') format('woff2'),
-			url('{base}/fonts/DSEG7Classic-Regular.woff') format('woff');
+		src: url('/fonts/DSEG7Classic-Regular.ttf') format('truetype'),
+			url('/fonts/DSEG7Classic-Regular.woff2') format('woff2'),
+			url('/fonts/DSEG7Classic-Regular.woff') format('woff');
 	}
 </style>
