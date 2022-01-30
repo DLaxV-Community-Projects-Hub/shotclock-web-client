@@ -20,4 +20,4 @@ jobs:
       - name: Build
         run: npm run build
       - name: Deploy
-        run: npx gh-pages -d .svelte-kit/static/build -t true
+        run: npx gh-pages -d build
