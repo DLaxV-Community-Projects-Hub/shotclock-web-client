@@ -8,7 +8,7 @@
 	let roomIdCreate: string = generateRoomId();
 
 	onMount(() => {
-		if ($page.url.pathname !== '/') {
+		if ($page.url.pathname !== base + '/') {
 			roomIdJoin = $page.url.pathname.substring(1);
 			joinRoom();
 		}
