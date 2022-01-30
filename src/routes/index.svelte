@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 
 	let loaded: boolean = false;
@@ -10,13 +9,12 @@
 	let roomIdCreate: string = generateRoomId();
 
 	onMount(() => {
-    // Redirect traffic from 404 page to corresponding room
+		// Redirect traffic from 404 page to corresponding room
 		let path: string = new URL(window.location.href).pathname;
 		if (path !== base + '/') {
 			roomIdJoin = new URL(window.location.href).pathname.replace(base + '/', '');
 			joinRoom();
-		}
-		loaded = true;
+		} else loaded = true;
 	});
 
 	function generateRoomId(): string {
