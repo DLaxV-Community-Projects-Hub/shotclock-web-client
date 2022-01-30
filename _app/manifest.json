@@ -1,10 +1,10 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "start-7edc59a4.js",
+    "file": "start-c48974db.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
-      "_vendor-eaf7e502.js",
+      "_vendor-29d29edf.js",
       "_singletons-a6a7384f.js",
       "_paths-4b3c6e7e.js"
     ],
@@ -16,55 +16,57 @@
     ]
   },
   "src/routes/__layout.svelte": {
-    "file": "pages/__layout.svelte-ef0ac3fc.js",
+    "file": "pages/__layout.svelte-37632f57.js",
     "src": "src/routes/__layout.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-eaf7e502.js"
+      "_vendor-29d29edf.js"
     ],
     "css": [
       "assets/pages/__layout.svelte-b6fb0b93.css"
     ]
   },
   ".svelte-kit/runtime/components/error.svelte": {
-    "file": "error.svelte-7c67239f.js",
+    "file": "error.svelte-c6fca77a.js",
     "src": ".svelte-kit/runtime/components/error.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-eaf7e502.js"
+      "_vendor-29d29edf.js"
     ]
   },
   "src/routes/index.svelte": {
-    "file": "pages/index.svelte-9c4af6e0.js",
+    "file": "pages/index.svelte-7167cd66.js",
     "src": "src/routes/index.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-eaf7e502.js",
+      "_vendor-29d29edf.js",
       "_singletons-a6a7384f.js",
-      "_paths-4b3c6e7e.js"
+      "_paths-4b3c6e7e.js",
+      "_stores-892d000b.js"
     ],
     "css": [
       "assets/pages/index.svelte-31aba107.css"
     ]
   },
   "src/routes/[roomId].svelte": {
-    "file": "pages/_roomId_.svelte-b8248e16.js",
+    "file": "pages/_roomId_.svelte-dffb0b78.js",
     "src": "src/routes/[roomId].svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-eaf7e502.js",
+      "_vendor-29d29edf.js",
+      "_stores-892d000b.js",
       "_paths-4b3c6e7e.js"
     ],
     "css": [
       "assets/pages/_roomId_.svelte-0bd2a8b5.css"
     ]
   },
-  "_vendor-eaf7e502.js": {
-    "file": "chunks/vendor-eaf7e502.js",
+  "_vendor-29d29edf.js": {
+    "file": "chunks/vendor-29d29edf.js",
     "css": [
       "assets/vendor-8992211a.css"
     ]
@@ -74,5 +76,11 @@
   },
   "_paths-4b3c6e7e.js": {
     "file": "chunks/paths-4b3c6e7e.js"
+  },
+  "_stores-892d000b.js": {
+    "file": "chunks/stores-892d000b.js",
+    "imports": [
+      "_vendor-29d29edf.js"
+    ]
   }
 }
