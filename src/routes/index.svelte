@@ -4,18 +4,19 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 
+	let loaded: boolean = false;
+
 	let roomIdJoin: string;
 	let roomIdCreate: string = generateRoomId();
 
 	onMount(() => {
+    // Redirect traffic from 404 page to corresponding room
 		let path: string = new URL(window.location.href).pathname;
-		console.log(path);
-		console.log($page.url.pathname);
-		console.log(base);
 		if (path !== base + '/') {
 			roomIdJoin = new URL(window.location.href).pathname.replace(base + '/', '');
 			joinRoom();
 		}
+		loaded = true;
 	});
 
 	function generateRoomId(): string {
@@ -29,45 +30,51 @@
 	}
 </script>
 
-<div id="main" class="w-screen h-screen">
-	<div class="flex justify-center h-full p-10">
-		<div class="flex flex-col justify-between h-full">
-			<div class="flex flex-col items-center">
+{#if loaded}
+	<div id="main" class="w-screen h-screen">
+		<div class="flex justify-center h-full p-10">
+			<div class="flex flex-col justify-between h-full">
 				<div class="flex flex-col items-center">
-					<div class="flex flex-col items-center mb-5">
-						<h1 class="text-white text-5xl mb-2">DLaxV Shot Clock</h1>
-						<h3 class="text-white text-xl">Free & Open Source online shot clock application</h3>
+					<div class="flex flex-col items-center">
+						<div class="flex flex-col items-center mb-5">
+							<h1 class="text-white text-5xl mb-2">DLaxV Shot Clock</h1>
+							<h3 class="text-white text-xl">Free & Open Source online shot clock application</h3>
+						</div>
+						<div class="flex mb-3 justify-between">
+							<input
+								class="w-8/12 px-3 py-2 rounded"
+								placeholder="Room ID"
+								bind:value={roomIdJoin}
+							/>
+							<button class="btn" on:click={joinRoom}>Join Room</button>
+						</div>
 					</div>
-					<div class="flex mb-3 justify-between">
-						<input class="w-8/12 px-3 py-2 rounded" placeholder="Room ID" bind:value={roomIdJoin} />
-						<button class="btn" on:click={joinRoom}>Join Room</button>
+					<div class="flex items-center">
+						<button class="btn">Instructions</button>
+						<button class="btn">Create Room</button>
 					</div>
 				</div>
-				<div class="flex items-center">
-					<button class="btn">Instructions</button>
-					<button class="btn">Create Room</button>
-				</div>
-			</div>
 
-			<!-- Logos -->
-			<div class="h-40 flex flex-col items-center justify-between">
-				<div class="text-white font-bold text-2xl">Supported by</div>
-				<div class="flex h-4/6">
-					<div class="h-full mx-5">
-						<a href="https://dlaxv.de/" target="_blank">
-							<img src="img/logo-dlaxv.svg" alt="Logo DLaxV" class="h-full" />
-						</a>
-					</div>
-					<div class="h-full mx-5">
-						<a href="https://worldlacrosse.sport/" target="_blank">
-							<img src="img/logo-worldlacrosse.svg" alt="Logo World Lacrosse" class="h-full" />
-						</a>
+				<!-- Logos -->
+				<div class="h-40 flex flex-col items-center justify-between">
+					<div class="text-white font-bold text-2xl">Supported by</div>
+					<div class="flex h-4/6">
+						<div class="h-full mx-5">
+							<a href="https://dlaxv.de/" target="_blank">
+								<img src="img/logo-dlaxv.svg" alt="Logo DLaxV" class="h-full" />
+							</a>
+						</div>
+						<div class="h-full mx-5">
+							<a href="https://worldlacrosse.sport/" target="_blank">
+								<img src="img/logo-worldlacrosse.svg" alt="Logo World Lacrosse" class="h-full" />
+							</a>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
+{/if}
 
 <style lang="postcss">
 	#main {
