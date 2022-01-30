@@ -1,9 +1,18 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
+	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
 
 	let roomIdJoin: string;
 	let roomIdCreate: string = generateRoomId();
+
+	onMount(() => {
+		if ($page.url.pathname !== '/') {
+			roomIdJoin = $page.url.pathname.substring(1);
+			joinRoom();
+		}
+	});
 
 	function generateRoomId(): string {
 		const min: number = 10000;
