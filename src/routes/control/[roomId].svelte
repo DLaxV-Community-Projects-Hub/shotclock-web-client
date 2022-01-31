@@ -5,7 +5,12 @@
 	import { websocketProtocol, serverBaseUrl } from '../../config.js';
 
 	import Fa from 'svelte-fa';
-	import { faVolumeUp, faVolumeMute, faSpinner } from '@fortawesome/free-solid-svg-icons';
+	import {
+		faVolumeUp,
+		faVolumeMute,
+		faShareAlt,
+		faSpinner
+	} from '@fortawesome/free-solid-svg-icons';
 	import { goto } from '$app/navigation';
 
 	let roomId: string = $page['params']['roomId'];
@@ -121,6 +126,24 @@
 			}, 2000);
 		}
 	}
+
+	function shareRoomURL() {
+		if (navigator.share) {
+			navigator.share({
+				title: 'Shot Clock room ' + roomId,
+				url: currentHost + base + '/room/' + roomId
+			});
+		}
+	}
+
+	function shareControlURL() {
+		if (navigator.share) {
+			navigator.share({
+				title: 'Shot Clock controller ' + roomId,
+				url: currentHost + base + '/control/' + roomId
+			});
+		}
+	}
 </script>
 
 <div id="main" class="w-screen h-screen overflow-hidden" on:click|once={activateAudio}>
@@ -160,22 +183,42 @@
 				>
 			</div>
 			<!-- Infos -->
-			<div class="lg:text-right flex flex-row lg:flex-col m-3">
-				<div class="flex flex-col mb-3 mr-5 lg:mr-0">
-					<span class="text-xs">Room</span>
-					<span class="text-xl">{roomId}</span>
+			<div class="lg:text-right flex flex-row lg:flex-col justify-between lg:justify-start m-3">
+				<div class="lg:mb-10 w-1/2">
+					<div class="flex flex-col mb-3 mr-5 lg:mr-0">
+						<span class="text-xs">Room</span>
+						<span class="text-xl">{roomId}</span>
+					</div>
+					<div class="hidden lg:flex flex-col mb-3">
+						<span class="text-xs">Room URL</span>
+						<a href="{base}/room/{roomId}">{currentHost}{base}/room/{roomId}</a>
+					</div>
+					<div class:hidden={navigator.share}>
+						<button class="shareButton lg:text-lg">
+							<div class="flex flex-row items-center" on:click={shareRoomURL}>
+								<span class="mr-2">Share Room URL</span>
+								<Fa icon={faShareAlt} size="lg" />
+							</div>
+						</button>
+					</div>
 				</div>
-				<div class="hidden lg:flex flex-col mb-3 ">
-					<span class="text-xs">Room URL</span>
-					<a href="{base}/room/{roomId}">{currentHost}{base}/room/{roomId}</a>
-				</div>
-				<div class="flex flex-col mb-3">
-					<span class="text-xs">PIN</span>
-					<span class="text-xl">{pin}</span>
-				</div>
-				<div class="hidden lg:flex flex-col mb-3">
-					<span class="text-xs">Controller URL</span>
-					<a href="{base}/control/{roomId}">{currentHost}{base}/control/{roomId}</a>
+				<div class="w-1/2">
+					<div class="flex flex-col mb-3">
+						<span class="text-xs">PIN</span>
+						<span class="text-xl">{pin}</span>
+					</div>
+					<div class="hidden lg:flex flex-col mb-3">
+						<span class="text-xs">Controller URL</span>
+						<a href="{base}/control/{roomId}">{currentHost}{base}/control/{roomId}</a>
+					</div>
+					<div class:hidden={navigator.share}>
+						<button class="shareButton lg:text-lg">
+							<div class="flex flex-row items-center" on:click={shareControlURL}>
+								<span class="mr-2">Share Control URL</span>
+								<Fa icon={faShareAlt} size="lg" />
+							</div>
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -199,7 +242,7 @@
 	}
 
 	.controlButton {
-		@apply text-3xl lg:text-5xl border-2 border-black rounded-[50%] w-button h-button;
+		@apply text-2xl lg:text-5xl border-2 border-black rounded-[50%] w-button h-button;
 	}
 
 	.startButton {
@@ -208,6 +251,10 @@
 
 	.stopButton {
 		@apply text-button-red bg-button-bg-red shadow-startstop-red;
+	}
+
+	.shareButton {
+		@apply px-2 py-1 border rounded text-white;
 	}
 
 	@font-face {
