@@ -161,7 +161,7 @@
 			</div>
 			<!-- Infos -->
 			<div class="lg:text-right flex flex-row lg:flex-col m-3">
-				<div class="flex flex-col mb-3 mr-5">
+				<div class="flex flex-col mb-3 mr-5 lg:mr-0">
 					<span class="text-xs">Room</span>
 					<span class="text-xl">{roomId}</span>
 				</div>
