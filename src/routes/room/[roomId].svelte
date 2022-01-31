@@ -2,9 +2,11 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { base } from '$app/paths';
+	import { websocketProtocol, serverBaseUrl } from '../../config.js';
 
 	import Fa from 'svelte-fa';
 	import { faVolumeUp, faVolumeMute } from '@fortawesome/free-solid-svg-icons';
+	import { goto } from '$app/navigation';
 
 	let roomId: string = $page['params']['roomId'];
 
@@ -32,21 +34,26 @@
 	}
 
 	function join() {
-		ws = new WebSocket('wss://tobias-reinke.de/shotclock/' + roomId);
+		ws = new WebSocket(websocketProtocol + '://' + serverBaseUrl + '/' + roomId);
 		ws.onerror = function (error) {
 			console.log(error);
 		};
 		ws.onmessage = function (event) {
-			let id: string = event.data.substring(0, 1);
-			let data: Array<string> = event.data.substring(2).includes(';')
-				? event.data.substring(2).split(';')
-				: [event.data.substring(2)];
-			switch (id) {
-				case 't':
-					shotclock = parseInt(data[1]);
-					if (shotclock == 0) alarm();
-					else deactivateAlarm();
-					break;
+			if (event.data === 'ROOM_NOT_FOUND') {
+				alert('The room ' + roomId + ' does not exist');
+				goto(base + '/');
+			} else {
+				let id: string = event.data.substring(0, 1);
+				let data: Array<string> = event.data.substring(2).includes(';')
+					? event.data.substring(2).split(';')
+					: [event.data.substring(2)];
+				switch (id) {
+					case 't':
+						shotclock = parseInt(data[1]);
+						if (shotclock == 0) alarm();
+						else deactivateAlarm();
+						break;
+				}
 			}
 		};
 
