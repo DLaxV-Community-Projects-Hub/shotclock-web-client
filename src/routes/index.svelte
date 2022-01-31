@@ -53,7 +53,7 @@
 	}
 </script>
 
-<div id="main" class="w-screen h-screen flex justify-center">
+<div id="main" class="w-full h-full flex justify-center">
 	{#if loaded}
 		<div class="flex justify-center p-5 lg:p-10 h-full w-full lg:w-1/2">
 			<div class="flex flex-col justify-between h-full w-full">

@@ -146,7 +146,7 @@
 	}
 </script>
 
-<div id="main" class="w-screen h-screen overflow-hidden" on:click|once={activateAudio}>
+<div id="main" class="w-full h-full overflow-hidden" on:click|once={activateAudio}>
 	{#if authenticated}
 		<!-- Volume Icon -->
 		<div class="absolute top-3 left-3" on:click={() => (audioActive = !audioActive)}>
