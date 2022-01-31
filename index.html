@@ -10,7 +10,7 @@
   <title>DLaxV Shot Clock</title>
   <meta http-equiv="content-security-policy" content="">
 	<link rel="stylesheet" href="/shotclock-web-client/_app/assets/vendor-5101306d.css">
-	<link rel="stylesheet" href="/shotclock-web-client/_app/assets/pages/__layout.svelte-3c6dedba.css">
+	<link rel="stylesheet" href="/shotclock-web-client/_app/assets/pages/__layout.svelte-22bd77de.css">
 	<link rel="stylesheet" href="/shotclock-web-client/_app/assets/pages/index.svelte-80adea07.css">
 	<link rel="modulepreload" href="/shotclock-web-client/_app/start-d390fc9e.js">
 	<link rel="modulepreload" href="/shotclock-web-client/_app/chunks/vendor-98d87553.js">
@@ -63,6 +63,23 @@
     }(window.location))
   </script>
   <!-- End Single Page Apps for GitHub Pages -->
+
+  <style>
+    body {
+      height: 100vh;
+      height: calc(var(--vh, 1vh) * 100);
+    }
+  </style>
+
+  <script type="text/javascript">
+    function resize() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+  </script>
 </head>
 
 <body>
