@@ -9,9 +9,11 @@ console.log('Dev build: ' + dev);
 const config = {
   // Consult https://github.com/sveltejs/svelte-preprocess
   // for more information about preprocessors
-  preprocess: preprocess({
-    postcss: true,
-  }),
+  preprocess: [
+    preprocess({
+      postcss: true
+    })
+  ],
 
   kit: {
     adapter: static_adapter(),
@@ -19,8 +21,8 @@ const config = {
     // hydrate the <div id="svelte"> element in src/app.html
     target: '#svelte',
     paths: {
-      base: dev ? '' : '/shotclock-web-client',
-    },
+      base: dev ? '' : '/shotclock-web-client'
+    }
   }
 };
 
