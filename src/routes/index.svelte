@@ -16,8 +16,12 @@
 		let path: string = new URL(window.location.href).pathname;
 		let basePath: string = base + '/';
 
+    console.log(path);
+    console.log(basePath);
+
 		if (path !== basePath) {
 			joinId = new URL(window.location.href).pathname.replace(base + '/', '');
+      console.log(joinId);
 			joinRoom();
 		} else loaded = true;
 	});
