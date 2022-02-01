@@ -128,6 +128,7 @@
 	}
 
 	function shareRoomURL() {
+    console.log(currentHost + base + '/room/' + roomId);
 		if (navigator.share) {
 			navigator.share({
 				title: 'Shot Clock room ' + roomId,
@@ -193,7 +194,7 @@
 						<span class="text-xs">Room URL</span>
 						<a href="{base}/room/{roomId}">{currentHost}{base}/room/{roomId}</a>
 					</div>
-					<div class:hidden={!navigator.share}>
+					<div class:hidden={navigator.share}>
 						<button class="shareButton lg:text-lg">
 							<div class="flex flex-row items-center" on:click={shareRoomURL}>
 								<span class="mr-2">Share Room URL</span>
