@@ -16,13 +16,25 @@
 		let path: string = new URL(window.location.href).pathname;
 		let basePath: string = base + '/';
 
-    console.log(path);
-    console.log(basePath);
-
 		if (path !== basePath) {
-			joinId = new URL(window.location.href).pathname.replace(base + '/', '');
-      console.log(joinId);
-			joinRoom();
+			const relevantPath: string = new URL(window.location.href).pathname.replace(base + '/', '');
+			if (relevantPath.includes('/')) {
+				const slashPosition: number = relevantPath.indexOf('/');
+				joinId = relevantPath.substring(slashPosition + 1);
+				switch (relevantPath.substring(0, slashPosition)) {
+					case 'room':
+						joinRoom();
+						break;
+					case 'control':
+						openController();
+						break;
+					default:
+						goto(basePath);
+				}
+			} else {
+				joinId = relevantPath;
+				joinRoom();
+			}
 		} else loaded = true;
 	});
 
@@ -54,6 +66,8 @@
 
 	function createRoom() {
 		if (createId && createPin) {
+			// No slashes in room name allowed
+			createId = createId.replace('/', '-');
 			goto(base + '/control/' + createId + '?pin=' + createPin);
 		}
 	}
