@@ -14,17 +14,12 @@
 	onMount(() => {
 		// Redirect traffic from 404 page to corresponding room
 		let path: string = new URL(window.location.href).pathname;
-    let basePath: string = base;
-		if (basePath === '') basePath = '/';
+		let basePath: string = base + '/';
 
-    console.log(path);
-    console.log(basePath);
-    console.log(loaded);
 		if (path !== basePath) {
 			joinId = new URL(window.location.href).pathname.replace(base + '/', '');
 			joinRoom();
 		} else loaded = true;
-    console.log(loaded);
 	});
 
 	function generateRoomId(): string {
