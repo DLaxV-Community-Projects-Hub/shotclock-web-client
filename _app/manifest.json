@@ -1,6 +1,6 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "start-687039d3.js",
+    "file": "start-743da79a.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
@@ -51,7 +51,7 @@
     ]
   },
   "src/routes/control/[roomId].svelte": {
-    "file": "pages/control/_roomId_.svelte-b9a2a3fa.js",
+    "file": "pages/control/_roomId_.svelte-cafb697c.js",
     "src": "src/routes/control/[roomId].svelte",
     "isEntry": true,
     "isDynamicEntry": true,
