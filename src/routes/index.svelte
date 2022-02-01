@@ -17,10 +17,14 @@
     let basePath: string = base;
 		if (basePath === '') basePath = '/';
 
+    console.log(path);
+    console.log(basePath);
+    console.log(loaded);
 		if (path !== basePath) {
 			joinId = new URL(window.location.href).pathname.replace(base + '/', '');
 			joinRoom();
 		} else loaded = true;
+    console.log(loaded);
 	});
 
 	function generateRoomId(): string {
