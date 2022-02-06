@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/env';
 	import { _, locale, isLoading } from 'svelte-i18n';
+	import { defaultLocale } from '../i18n.ts';
 
 	let loaded: boolean = false;
 
@@ -19,7 +20,7 @@
 			setTimeout(() => {
 				locale.set(language);
 				replaceStateWithQuery({
-					lang: language
+					lang: language !== defaultLocale ? language : null
 				});
 			}, 1);
 		}

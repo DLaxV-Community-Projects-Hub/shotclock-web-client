@@ -4,7 +4,7 @@ import { browser } from '$app/env';
 register('en', () => import('./locales/en.json'));
 register('de', () => import('./locales/de.json'));
 
-const defaultLocale: string = 'de';
+export const defaultLocale: string = 'en';
 
 if (browser) {
 	// init on client side only
