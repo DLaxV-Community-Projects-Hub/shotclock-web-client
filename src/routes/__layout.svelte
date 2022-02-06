@@ -11,9 +11,7 @@
 			getLocaleFromQueryString('lang') != null
 				? getLocaleFromQueryString('lang')
 				: getLocaleFromNavigator();
-		setTimeout(() => {
-			locale.set(language);
-		}, 1);
+		locale.set(language);
 		console.log('Language: ' + language);
 	}
 </script>
