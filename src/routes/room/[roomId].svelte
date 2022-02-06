@@ -4,9 +4,12 @@
 	import { base } from '$app/paths';
 	import { websocketProtocol, serverBaseUrl } from '../../config.js';
 
+	import LoadingInfo from '../../components/LoadingInfo.svelte';
+
 	import Fa from 'svelte-fa';
 	import { faVolumeUp, faVolumeMute } from '@fortawesome/free-solid-svg-icons';
 	import { goto } from '$app/navigation';
+	import { isLoading } from 'svelte-i18n';
 
 	let roomId: string = $page['params']['roomId'];
 
@@ -88,16 +91,20 @@
 </script>
 
 <div id="main" class="w-full h-full overflow-hidden" on:click|once={activateAudio}>
-	<div class="absolute top-3 left-3" on:click={() => (audioActive = !audioActive)}>
-		{#if audioActive}
-			<Fa icon={faVolumeUp} size="2x" />
-		{:else}
-			<Fa icon={faVolumeMute} size="2x" />
-		{/if}
-	</div>
-	<div class="h-full w-full flex flex-col justify-center items-center">
-		<span class="clock" class:text-red-600={shotclockRed}>{shotclockString}</span>
-	</div>
+	{#if !$isLoading}
+		<div class="absolute top-3 left-3" on:click={() => (audioActive = !audioActive)}>
+			{#if audioActive}
+				<Fa icon={faVolumeUp} size="2x" />
+			{:else}
+				<Fa icon={faVolumeMute} size="2x" />
+			{/if}
+		</div>
+		<div class="h-full w-full flex flex-col justify-center items-center">
+			<span class="clock" class:text-red-600={shotclockRed}>{shotclockString}</span>
+		</div>
+	{:else}
+		<LoadingInfo />
+	{/if}
 </div>
 
 <style lang="postcss">

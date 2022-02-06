@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	import { base } from '$app/paths';
 	import { websocketProtocol, serverBaseUrl } from '../../config.js';
-	import { _ } from 'svelte-i18n';
+  import { _, isLoading } from 'svelte-i18n';
 
 	import LoadingInfo from '../../components/LoadingInfo.svelte';
 
@@ -163,7 +163,7 @@
 <svelte:window on:keydown={handleKeydown} />
 
 <div id="main" class="w-full h-full overflow-hidden" on:click|once={activateAudio}>
-	{#if authenticated}
+	{#if authenticated && !$isLoading}
 		<!-- Volume Icon -->
 		<div class="absolute top-3 left-3" on:click={() => (audioActive = !audioActive)}>
 			{#if audioActive}
