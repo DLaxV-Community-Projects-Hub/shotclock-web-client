@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	import { base } from '$app/paths';
 	import { websocketProtocol, serverBaseUrl } from '../../config.js';
-	import { _, locale } from 'svelte-i18n';
+	import { _, isLoading } from 'svelte-i18n';
 
 	import LoadingInfo from '../../components/LoadingInfo.svelte';
 
@@ -16,6 +16,14 @@
 	let currentHost: string;
 
 	let authenticated: boolean = false;
+	let loaded: boolean = false;
+
+	$: {
+		$isLoading;
+		setTimeout(() => {
+      loaded = !$isLoading;
+		}, 250);
+	}
 
 	let ws: WebSocket;
 
@@ -31,8 +39,6 @@
 	let audio: HTMLAudioElement;
 
 	onMount(() => {
-		locale.set('en');
-
 		currentHost = window.location.host;
 		if ($page['url']['searchParams'].has('pin')) {
 			pin = $page['url']['searchParams'].get('pin');
@@ -165,7 +171,7 @@
 <svelte:window on:keydown={handleKeydown} />
 
 <div id="main" class="w-full h-full overflow-hidden" on:click|once={activateAudio}>
-	{#if authenticated}
+	{#if authenticated && loaded}
 		<!-- Volume Icon -->
 		<div class="absolute top-3 left-3" on:click={() => (audioActive = !audioActive)}>
 			{#if audioActive}
