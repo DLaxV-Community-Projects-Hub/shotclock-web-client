@@ -1,10 +1,10 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "start-2e6fd475.js",
+    "file": "start-2c46f6b9.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
-      "_vendor-c3f96ae6.js",
+      "_vendor-8603c0f9.js",
       "_preload-helper-ec9aa979.js",
       "_paths-b0acc198.js"
     ],
@@ -17,56 +17,55 @@
     ]
   },
   "src/routes/__layout.svelte": {
-    "file": "pages/__layout.svelte-48e96fb4.js",
+    "file": "pages/__layout.svelte-540122d2.js",
     "src": "src/routes/__layout.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-c3f96ae6.js",
-      "_preload-helper-ec9aa979.js",
-      "_LoadingInfo-456c9f37.js"
-    ],
-    "dynamicImports": [
-      "src/locales/en.json",
-      "src/locales/de.json"
+      "_vendor-8603c0f9.js",
+      "_i18n-d2ec08fb.js",
+      "_LoadingInfo-12695491.js",
+      "_preload-helper-ec9aa979.js"
     ],
     "css": [
       "assets/pages/__layout.svelte-8b9c2633.css"
     ]
   },
   ".svelte-kit/runtime/components/error.svelte": {
-    "file": "error.svelte-badd8d44.js",
+    "file": "error.svelte-b01e88c9.js",
     "src": ".svelte-kit/runtime/components/error.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-c3f96ae6.js"
+      "_vendor-8603c0f9.js"
     ]
   },
   "src/routes/index.svelte": {
-    "file": "pages/index.svelte-fa3a478a.js",
+    "file": "pages/index.svelte-acb83b7a.js",
     "src": "src/routes/index.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-c3f96ae6.js",
+      "_vendor-8603c0f9.js",
       "_navigation-ecedacd4.js",
-      "_paths-b0acc198.js"
+      "_paths-b0acc198.js",
+      "_i18n-d2ec08fb.js",
+      "_preload-helper-ec9aa979.js"
     ],
     "css": [
       "assets/pages/index.svelte-80adea07.css"
     ]
   },
   "src/routes/control/[roomId].svelte": {
-    "file": "pages/control/_roomId_.svelte-700e4b9f.js",
+    "file": "pages/control/_roomId_.svelte-3515e40e.js",
     "src": "src/routes/control/[roomId].svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-c3f96ae6.js",
-      "_config-7038c0e7.js",
+      "_vendor-8603c0f9.js",
+      "_config-5137d4fe.js",
       "_paths-b0acc198.js",
-      "_LoadingInfo-456c9f37.js",
+      "_LoadingInfo-12695491.js",
       "_navigation-ecedacd4.js"
     ],
     "css": [
@@ -74,13 +73,13 @@
     ]
   },
   "src/routes/room/[roomId].svelte": {
-    "file": "pages/room/_roomId_.svelte-ba963d13.js",
+    "file": "pages/room/_roomId_.svelte-8b1afe8a.js",
     "src": "src/routes/room/[roomId].svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-c3f96ae6.js",
-      "_config-7038c0e7.js",
+      "_vendor-8603c0f9.js",
+      "_config-5137d4fe.js",
       "_paths-b0acc198.js",
       "_navigation-ecedacd4.js"
     ],
@@ -88,8 +87,8 @@
       "assets/pages/room/_roomId_.svelte-589083db.css"
     ]
   },
-  "_vendor-c3f96ae6.js": {
-    "file": "chunks/vendor-c3f96ae6.js",
+  "_vendor-8603c0f9.js": {
+    "file": "chunks/vendor-8603c0f9.js",
     "css": [
       "assets/vendor-5101306d.css"
     ]
@@ -100,10 +99,21 @@
   "_preload-helper-ec9aa979.js": {
     "file": "chunks/preload-helper-ec9aa979.js"
   },
-  "_LoadingInfo-456c9f37.js": {
-    "file": "chunks/LoadingInfo-456c9f37.js",
+  "_i18n-d2ec08fb.js": {
+    "file": "chunks/i18n-d2ec08fb.js",
     "imports": [
-      "_vendor-c3f96ae6.js"
+      "_preload-helper-ec9aa979.js",
+      "_vendor-8603c0f9.js"
+    ],
+    "dynamicImports": [
+      "src/locales/en.json",
+      "src/locales/de.json"
+    ]
+  },
+  "_LoadingInfo-12695491.js": {
+    "file": "chunks/LoadingInfo-12695491.js",
+    "imports": [
+      "_vendor-8603c0f9.js"
     ]
   },
   "_navigation-ecedacd4.js": {
@@ -112,10 +122,10 @@
       "_paths-b0acc198.js"
     ]
   },
-  "_config-7038c0e7.js": {
-    "file": "chunks/config-7038c0e7.js",
+  "_config-5137d4fe.js": {
+    "file": "chunks/config-5137d4fe.js",
     "imports": [
-      "_vendor-c3f96ae6.js"
+      "_vendor-8603c0f9.js"
     ]
   },
   "src/locales/en.json": {
