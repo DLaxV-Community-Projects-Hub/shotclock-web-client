@@ -144,7 +144,6 @@
 	}
 
 	function handleKeydown(e) {
-		console.log(e.key);
 		if (e.key === ' ' || e.key === 'Enter') {
 			// Space/Enter
 			startStop();
