@@ -22,7 +22,7 @@
 		$isLoading;
 		setTimeout(() => {
       loaded = !$isLoading;
-		}, 1);
+		}, 100);
 	}
 
 	let ws: WebSocket;
