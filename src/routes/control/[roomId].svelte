@@ -16,14 +16,6 @@
 	let currentHost: string;
 
 	let authenticated: boolean = false;
-	let loaded: boolean = false;
-
-	$: {
-		$isLoading;
-		setTimeout(() => {
-      loaded = !$isLoading;
-		}, 250);
-	}
 
 	let ws: WebSocket;
 
@@ -171,7 +163,7 @@
 <svelte:window on:keydown={handleKeydown} />
 
 <div id="main" class="w-full h-full overflow-hidden" on:click|once={activateAudio}>
-	{#if authenticated && loaded}
+	{#if authenticated}
 		<!-- Volume Icon -->
 		<div class="absolute top-3 left-3" on:click={() => (audioActive = !audioActive)}>
 			{#if audioActive}

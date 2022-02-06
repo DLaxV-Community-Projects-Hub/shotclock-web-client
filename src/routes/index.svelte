@@ -27,6 +27,8 @@
 	}
 
 	onMount(() => {
+    language = $_('locale');
+    
 		// Redirect traffic from 404 page to corresponding room
 		let path: string = new URL(window.location.href).pathname;
 		let basePath: string = base + '/';
@@ -51,7 +53,6 @@
 				joinRoom();
 			}
 		} else {
-			language = $_('locale');
 			loaded = true;
 		}
 	});
