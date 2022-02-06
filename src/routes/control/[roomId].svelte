@@ -3,7 +3,6 @@
 	import { onMount } from 'svelte';
 	import { base } from '$app/paths';
 	import { websocketProtocol, serverBaseUrl } from '../../config.js';
-	import { _, isLoading } from 'svelte-i18n';
 
 	import LoadingInfo from '../../components/LoadingInfo.svelte';
 
@@ -188,31 +187,31 @@
 				>
 					<span>
 						{#if running}
-							{$_('control.stop')}
+							STOP
 						{:else}
-							{$_('control.start')}
+							START
 						{/if}
 					</span>
 				</button>
 				<button class="controlButton shadow-reset text-white bg-button-bg-reset" on:click={reset}
-					>{$_('control.reset')}</button
+					>RESET</button
 				>
 			</div>
 			<!-- Infos -->
 			<div class="lg:text-right flex flex-row lg:flex-col justify-between lg:justify-start m-3">
 				<div class="lg:mb-10 w-1/2 lg:w-full">
 					<div class="flex flex-col mb-3 mr-5 lg:mr-0">
-						<span class="text-xs">{$_('control.room')}</span>
+						<span class="text-xs">Room</span>
 						<span class="text-xl">{roomId}</span>
 					</div>
 					<div class="hidden lg:flex flex-col mb-3">
-						<span class="text-xs">{$_('control.room_url')}</span>
+						<span class="text-xs">Room URL</span>
 						<a href="{base}/room/{roomId}">{currentHost}{base}/room/{roomId}</a>
 					</div>
 					<div class:hidden={!navigator.share}>
 						<button class="shareButton lg:text-lg">
 							<div class="flex flex-row items-center" on:click={shareRoomURL}>
-								<span class="mr-2">{$_('control.share_room_url')}</span>
+								<span class="mr-2">Share Room URL</span>
 								<Fa icon={faShareAlt} size="lg" />
 							</div>
 						</button>
@@ -220,17 +219,17 @@
 				</div>
 				<div class="w-1/2 lg:w-full">
 					<div class="flex flex-col mb-3">
-						<span class="text-xs">{$_('control.pin')}</span>
+						<span class="text-xs">PIN</span>
 						<span class="text-xl">{pin}</span>
 					</div>
 					<div class="hidden lg:flex flex-col mb-3">
-						<span class="text-xs">{$_('control.controller_url')}</span>
+						<span class="text-xs">Controller URL</span>
 						<a href="{base}/control/{roomId}">{currentHost}{base}/control/{roomId}</a>
 					</div>
 					<div class:hidden={!navigator.share}>
 						<button class="shareButton lg:text-lg">
 							<div class="flex flex-row items-center" on:click={shareControlURL}>
-								<span class="mr-2">{$_('control.share_controller_url')}</span>
+								<span class="mr-2">Share Controller URL</span>
 								<Fa icon={faShareAlt} size="lg" />
 							</div>
 						</button>
