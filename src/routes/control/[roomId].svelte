@@ -144,11 +144,16 @@
 	}
 
 	function handleKeydown(e) {
-		if (e.keyCode === 32 || e.keyCode === 13) {
+		console.log(e.key);
+		if (e.key === ' ' || e.key === 'Enter') {
 			// Space/Enter
 			startStop();
 			e.preventDefault();
-		} else if (e.keyCode === 67 || e.keyCode === 77 || e.keyCode == 8) {
+		} else if (
+			e.key.toLowerCase() === 'm' ||
+			e.key.toLowerCase() === 'c' ||
+			e.key === 'Backspace'
+		) {
 			// M/C/Backspace
 			reset();
 			e.preventDefault();
