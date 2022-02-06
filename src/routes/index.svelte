@@ -27,8 +27,8 @@
 	}
 
 	onMount(() => {
-    language = $_('locale');
-    
+		language = $_('locale') !== defaultLocale ? $_('locale') : null;
+
 		// Redirect traffic from 404 page to corresponding room
 		let path: string = new URL(window.location.href).pathname;
 		let basePath: string = base + '/';
@@ -74,7 +74,7 @@
 	}
 
 	function openController() {
-		if (joinId) goto(base + '/control/' + joinId);
+		if (joinId) goto(base + '/control/' + joinId + (language ? '?lang=' + language : ''));
 	}
 
 	function quickCreateRoom() {
