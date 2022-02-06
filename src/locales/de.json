@@ -1,0 +1,26 @@
+{
+	"title": "DLaxV Shot Clock",
+  "subtitle": "Free & Open Source online shot clock application",
+	"index": {
+		"room_id": "Raum ID",
+		"join_room": "Raum beitreten",
+		"open_controller": "Controller <br/>öffnen",
+    "create_room": "Raum erstellen",
+    "quick_create": "Schnell erstellen",
+    "custom_settings": "Eigene Einstellung",
+    "control_pin": "Steuerungs-PIN",
+    "create_custom": "Erstellen",
+    "supported_by": "Unterstützt von"
+	},
+	"control": {
+    "start": "Start",
+    "stop": "Stop",
+    "reset": "Reset",
+    "room": "Raum",
+    "room_url": "Raum URL",
+    "share_room_url": "Raum URL teilen",
+    "pin": "PIN",
+    "controller_url": "Steuerungs URL",
+    "share_controller_url": "Steuerungs URL teilen"
+  }
+}
