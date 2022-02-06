@@ -2,7 +2,8 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { onMount } from 'svelte';
-	import { _ } from 'svelte-i18n';
+	import { browser } from '$app/env';
+	import { _, locale, isLoading } from 'svelte-i18n';
 
 	let loaded: boolean = false;
 
@@ -11,6 +12,18 @@
 	let createPin: string;
 
 	let showAdvancedCreateSettings: boolean = false;
+
+	let language: string;
+	$: {
+		if (browser && !$isLoading) {
+			setTimeout(() => {
+				locale.set(language);
+				replaceStateWithQuery({
+					lang: language
+				});
+			}, 1);
+		}
+	}
 
 	onMount(() => {
 		// Redirect traffic from 404 page to corresponding room
@@ -36,7 +49,10 @@
 				joinId = relevantPath;
 				joinRoom();
 			}
-		} else loaded = true;
+		} else {
+			language = $_('locale');
+			loaded = true;
+		}
 	});
 
 	function generateRoomId(): string {
@@ -52,7 +68,7 @@
 	}
 
 	function joinRoom() {
-		if (joinId) goto(base + '/room/' + joinId);
+		if (joinId) goto(base + '/room/' + joinId + (language ? '?lang=' + language : ''));
 	}
 
 	function openController() {
@@ -69,14 +85,31 @@
 		if (createId && createPin) {
 			// No slashes in room name allowed
 			createId = createId.replace('/', '-');
-			goto(base + '/control/' + createId + '?pin=' + createPin);
+			goto(
+				base + '/control/' + createId + '?pin=' + createPin + (language ? '&lang=' + language : '')
+			);
 		}
 	}
+
+	export const replaceStateWithQuery = (values: Record<string, string>) => {
+		const url = new URL(window.location.toString());
+		for (let [k, v] of Object.entries(values)) {
+			if (!!v) url.searchParams.set(encodeURIComponent(k), encodeURIComponent(v));
+			else url.searchParams.delete(k);
+		}
+		history.replaceState({}, '', url);
+	};
 </script>
 
 <div id="main" class="w-full h-full flex justify-center">
 	{#if loaded}
-		<div class="flex justify-center p-5 lg:p-10 h-full w-full lg:w-1/2">
+		<div class="absolute bottom-2 right-2 lg:top-3 lg:right-3">
+			<select name="lang" id="lang" class="p-1 border rounded" bind:value={language}>
+				<option value="en">🇺🇸</option>
+				<option value="de">🇩🇪</option>
+			</select>
+		</div>
+		<div class="flex justify-center p-5 lg:p-10 h-full w-full xl:w-1/2">
 			<div class="flex flex-col justify-between h-full w-full">
 				<!-- Top Content -->
 				<div class="flex flex-col items-center w-full">
