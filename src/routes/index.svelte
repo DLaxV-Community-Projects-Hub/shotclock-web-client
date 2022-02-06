@@ -132,7 +132,13 @@
 								<span class="uppercase text-white text-xs font-bold">{$_('index.room_id')}</span>
 								<div />
 								<div />
-								<input class="px-3 py-2 rounded" bind:value={joinId} />
+								<input
+									class="px-3 py-2 rounded"
+									bind:value={joinId}
+									on:keypress={(e) => {
+										if (e.key === 'Enter') joinRoom();
+									}}
+								/>
 								<button class="btn text-xl ml-2" on:click={joinRoom}>{$_('index.join_room')}</button
 								>
 								<button class="btn text-xs ml-2" on:click={openController}
