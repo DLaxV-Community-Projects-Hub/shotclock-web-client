@@ -1,10 +1,10 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "start-7890e0f6.js",
+    "file": "start-6926f397.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
-      "_vendor-d6659832.js",
+      "_vendor-c3f96ae6.js",
       "_preload-helper-b6b4d264.js",
       "_paths-b0acc198.js"
     ],
@@ -17,39 +17,39 @@
     ]
   },
   "src/routes/__layout.svelte": {
-    "file": "pages/__layout.svelte-bbbe4cde.js",
+    "file": "pages/__layout.svelte-50927436.js",
     "src": "src/routes/__layout.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-d6659832.js",
+      "_vendor-c3f96ae6.js",
       "_preload-helper-b6b4d264.js",
-      "_LoadingInfo-65ee62f5.js"
+      "_LoadingInfo-456c9f37.js"
     ],
     "dynamicImports": [
       "src/locales/en.json",
       "src/locales/de.json"
     ],
     "css": [
-      "assets/pages/__layout.svelte-7580db78.css"
+      "assets/pages/__layout.svelte-8b9c2633.css"
     ]
   },
   ".svelte-kit/runtime/components/error.svelte": {
-    "file": "error.svelte-eba10623.js",
+    "file": "error.svelte-badd8d44.js",
     "src": ".svelte-kit/runtime/components/error.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-d6659832.js"
+      "_vendor-c3f96ae6.js"
     ]
   },
   "src/routes/index.svelte": {
-    "file": "pages/index.svelte-cc8335db.js",
+    "file": "pages/index.svelte-fa3a478a.js",
     "src": "src/routes/index.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-d6659832.js",
+      "_vendor-c3f96ae6.js",
       "_navigation-ecedacd4.js",
       "_paths-b0acc198.js"
     ],
@@ -58,15 +58,15 @@
     ]
   },
   "src/routes/control/[roomId].svelte": {
-    "file": "pages/control/_roomId_.svelte-c9963f5e.js",
+    "file": "pages/control/_roomId_.svelte-700e4b9f.js",
     "src": "src/routes/control/[roomId].svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-d6659832.js",
-      "_config-9a6a8ce5.js",
+      "_vendor-c3f96ae6.js",
+      "_config-7038c0e7.js",
       "_paths-b0acc198.js",
-      "_LoadingInfo-65ee62f5.js",
+      "_LoadingInfo-456c9f37.js",
       "_navigation-ecedacd4.js"
     ],
     "css": [
@@ -74,13 +74,13 @@
     ]
   },
   "src/routes/room/[roomId].svelte": {
-    "file": "pages/room/_roomId_.svelte-f1f6f46e.js",
+    "file": "pages/room/_roomId_.svelte-ba963d13.js",
     "src": "src/routes/room/[roomId].svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_vendor-d6659832.js",
-      "_config-9a6a8ce5.js",
+      "_vendor-c3f96ae6.js",
+      "_config-7038c0e7.js",
       "_paths-b0acc198.js",
       "_navigation-ecedacd4.js"
     ],
@@ -88,8 +88,8 @@
       "assets/pages/room/_roomId_.svelte-589083db.css"
     ]
   },
-  "_vendor-d6659832.js": {
-    "file": "chunks/vendor-d6659832.js",
+  "_vendor-c3f96ae6.js": {
+    "file": "chunks/vendor-c3f96ae6.js",
     "css": [
       "assets/vendor-5101306d.css"
     ]
@@ -100,10 +100,10 @@
   "_preload-helper-b6b4d264.js": {
     "file": "chunks/preload-helper-b6b4d264.js"
   },
-  "_LoadingInfo-65ee62f5.js": {
-    "file": "chunks/LoadingInfo-65ee62f5.js",
+  "_LoadingInfo-456c9f37.js": {
+    "file": "chunks/LoadingInfo-456c9f37.js",
     "imports": [
-      "_vendor-d6659832.js"
+      "_vendor-c3f96ae6.js"
     ]
   },
   "_navigation-ecedacd4.js": {
@@ -112,19 +112,19 @@
       "_paths-b0acc198.js"
     ]
   },
-  "_config-9a6a8ce5.js": {
-    "file": "chunks/config-9a6a8ce5.js",
+  "_config-7038c0e7.js": {
+    "file": "chunks/config-7038c0e7.js",
     "imports": [
-      "_vendor-d6659832.js"
+      "_vendor-c3f96ae6.js"
     ]
   },
   "src/locales/en.json": {
-    "file": "chunks/en-51c35d04.js",
+    "file": "chunks/en-b113ac3a.js",
     "src": "src/locales/en.json",
     "isDynamicEntry": true
   },
   "src/locales/de.json": {
-    "file": "chunks/de-8c6d5ce4.js",
+    "file": "chunks/de-b2ad9c27.js",
     "src": "src/locales/de.json",
     "isDynamicEntry": true
   }
