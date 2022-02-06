@@ -4,7 +4,7 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/env';
 	import { _, locale, isLoading } from 'svelte-i18n';
-	import { defaultLocale } from '../i18n.ts';
+	import { defaultLocale } from '../i18n';
 
 	let loaded: boolean = false;
 

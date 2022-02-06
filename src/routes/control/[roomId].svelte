@@ -142,7 +142,21 @@
 			});
 		}
 	}
+
+	function handleKeydown(e) {
+		if (e.keyCode === 32 || e.keyCode === 13) {
+			// Space/Enter
+			startStop();
+			e.preventDefault();
+		} else if (e.keyCode === 67 || e.keyCode === 77 || e.keyCode == 8) {
+			// M/C/Backspace
+			reset();
+			e.preventDefault();
+		}
+	}
 </script>
+
+<svelte:window on:keydown={handleKeydown} />
 
 <div id="main" class="w-full h-full overflow-hidden" on:click|once={activateAudio}>
 	{#if authenticated}
