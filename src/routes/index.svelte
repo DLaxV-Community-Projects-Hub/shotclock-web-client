@@ -27,7 +27,7 @@
 	}
 
 	onMount(() => {
-		language = $_('locale') !== defaultLocale ? $_('locale') : null;
+		language = $_('locale');
 
 		// Redirect traffic from 404 page to corresponding room
 		let path: string = new URL(window.location.href).pathname;
