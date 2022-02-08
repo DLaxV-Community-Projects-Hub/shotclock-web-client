@@ -17,7 +17,7 @@
     "start": "Start",
     "stop": "Stop",
     "reset": "Reset",
-    "room": "Room",
+    "room": "Room ID",
     "room_url": "Room URL",
     "share_room_url": "Share room URL",
     "pin": "PIN",
