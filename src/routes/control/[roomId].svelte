@@ -181,8 +181,9 @@
 			<div class="flex flex-row lg:flex-col justify-evenly">
 				<button
 					class="controlButton"
-					class:startButton={!running}
-					class:stopButton={running}
+					class:startButton={!running && shotclock > 0}
+					class:stopButton={running && shotclock > 0}
+          class:buttonDisabled={shotclock == 0}
 					on:click={startStop}
 				>
 					<span>
@@ -249,7 +250,7 @@
 
 	.clock {
 		font-family: 'SevenSeg';
-		font-size: 65vmin;
+		font-size: 50vmin;
 	}
 
 	.controlButton {
@@ -263,6 +264,10 @@
 	.stopButton {
 		@apply text-button-red bg-button-bg-red shadow-startstop-red;
 	}
+
+  .buttonDisabled {
+    @apply text-button-disabled bg-button-bg-disabled shadow-reset;
+  }
 
 	.shareButton {
 		@apply px-2 py-1 border rounded text-white;
