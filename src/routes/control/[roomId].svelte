@@ -246,6 +246,7 @@
 <style lang="postcss">
 	#main {
 		@apply bg-black text-white;
+    touch-action: manipulation;
 	}
 
 	.clock {
