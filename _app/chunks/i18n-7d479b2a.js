@@ -1,0 +1,1 @@
+import{_ as e}from"./preload-helper-ec9aa979.js";import{M as a,$ as l,N as o,O as r}from"./vendor-6d995ebd.js";a("en",()=>e(()=>import("./en-7102d21a.js"),[]));a("de",()=>e(()=>import("./de-9ae58c22.js"),[]));const _="en";l({fallbackLocale:_,initialLocale:o("lang")!=null?o("lang"):r()});export{_ as d};
