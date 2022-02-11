@@ -105,13 +105,13 @@
 
 <div id="main" class="w-full h-full flex justify-center">
 	{#if loaded && !$isLoading}
-		<div class="absolute bottom-2 right-2 lg:top-3 lg:right-3">
+		<div class="absolute top-2 right-2 lg:top-3 lg:right-3">
 			<select name="lang" id="lang" class="p-1 border rounded" bind:value={language}>
 				<option value="en">🇺🇸</option>
 				<option value="de">🇩🇪</option>
 			</select>
 		</div>
-		<div class="flex justify-center p-5 lg:p-10 h-full w-full xl:w-1/2">
+		<div class="flex justify-center p-5 lg:p-10 pt-10 h-full w-full xl:w-1/2">
 			<div class="flex flex-col justify-between h-full w-full">
 				<!-- Top Content -->
 				<div class="flex flex-col items-center w-full">
@@ -182,18 +182,20 @@
 				</div>
 
 				<!-- Logos -->
-				<div class="h-32 lg:h-40 flex flex-col items-center justify-between">
-					<div class="text-white font-bold text-2xl">{$_('index.supported_by')}</div>
-					<div class="flex h-4/6">
-						<div class="h-full mx-5">
-							<a href="https://dlaxv.de/" target="_blank">
-								<img src="img/logo-dlaxv.svg" alt="Logo DLaxV" class="h-full" />
-							</a>
-						</div>
-						<div class="h-full mx-5">
-							<a href="https://worldlacrosse.sport/" target="_blank">
-								<img src="img/logo-worldlacrosse.svg" alt="Logo World Lacrosse" class="h-full" />
-							</a>
+				<div class="h-32 lg:h-80 flex flex-col items-center justify-end">
+          <div class="text-white font-bold mb-5 text-2xl">{$_('index.supported_by')}</div>
+					<div class="w-80">
+						<div class="flex flex-col h-4/6">
+							<div class="h-full mx-5 mb-5">
+								<a href="https://dlaxv.de/" target="_blank">
+									<img src="img/logo-dlaxv.svg" alt="Logo DLaxV" class="h-full" />
+								</a>
+							</div>
+							<div class="h-full mx-5">
+								<a href="https://worldlacrosse.sport/" target="_blank">
+									<img src="img/logo-worldlacrosse.svg" alt="Logo World Lacrosse" class="h-full" />
+								</a>
+							</div>
 						</div>
 					</div>
 				</div>
