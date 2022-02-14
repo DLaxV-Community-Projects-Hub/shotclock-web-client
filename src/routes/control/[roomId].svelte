@@ -11,7 +11,7 @@
 		faVolumeUp,
 		faVolumeMute,
 		faShareAlt,
-		faClockRotateLeft
+    faFastBackward
 	} from '@fortawesome/free-solid-svg-icons';
 	import { goto } from '$app/navigation';
 
@@ -225,8 +225,8 @@
 					title="Rewind to last reset"
 					on:click={rewind}
 				>
-					<Fa class="w-full lg:hidden" icon={faClockRotateLeft} />
-					<Fa class="w-full hidden lg:block" icon={faClockRotateLeft} size="2x" />
+					<Fa class="w-full lg:hidden" icon={faFastBackward} />
+					<Fa class="w-full hidden lg:block" icon={faFastBackward} size="2x" />
 				</button>
 				<button
 					class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
