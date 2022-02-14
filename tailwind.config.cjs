@@ -3,10 +3,12 @@ module.exports = {
 	theme: {
 		extend: {
 			width: {
-				button: '17vmax'
+				button: '17vmax',
+        buttonSmall: '7vmax'
 			},
 			height: {
-				button: '17vmax'
+				button: '17vmax',
+        buttonSmall: '7vmax'
 			},
 			colors: {
 				'button-green': 'rgba(0, 255, 0, 1)',

@@ -7,7 +7,12 @@
 	import LoadingInfo from '../../components/LoadingInfo.svelte';
 
 	import Fa from 'svelte-fa';
-	import { faVolumeUp, faVolumeMute, faShareAlt } from '@fortawesome/free-solid-svg-icons';
+	import {
+		faVolumeUp,
+		faVolumeMute,
+		faShareAlt,
+		faClockRotateLeft
+	} from '@fortawesome/free-solid-svg-icons';
 	import { goto } from '$app/navigation';
 
 	let roomId: string = $page['params']['roomId'];
@@ -94,6 +99,14 @@
 
 	function reset() {
 		ws.send('reset');
+	}
+
+	function rewind() {
+		ws.send('rewind');
+	}
+
+	function updateTime(t: number) {
+		ws.send('updateTime;' + t);
 	}
 
 	function alarm() {
@@ -183,7 +196,7 @@
 					class="controlButton"
 					class:startButton={!running && shotclock > 0}
 					class:stopButton={running && shotclock > 0}
-          class:buttonDisabled={shotclock == 0}
+					class:buttonDisabled={shotclock == 0}
 					on:click={startStop}
 				>
 					<span>
@@ -196,6 +209,32 @@
 				</button>
 				<button class="controlButton shadow-reset text-white bg-button-bg-reset" on:click={reset}
 					>RESET</button
+				>
+			</div>
+			<div class="flex flex-row lg:flex-col justify-evenly">
+				<button
+					class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
+					on:click={() => updateTime(-5)}>-5s</button
+				>
+				<button
+					class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
+					on:click={() => updateTime(-1)}>-1s</button
+				>
+				<button
+					class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
+					title="Rewind to last reset"
+					on:click={rewind}
+				>
+					<Fa class="w-full lg:hidden" icon={faClockRotateLeft} />
+					<Fa class="w-full hidden lg:block" icon={faClockRotateLeft} size="2x" />
+				</button>
+				<button
+					class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
+					on:click={() => updateTime(1)}>+1s</button
+				>
+				<button
+					class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
+					on:click={() => updateTime(5)}>+5s</button
 				>
 			</div>
 			<!-- Infos -->
@@ -246,7 +285,7 @@
 <style lang="postcss">
 	#main {
 		@apply bg-black text-white;
-    touch-action: manipulation;
+		touch-action: manipulation;
 	}
 
 	.clock {
@@ -258,6 +297,10 @@
 		@apply text-2xl lg:text-5xl border-2 border-black rounded-[50%] w-button h-button uppercase;
 	}
 
+	.controlButtonSmall {
+		@apply text-lg lg:text-xl border-2 border-black rounded-[50%] w-buttonSmall h-buttonSmall;
+	}
+
 	.startButton {
 		@apply text-button-green bg-button-bg-green shadow-startstop-green;
 	}
@@ -266,9 +309,9 @@
 		@apply text-button-red bg-button-bg-red shadow-startstop-red;
 	}
 
-  .buttonDisabled {
-    @apply text-button-disabled bg-button-bg-disabled shadow-reset;
-  }
+	.buttonDisabled {
+		@apply text-button-disabled bg-button-bg-disabled shadow-reset;
+	}
 
 	.shareButton {
 		@apply px-2 py-1 border rounded text-white;
