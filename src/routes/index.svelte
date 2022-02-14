@@ -103,7 +103,7 @@
 	};
 </script>
 
-<div id="main" class="w-full h-full flex justify-center">
+<main class="w-full h-full flex justify-center">
 	{#if loaded && !$isLoading}
 		<div class="absolute top-2 right-2 lg:top-3 lg:right-3">
 			<select name="lang" id="lang" class="p-1 border rounded" bind:value={language}>
@@ -202,10 +202,11 @@
 			</div>
 		</div>
 	{/if}
-</div>
+  </main>
 
 <style lang="postcss">
-	#main {
+	main {
+    min-height: 46rem;
 		background: rgb(158, 158, 158);
 		background: radial-gradient(
 			circle,
