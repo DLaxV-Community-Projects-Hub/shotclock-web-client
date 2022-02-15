@@ -109,7 +109,7 @@
 
 <style lang="postcss">
 	#main {
-		@apply bg-black text-white;
+		@apply text-white;
 	}
 
 	.clock {
