@@ -124,32 +124,8 @@
 							</h3>
 						</div>
 
-						<!-- Join Room -->
-						<div class="w-full lg:w-7/12 mb-10 lg:mb-20">
-							<div class="mb-3">
-								<h4 class="text-white text-md uppercase">{$_('index.join_room')}</h4>
-							</div>
-							<div class="grid grid-cols-inputs-3-button mb-3">
-								<span class="uppercase text-white text-xs font-bold">{$_('index.room_id')}</span>
-								<div />
-								<div />
-								<input
-									class="px-3 py-2 rounded"
-									bind:value={joinId}
-									on:keypress={(e) => {
-										if (e.key === 'Enter') joinRoom();
-									}}
-								/>
-								<button class="btn text-xl ml-2" on:click={joinRoom}>{$_('index.join_room')}</button
-								>
-								<button class="btn text-xs ml-2" on:click={openController}
-									>{@html $_('index.open_controller')}</button
-								>
-							</div>
-						</div>
-
 						<!-- Create Room -->
-						<div class="w-full lg:w-7/12">
+						<div class="w-full lg:w-7/12 mb-5 lg:mb-10">
 							<div class="mb-3">
 								<h4 class="text-white text-md uppercase">{$_('index.create_room')}</h4>
 							</div>
@@ -178,12 +154,36 @@
 								</div>
 							{/if}
 						</div>
+
+						<!-- Join Room -->
+						<div class="w-full lg:w-7/12">
+							<div class="mb-3">
+								<h4 class="text-white text-md uppercase">{$_('index.join_room')}</h4>
+							</div>
+							<div class="grid grid-cols-inputs-3-button mb-3">
+								<span class="uppercase text-white text-xs font-bold">{$_('index.room_id')}</span>
+								<div />
+								<div />
+								<input
+									class="px-3 py-2 rounded"
+									bind:value={joinId}
+									on:keypress={(e) => {
+										if (e.key === 'Enter') joinRoom();
+									}}
+								/>
+								<button class="btn text-xl ml-2" on:click={joinRoom}>{$_('index.join_room')}</button
+								>
+								<button class="btn text-xs ml-2" on:click={openController}
+									>{@html $_('index.open_controller')}</button
+								>
+							</div>
+						</div>
 					</div>
 				</div>
 
 				<!-- Logos -->
 				<div class="h-32 lg:h-80 flex flex-col items-center justify-end">
-          <div class="text-white font-bold mb-5 text-2xl">{$_('index.supported_by')}</div>
+					<div class="text-white font-bold mb-5 text-2xl">{$_('index.supported_by')}</div>
 					<div class="w-80">
 						<div class="flex flex-col h-4/6">
 							<div class="h-full mx-5 mb-5">
@@ -202,11 +202,11 @@
 			</div>
 		</div>
 	{/if}
-  </main>
+</main>
 
 <style lang="postcss">
 	main {
-    min-height: 46rem;
+		min-height: 46rem;
 		background: rgb(158, 158, 158);
 		background: radial-gradient(
 			circle,
