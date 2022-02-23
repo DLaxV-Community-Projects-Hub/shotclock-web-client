@@ -1,6 +1,6 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "start-7e89a191.js",
+    "file": "start-6af9b140.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
@@ -17,13 +17,13 @@
     ]
   },
   "src/routes/__layout.svelte": {
-    "file": "pages/__layout.svelte-f1d5762a.js",
+    "file": "pages/__layout.svelte-e6e6c083.js",
     "src": "src/routes/__layout.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_vendor-9018bcf9.js",
-      "_i18n-f62f6fa3.js",
+      "_i18n-33405cde.js",
       "_LoadingInfo-4a044bd9.js",
       "_preload-helper-ec9aa979.js"
     ],
@@ -41,7 +41,7 @@
     ]
   },
   "src/routes/index.svelte": {
-    "file": "pages/index.svelte-bc1ca64c.js",
+    "file": "pages/index.svelte-c08752ae.js",
     "src": "src/routes/index.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
@@ -49,7 +49,7 @@
       "_vendor-9018bcf9.js",
       "_navigation-ecedacd4.js",
       "_paths-b0acc198.js",
-      "_i18n-f62f6fa3.js",
+      "_i18n-33405cde.js",
       "_preload-helper-ec9aa979.js"
     ],
     "css": [
@@ -100,8 +100,8 @@
   "_preload-helper-ec9aa979.js": {
     "file": "chunks/preload-helper-ec9aa979.js"
   },
-  "_i18n-f62f6fa3.js": {
-    "file": "chunks/i18n-f62f6fa3.js",
+  "_i18n-33405cde.js": {
+    "file": "chunks/i18n-33405cde.js",
     "imports": [
       "_preload-helper-ec9aa979.js",
       "_vendor-9018bcf9.js"
@@ -130,12 +130,12 @@
     ]
   },
   "src/locales/en.json": {
-    "file": "chunks/en-7102d21a.js",
+    "file": "chunks/en-2baf65f7.js",
     "src": "src/locales/en.json",
     "isDynamicEntry": true
   },
   "src/locales/de.json": {
-    "file": "chunks/de-9ae58c22.js",
+    "file": "chunks/de-2c3b20e1.js",
     "src": "src/locales/de.json",
     "isDynamicEntry": true
   }
