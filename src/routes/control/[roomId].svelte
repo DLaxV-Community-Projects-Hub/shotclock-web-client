@@ -245,13 +245,13 @@
 						<span class="text-xl">{roomId}</span>
 					</div>
 					<div class="hidden lg:flex flex-col mb-3">
-						<span class="text-xs">Room URL</span>
+						<span class="text-xs">Shot clock URL</span>
 						<a href="{base}/room/{roomId}">{currentHost}{base}/room/{roomId}</a>
 					</div>
 					<div class:hidden={!navigator.share}>
 						<button class="shareButton lg:text-lg">
 							<div class="flex flex-row items-center" on:click={shareRoomURL}>
-								<span class="mr-2">Share Room URL</span>
+								<span class="mr-2">Share shot clock URL</span>
 								<Fa icon={faShareAlt} size="lg" />
 							</div>
 						</button>
