@@ -171,7 +171,7 @@
 										if (e.key === 'Enter') joinRoom();
 									}}
 								/>
-								<button class="btn text-xl ml-2" on:click={joinRoom}>{$_('index.join_room')}</button
+								<button class="btn text-xl ml-2" on:click={joinRoom}>{@html $_('index.join_room_button')}</button
 								>
 								<button class="btn text-xs ml-2" on:click={openController}
 									>{@html $_('index.open_controller')}</button

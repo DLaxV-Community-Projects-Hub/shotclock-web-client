@@ -4,7 +4,8 @@
   "subtitle": "Free & Open Source online shot clock application",
 	"index": {
 		"room_id": "Shot Clock ID",
-		"join_room": "Shot Clock beitreten",
+		"join_room": "Shot Clock anzeigen",
+    "join_room_button": "Shot Clock <br/> anzeigen",
 		"open_controller": "Controller <br/>öffnen",
     "create_room": "Shot Clock erstellen",
     "quick_create": "Schnell erstellen",
