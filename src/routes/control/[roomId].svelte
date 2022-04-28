@@ -249,7 +249,7 @@
 						{/if}
 					</div>
 				</button>
-				<div class="h-full flex flex-col lg:flex-row justify-between" class:hidden={!advancedOptionsShown}>
+				<div class="h-full flex flex-col lg:flex-row justify-between lg:pb-0" class:hidden={!advancedOptionsShown} class:pb-5={!advancedOptionsShown}>
 					<div class="flex flex-row lg:flex-col justify-evenly mt-5 lg:mt-0 lg:ml-20">
 						<button
 							class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
@@ -280,7 +280,6 @@
 					<div class="flex flex-col lg:flex-col-reverse lg:justify-end">
 						<div class="lg:text-right flex flex-row lg:flex-col justify-evenly lg:justify-start m-3 mt-1">
 							<div>
-								<!--
 								<button
 									class="controlButtonExtraSmall shadow-reset text-white bg-button-bg-reset"
 									title="Manual horn"
@@ -288,7 +287,6 @@
 									<Fa class="w-full lg:hidden" icon={faBullhorn} />
 									<Fa class="w-full hidden lg:block" icon={faBullhorn} size="2x" />
 								</button>
-								-->
 							</div>
 						</div>
 
