@@ -199,7 +199,7 @@
 					class:buttonDisabled={shotclock == 0}
 					on:click={startStop}
 				>
-					<span>
+					<span title="Hotkeys: Spacebar, Enter">
 						{#if running}
 							STOP
 						{:else}
@@ -207,7 +207,7 @@
 						{/if}
 					</span>
 				</button>
-				<button class="controlButton shadow-reset text-white bg-button-bg-reset" on:click={reset}
+				<button class="controlButton shadow-reset text-white bg-button-bg-reset" on:click={reset} title="Hotkeys: M, C, Backspace"
 					>RESET</button
 				>
 			</div>
