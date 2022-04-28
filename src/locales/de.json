@@ -12,7 +12,8 @@
     "custom_settings": "Eigene Einstellung",
     "control_pin": "Steuerungs-PIN",
     "create_custom": "Erstellen",
-    "supported_by": "Unterstützt von"
+    "supported_by": "Unterstützt von",
+    "send_feedback": "Feedback senden"
 	},
 	"control": {
     "start": "Start",

@@ -105,13 +105,16 @@
 
 <main class="w-full h-full flex justify-center">
 	{#if loaded && !$isLoading}
+		<div class="absolute top-2 left-2 lg:top-3 lg:left-3">
+			<a href="mailto:shotclock@dlaxv.de" class="p-1 border rounded bg-button">{$_('index.send_feedback')}</a>
+		</div>
 		<div class="absolute top-2 right-2 lg:top-3 lg:right-3">
 			<select name="lang" id="lang" class="p-1 border rounded" bind:value={language}>
 				<option value="en">🇺🇸</option>
 				<option value="de">🇩🇪</option>
 			</select>
 		</div>
-		<div class="flex justify-center p-5 lg:p-10 pt-10 h-full w-full xl:w-1/2">
+		<div class="flex justify-center mt-5 lg:mt-0 p-5 lg:p-10 pt-10 h-full w-full xl:w-1/2">
 			<div class="flex flex-col justify-between h-full w-full">
 				<!-- Top Content -->
 				<div class="flex flex-col items-center w-full">

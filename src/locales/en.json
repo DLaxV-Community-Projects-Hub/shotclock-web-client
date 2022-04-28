@@ -12,7 +12,8 @@
 		"custom_settings": "Custom settings",
 		"control_pin": "Control PIN",
 		"create_custom": "Create <br/> custom",
-		"supported_by": "Supported by"
+		"supported_by": "Supported by",
+		"send_feedback": "Send Feedback"
 	},
 	"control": {
     "start": "Start",
