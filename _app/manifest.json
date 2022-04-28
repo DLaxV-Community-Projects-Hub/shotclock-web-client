@@ -1,6 +1,6 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "start-5fc18eb4.js",
+    "file": "start-73972d82.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
@@ -18,20 +18,20 @@
     ]
   },
   "src/routes/__layout.svelte": {
-    "file": "pages/__layout.svelte-6284989c.js",
+    "file": "pages/__layout.svelte-54098549.js",
     "src": "src/routes/__layout.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-bcecc6c1.js",
-      "_i18n-a5d72872.js",
+      "_i18n-e9955ceb.js",
       "_LoadingInfo-8a9dc84f.js",
       "_runtime.esm-39e6a741.js",
       "_preload-helper-e4860ae8.js",
       "_index-61660f38.js"
     ],
     "css": [
-      "assets/pages/__layout.svelte-130f09d3.css"
+      "assets/pages/__layout.svelte-1b880764.css"
     ]
   },
   ".svelte-kit/runtime/components/error.svelte": {
@@ -60,7 +60,7 @@
     ]
   },
   "src/routes/index.svelte": {
-    "file": "pages/index.svelte-03532787.js",
+    "file": "pages/index.svelte-8cc38422.js",
     "src": "src/routes/index.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
@@ -69,7 +69,7 @@
       "_navigation-d1154fc1.js",
       "_singletons-1b661bce.js",
       "_runtime.esm-39e6a741.js",
-      "_i18n-a5d72872.js",
+      "_i18n-e9955ceb.js",
       "_index-61660f38.js",
       "_preload-helper-e4860ae8.js"
     ],
@@ -110,8 +110,8 @@
   "_preload-helper-e4860ae8.js": {
     "file": "chunks/preload-helper-e4860ae8.js"
   },
-  "_i18n-a5d72872.js": {
-    "file": "chunks/i18n-a5d72872.js",
+  "_i18n-e9955ceb.js": {
+    "file": "chunks/i18n-e9955ceb.js",
     "imports": [
       "_preload-helper-e4860ae8.js",
       "_runtime.esm-39e6a741.js"
@@ -149,12 +149,12 @@
     ]
   },
   "src/locales/en.json": {
-    "file": "chunks/en-7ce941eb.js",
+    "file": "chunks/en-b1a4f74c.js",
     "src": "src/locales/en.json",
     "isDynamicEntry": true
   },
   "src/locales/de.json": {
-    "file": "chunks/de-6e6bbb8c.js",
+    "file": "chunks/de-9e91509e.js",
     "src": "src/locales/de.json",
     "isDynamicEntry": true
   }
