@@ -16,6 +16,9 @@ const config = {
   ],
 
   kit: {
+    prerender : {
+      default: true
+    },
     adapter: static_adapter(),
     paths: {
       base: dev ? '' : ''
