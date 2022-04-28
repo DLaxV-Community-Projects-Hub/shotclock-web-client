@@ -18,8 +18,6 @@ const config = {
   kit: {
     adapter: static_adapter(),
 
-    // hydrate the <div id="svelte"> element in src/app.html
-    target: '#svelte',
     paths: {
       base: dev ? '' : ''
     }
