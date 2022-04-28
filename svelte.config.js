@@ -17,7 +17,7 @@ const config = {
 
   kit: {
     adapter: static_adapter(),
-
+    target: '#svelte',
     paths: {
       base: dev ? '' : ''
     }
