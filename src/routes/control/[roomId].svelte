@@ -81,6 +81,8 @@
 				goto(base + '/');
 			} else if (event.data === 'AUTHENTICATED') {
 				authenticated = true;
+			} else if (event.data === 'HORN') {
+				beep();
 			} else {
 				let id: string = event.data.substring(0, 1);
 				let data: Array<string> = event.data.substring(2).includes(';')
@@ -115,6 +117,10 @@
 
 	function updateTime(t: number) {
 		ws.send('updateTime;' + t);
+	}
+
+	function manualHorn() {
+		ws.send('horn');
 	}
 
 	function alarm() {
@@ -282,7 +288,9 @@
 							<div>
 								<button
 									class="controlButtonExtraSmall shadow-reset text-white bg-button-bg-reset"
+									class:buttonDisabled={shotclock <= 2}
 									title="Manual horn"
+									on:click={() => manualHorn()}
 								>
 									<Fa class="w-full lg:hidden" icon={faBullhorn} />
 									<Fa class="w-full hidden lg:block" icon={faBullhorn} size="2x" />

@@ -45,6 +45,8 @@
 			if (event.data === 'ROOM_NOT_FOUND') {
 				alert('The room ' + roomId + ' does not exist');
 				goto(base + '/');
+			} else if (event.data === 'HORN') {
+				beep();
 			} else {
 				let id: string = event.data.substring(0, 1);
 				let data: Array<string> = event.data.substring(2).includes(';')
