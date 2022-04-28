@@ -4,11 +4,13 @@ module.exports = {
 		extend: {
 			width: {
 				button: '17vmax',
-        		buttonSmall: '7vmax'
+        		buttonSmall: '7vmax',
+        		buttonExtraSmall: '4vmax'
 			},
 			height: {
 				button: '17vmax',
-        		buttonSmall: '7vmax'
+        		buttonSmall: '7vmax',
+        		buttonExtraSmall: '4vmax'
 			},
 			colors: {
 				'button-green': 'rgba(0, 255, 0, 1)',

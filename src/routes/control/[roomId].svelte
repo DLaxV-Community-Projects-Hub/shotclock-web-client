@@ -11,7 +11,10 @@
 		faVolumeUp,
 		faVolumeMute,
 		faShareAlt,
-    faFastBackward
+		faFastBackward,
+		faBullhorn,
+		faChevronDown,
+		faChevronRight
 	} from '@fortawesome/free-solid-svg-icons';
 	import { goto } from '$app/navigation';
 
@@ -34,6 +37,8 @@
 	let audioActive: boolean = false;
 	let audio: HTMLAudioElement;
 
+	let advancedOptionsShown: boolean = true;
+
 	onMount(() => {
 		currentHost = window.location.host;
 		if ($page['url']['searchParams'].has('pin')) {
@@ -49,6 +54,9 @@
 		} else {
 			goto(base + '/');
 		}
+
+		if (navigator.share)
+			advancedOptionsShown = false;
 	});
 
 	function activateAudio() {
@@ -174,7 +182,7 @@
 
 <svelte:window on:keydown={handleKeydown} />
 
-<div id="main" class="w-full h-full overflow-hidden" on:click|once={activateAudio}>
+<div id="main" class="w-full h-full" on:click|once={activateAudio}>
 	{#if authenticated}
 		<!-- Volume Icon -->
 		<div class="absolute top-3 left-3" on:click={() => (audioActive = !audioActive)}>
@@ -184,14 +192,27 @@
 				<Fa icon={faVolumeMute} size="2x" />
 			{/if}
 		</div>
+		<!-- Room ID Info -->
+		<div class="absolute top-3 right-3">
+			<div class="flex flex-row">
+				<div class="mr-5">
+					<span class="text-xs">Room</span>
+					<span class="text-xl">{roomId}</span>
+				</div>
+				<div class="">
+					<span class="text-xs">PIN</span>
+					<span class="text-xl">{pin}</span>
+				</div>
+			</div>
+		</div>
 
-		<div class="h-full w-full flex flex-col lg:flex-row justify-between">
+		<div class="h-full w-full flex flex-col lg:flex-row justify-start lg:justify-between">
 			<!-- Shotclock -->
-			<div class="flex flex-col justify-center items-center">
+			<div class="flex flex-col justify-center items-center m-5 lg:m-0">
 				<span class="clock" class:text-red-600={shotclockRed}>{shotclockString}</span>
 			</div>
 			<!-- Controls -->
-			<div class="flex flex-row lg:flex-col justify-evenly">
+			<div class="flex flex-row lg:flex-col justify-evenly m-5 lg:m-0">
 				<button
 					class="controlButton"
 					class:startButton={!running && shotclock > 0}
@@ -211,68 +232,97 @@
 					>RESET</button
 				>
 			</div>
-			<div class="flex flex-row lg:flex-col justify-evenly">
-				<button
-					class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
-					on:click={() => updateTime(-5)}>-5s</button
-				>
-				<button
-					class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
-					on:click={() => updateTime(-1)}>-1s</button
-				>
-				<button
-					class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
-					title="Rewind to last reset"
-					on:click={rewind}
-				>
-					<Fa class="w-full lg:hidden" icon={faFastBackward} />
-					<Fa class="w-full hidden lg:block" icon={faFastBackward} size="2x" />
+
+			<div class="w--7/8 lg:w-full mx-2 lg:mx-0 p-1 lg:p-0 border lg:border-0 rounded" class:pb-3={advancedOptionsShown}>
+				<button class="lg:hidden" on:click={() => (advancedOptionsShown = !advancedOptionsShown)}>
+					<div class="flex flex-row justify-center">
+						{#if advancedOptionsShown}
+							<div class="mt-1">
+								<Fa icon={faChevronDown} />
+							</div>
+							<span class="ml-2">Hide advanced options</span>
+						{:else}
+							<div class="mt-1">
+								<Fa icon={faChevronRight} />
+							</div>
+							<span class="ml-2">Show advanced options</span>
+						{/if}
+					</div>
 				</button>
-				<button
-					class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
-					on:click={() => updateTime(1)}>+1s</button
-				>
-				<button
-					class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
-					on:click={() => updateTime(5)}>+5s</button
-				>
-			</div>
-			<!-- Infos -->
-			<div class="lg:text-right flex flex-row lg:flex-col justify-between lg:justify-start m-3">
-				<div class="lg:mb-10 w-1/2 lg:w-full">
-					<div class="flex flex-col mb-3 mr-5 lg:mr-0">
-						<span class="text-xs">Room</span>
-						<span class="text-xl">{roomId}</span>
-					</div>
-					<div class="hidden lg:flex flex-col mb-3">
-						<span class="text-xs">Shot clock URL</span>
-						<a href="{base}/room/{roomId}">{currentHost}{base}/room/{roomId}</a>
-					</div>
-					<div class:hidden={!navigator.share}>
-						<button class="shareButton lg:text-lg">
-							<div class="flex flex-row items-center" on:click={shareRoomURL}>
-								<span class="mr-2">Share shot clock URL</span>
-								<Fa icon={faShareAlt} size="lg" />
-							</div>
+				<div class="h-full flex flex-col lg:flex-row justify-between" class:hidden={!advancedOptionsShown}>
+					<div class="flex flex-row lg:flex-col justify-evenly mt-5 lg:mt-0 lg:ml-20">
+						<button
+							class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
+							on:click={() => updateTime(-5)}>-5s</button
+						>
+						<button
+							class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
+							on:click={() => updateTime(-1)}>-1s</button
+						>
+						<button
+							class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
+							title="Rewind to last reset"
+							on:click={rewind}
+						>
+							<Fa class="w-full lg:hidden" icon={faFastBackward} />
+							<Fa class="w-full hidden lg:block" icon={faFastBackward} size="2x" />
 						</button>
+						<button
+							class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
+							on:click={() => updateTime(1)}>+1s</button
+						>
+						<button
+							class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
+							on:click={() => updateTime(5)}>+5s</button
+						>
 					</div>
-				</div>
-				<div class="w-1/2 lg:w-full">
-					<div class="flex flex-col mb-3">
-						<span class="text-xs">PIN</span>
-						<span class="text-xl">{pin}</span>
-					</div>
-					<div class="hidden lg:flex flex-col mb-3">
-						<span class="text-xs">Controller URL</span>
-						<a href="{base}/control/{roomId}">{currentHost}{base}/control/{roomId}</a>
-					</div>
-					<div class:hidden={!navigator.share}>
-						<button class="shareButton lg:text-lg">
-							<div class="flex flex-row items-center" on:click={shareControlURL}>
-								<span class="mr-2">Share Controller URL</span>
-								<Fa icon={faShareAlt} size="lg" />
+
+					<div class="flex flex-col lg:flex-col-reverse lg:justify-end">
+						<div class="lg:text-right flex flex-row lg:flex-col justify-evenly lg:justify-start m-3 mt-1">
+							<div>
+								<!--
+								<button
+									class="controlButtonExtraSmall shadow-reset text-white bg-button-bg-reset"
+									title="Manual horn"
+								>
+									<Fa class="w-full lg:hidden" icon={faBullhorn} />
+									<Fa class="w-full hidden lg:block" icon={faBullhorn} size="2x" />
+								</button>
+								-->
 							</div>
-						</button>
+						</div>
+
+						<!-- Infos -->
+						<div class="lg:text-right flex flex-row lg:flex-col justify-between lg:justify-start m-3 lg:mt-20">
+							<div class="w-1/2 lg:w-full">
+								<div class="hidden lg:flex flex-col mb-3">
+									<span class="text-xs">Shot clock URL</span>
+									<a href="{base}/room/{roomId}">{currentHost}{base}/room/{roomId}</a>
+								</div>
+								<div class:hidden={!navigator.share}>
+									<button class="shareButton lg:text-lg">
+										<div class="flex flex-row items-center" on:click={shareRoomURL}>
+											<span class="mr-2">Share shot clock URL</span>
+											<Fa icon={faShareAlt} size="lg" />
+										</div>
+									</button>
+								</div>
+							</div>
+							<div class="w-1/2 lg:w-full">
+								<div class="hidden lg:flex flex-col mb-3">
+									<span class="text-xs">Controller URL</span>
+									<a href="{base}/control/{roomId}">{currentHost}{base}/control/{roomId}</a>
+								</div>
+								<div class:hidden={!navigator.share}>
+									<button class="shareButton lg:text-lg">
+										<div class="flex flex-row items-center" on:click={shareControlURL}>
+											<span class="mr-2">Share Controller URL</span>
+											<Fa icon={faShareAlt} size="lg" />
+										</div>
+									</button>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -299,6 +349,10 @@
 
 	.controlButtonSmall {
 		@apply text-lg lg:text-xl border-2 border-black rounded-[50%] w-buttonSmall h-buttonSmall;
+	}
+
+	.controlButtonExtraSmall {
+		@apply text-lg lg:text-xl border-2 border-black rounded-[50%] w-buttonSmall h-buttonSmall lg:w-buttonExtraSmall lg:h-buttonExtraSmall;
 	}
 
 	.startButton {
