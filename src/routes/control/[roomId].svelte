@@ -233,23 +233,23 @@
 				>
 			</div>
 
-			<div class="w--7/8 lg:w-full mx-2 lg:mx-0 p-1 lg:p-0 border lg:border-0 rounded" class:pb-3={advancedOptionsShown}>
+			<div class="w--7/8 lg:w-full mx-2 lg:mx-0 p-1 lg:p-0 border lg:border-0 rounded mt-3 lg:mt-0" class:pb-8={advancedOptionsShown}>
 				<button class="lg:hidden" on:click={() => (advancedOptionsShown = !advancedOptionsShown)}>
 					<div class="flex flex-row justify-center">
 						{#if advancedOptionsShown}
 							<div class="mt-1">
 								<Fa icon={faChevronDown} />
 							</div>
-							<span class="ml-2">Hide advanced options</span>
+							<span class="ml-2">Hide advanced controls</span>
 						{:else}
 							<div class="mt-1">
 								<Fa icon={faChevronRight} />
 							</div>
-							<span class="ml-2">Show advanced options</span>
+							<span class="ml-2">Show advanced controls</span>
 						{/if}
 					</div>
 				</button>
-				<div class="h-full flex flex-col lg:flex-row justify-between lg:pb-0" class:hidden={!advancedOptionsShown} class:pb-5={!advancedOptionsShown}>
+				<div class="h-full flex flex-col lg:flex-row justify-between lg:pb-0" class:hidden={!advancedOptionsShown}>
 					<div class="flex flex-row lg:flex-col justify-evenly mt-5 lg:mt-0 lg:ml-20">
 						<button
 							class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
