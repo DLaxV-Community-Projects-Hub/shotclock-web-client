@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Fa from 'svelte-fa';
-	import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+	import pkg from '@fortawesome/free-solid-svg-icons';
+	const { faSpinner } = pkg;
 </script>
 
 <div class="h-full flex justify-center">
