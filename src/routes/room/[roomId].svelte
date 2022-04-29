@@ -15,9 +15,20 @@
 
 	let ws: WebSocket;
 
+	let title: string | undefined;
+
 	let shotclock: number;
 	let shotclockString: string = '';
-	$: if (shotclock !== undefined) shotclockString = shotclock.toString().padStart(2, '0');
+	let shotclockStringPart1: string = '';
+	let shotclockStringPart2: string = '';
+	$: if (shotclock !== undefined) {
+		if (shotclock <= 60)
+			shotclockString = shotclock.toString().padStart(2, '0');
+		else
+			shotclockStringPart1 = Math.floor(shotclock / 60).toString().padStart(2, '0') + ":";
+			shotclockStringPart2 = (shotclock % 60).toString().padStart(2, '0');
+			shotclockString = shotclockStringPart1 + shotclockStringPart2;
+	}
 	let shotclockRed: boolean = false;
 
 	let alarmTimer: ReturnType<typeof setInterval>;
@@ -92,7 +103,7 @@
 	}
 </script>
 
-<div id="main" class="w-full h-full overflow-hidden" on:click|once={activateAudio}>
+<div id="main" class="w-full h-full" on:click|once={activateAudio}>
 	{#if !$isLoading}
 		<div class="absolute top-3 left-3" on:click={() => (audioActive = !audioActive)}>
 			{#if audioActive}
@@ -101,8 +112,24 @@
 				<Fa icon={faVolumeMute} size="2x" />
 			{/if}
 		</div>
-		<div class="h-full w-full flex flex-col justify-center items-center">
-			<span class="clock" class:text-red-600={shotclockRed}>{shotclockString}</span>
+		<div class="h-full w-full flex flex-col justify-start items-center">
+			{#if title}
+				<span class="title portrait:mt-5">{title}</span>
+			{/if}
+			{#if shotclock <= 60}
+				<span class="clock" class:text-red-600={shotclockRed} class:clock-small={title} class:clock-large={!title}>
+					{shotclockString}
+				</span>
+			{:else}
+				<div class="flex portrait:flex-col landscape:flex-row">
+					<span class="clock" class:text-red-600={shotclockRed} class:clock-small={title} class:clock-large={!title}>
+						{shotclockStringPart1}
+					</span>
+					<span class="clock" class:text-red-600={shotclockRed} class:clock-small={title} class:clock-large={!title}>
+						{shotclockStringPart2}
+					</span>
+				</div>
+			{/if}
 		</div>
 	{:else}
 		<LoadingInfo />
@@ -116,7 +143,18 @@
 
 	.clock {
 		font-family: 'SevenSeg';
+	}
+
+	.clock-large {
 		font-size: 65vmin;
+	}
+
+	.clock-small {
+		font-size: 45vmin;
+	}
+
+	.title {
+		font-size: 20vmin;
 	}
 
 	@font-face {

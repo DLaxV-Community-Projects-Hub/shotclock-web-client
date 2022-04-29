@@ -26,9 +26,20 @@
 
 	let ws: WebSocket;
 
+	let title: string | undefined;
+
 	let shotclock: number;
 	let shotclockString: string = '';
-	$: if (shotclock !== undefined) shotclockString = shotclock.toString().padStart(2, '0');
+	let shotclockStringPart1: string = '';
+	let shotclockStringPart2: string = '';
+	$: if (shotclock !== undefined) {
+		if (shotclock <= 60)
+			shotclockString = shotclock.toString().padStart(2, '0');
+		else
+			shotclockStringPart1 = Math.floor(shotclock / 60).toString().padStart(2, '0') + ":";
+			shotclockStringPart2 = (shotclock % 60).toString().padStart(2, '0');
+			shotclockString = shotclockStringPart1 + shotclockStringPart2;
+	}
 	let shotclockRed: boolean = false;
 
 	let running: boolean;
@@ -212,10 +223,26 @@
 			</div>
 		</div>
 
-		<div class="h-full w-full flex flex-col lg:flex-row justify-start lg:justify-between">
+		<div class="w-full flex flex-col lg:flex-row justify-start lg:justify-between">
 			<!-- Shotclock -->
-			<div class="flex flex-col justify-center items-center m-5 lg:m-0">
-				<span class="clock" class:text-red-600={shotclockRed}>{shotclockString}</span>
+			<div class="flex flex-col justify-center items-center m-5 lg:mr-20 lg:m-0">
+				{#if title}
+					<span class="title mt-5">{title}</span>
+				{/if}
+				{#if shotclock <= 60}
+					<span class="clock" class:text-red-600={shotclockRed} class:clock-small={title} class:clock-large={!title}>
+						{shotclockString}
+					</span>
+				{:else}
+					<div class="flex portrait:flex-col landscape:flex-row">
+						<span class="clock" class:text-red-600={shotclockRed} class:clock-small={title} class:clock-large={!title}>
+							{shotclockStringPart1}
+						</span>
+						<span class="clock" class:text-red-600={shotclockRed} class:clock-small={title} class:clock-large={!title}>
+							{shotclockStringPart2}
+						</span>
+					</div>
+				{/if}
 			</div>
 			<!-- Controls -->
 			<div class="flex flex-row lg:flex-col justify-evenly m-5 lg:m-0">
@@ -239,7 +266,7 @@
 				>
 			</div>
 
-			<div class="w--7/8 lg:w-full mx-2 lg:mx-0 p-1 lg:p-0 border lg:border-0 rounded mt-3 lg:mt-0" class:pb-8={advancedOptionsShown}>
+			<div class="w--7/8 lg:w-full mx-2 lg:mx-0 p-1 lg:p-0 border lg:border-0 rounded mt-3 lg:mt-0" class:pb-8={advancedOptionsShown} class:mb-5={advancedOptionsShown}>
 				<button class="lg:hidden" on:click={() => (advancedOptionsShown = !advancedOptionsShown)}>
 					<div class="flex flex-row justify-center">
 						{#if advancedOptionsShown}
@@ -346,7 +373,18 @@
 
 	.clock {
 		font-family: 'SevenSeg';
+	}
+
+	.clock-large {
 		font-size: 50vmin;
+	}
+
+	.clock-small {
+		font-size: 30vmin;
+	}
+
+	.title {
+		font-size: 10vmin;
 	}
 
 	.controlButton {
