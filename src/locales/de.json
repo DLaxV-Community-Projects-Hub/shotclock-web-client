@@ -14,9 +14,10 @@
     "create_custom": "Erstellen",
     "supported_by": "Unterstützt von",
     "send_feedback": "Feedback senden",
-    "shot_clock": "Shot Clock (Sekunden)",
-		"timeout": "Timeout (Sekunden)",
-		"quarter": "Quarter (Sekunden)"
+    "shot_clock": "Shot Clock (Sek)",
+		"timeout": "Timeout (Sek)",
+		"quarter": "Quarter (Sek)",
+    "halftime": "Halbzeit (Sek)"
 	},
 	"control": {
     "start": "Start",

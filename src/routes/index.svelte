@@ -13,7 +13,8 @@
 	let createPin: string;
 	let initialShotclock: number = 30;
 	let timeoutTime: number = 30;
-	let quarterTime: number = 180;
+	let quarterTime: number = 120;
+	let halftimeTime: number = 300;
 
 	let showAdvancedCreateSettings: boolean = false;
 
@@ -96,6 +97,7 @@
 				'&shotclock=' + initialShotclock + 
 				'&timeout=' + timeoutTime + 
 				'&quarter=' + quarterTime + 
+				'&halftime=' + halftimeTime + 
 				(language ? '&lang=' + language : '')
 			);
 		}
@@ -163,13 +165,15 @@
 										{@html $_('index.create_custom')}
 									</button>
 								</div>
-								<div class="grid grid-cols-3 mb-3">
+								<div class="grid grid-cols-4 mb-3">
 									<span class="uppercase text-white text-xs font-bold">{@html $_('index.shot_clock')}</span>
 									<span class="uppercase text-white text-xs font-bold">{@html $_('index.timeout')}</span>
 									<span class="uppercase text-white text-xs font-bold">{@html $_('index.quarter')}</span>
+									<span class="uppercase text-white text-xs font-bold">{@html $_('index.halftime')}</span>
 									<input type="number" class="px-3 py-2 mr-2 rounded" bind:value={initialShotclock} />
 									<input type="number" class="px-3 py-2 mr-2 rounded" bind:value={timeoutTime} />
 									<input type="number" class="px-3 py-2 mr-2 rounded" bind:value={quarterTime} />
+									<input type="number" class="px-3 py-2 mr-2 rounded" bind:value={halftimeTime} />
 								</div>
 							{/if}
 						</div>

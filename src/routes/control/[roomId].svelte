@@ -159,6 +159,10 @@
 		ws.send('quarter');
 	}
 
+	function halftime() {
+		ws.send('halftime');
+	}
+
 	function alarm() {
 		if (alarmTimer === undefined) {
 			shotclockRed = true;
@@ -337,7 +341,7 @@
 
 					<div class="flex flex-col lg:flex-col-reverse lg:justify-end">
 						<div class="lg:text-right flex flex-row lg:flex-col justify-evenly lg:justify-start m-3 mt-1">
-							<div class="my-5">
+							<div class="my-5 flex flex-col items-center">
 								<button
 									class="controlButtonExtraSmall shadow-reset text-white bg-button-bg-reset"
 									class:buttonDisabled={shotclock <= 2}
@@ -347,26 +351,40 @@
 									<Fa class="w-full lg:hidden" icon={faBullhorn} />
 									<Fa class="w-full hidden lg:block" icon={faBullhorn} size="2x" />
 								</button>
+								<span class="mt-1">Horn</span>
 							</div>
-							<div class="my-5">
+							<div class="my-5 flex flex-col items-center">
 								<button
 									class="controlButtonExtraSmall shadow-reset text-white bg-button-bg-reset"
 									title="Timeout"
 									on:click={() => timeout()}
 								>
-								<Fa class="w-full lg:hidden" icon={faUsers} />
-								<Fa class="w-full hidden lg:block" icon={faUsers} size="2x" />
+									<Fa class="w-full lg:hidden" icon={faUsers} />
+									<Fa class="w-full hidden lg:block" icon={faUsers} size="2x" />
 								</button>
+								<span class="mt-1">Timeout</span>
 							</div>
-							<div class="my-5">
+							<div class="my-5 flex flex-col items-center">
 								<button
 									class="controlButtonExtraSmall shadow-reset text-white bg-button-bg-reset"
 									title="Quarter"
 									on:click={() => quarter()}
 								>
-								<Fa class="w-full lg:hidden" icon={faClock} />
-								<Fa class="w-full hidden lg:block" icon={faClock} size="2x" />
+									<Fa class="w-full lg:hidden" icon={faClock} />
+									<Fa class="w-full hidden lg:block" icon={faClock} size="2x" />
 								</button>
+								<span class="mt-1">Quarter</span>
+							</div>
+							<div class="my-5 flex flex-col items-center">
+								<button
+									class="controlButtonExtraSmall shadow-reset text-white bg-button-bg-reset"
+									title="Quarter"
+									on:click={() => halftime()}
+								>
+									<Fa class="w-full lg:hidden" icon={faClock} />
+									<Fa class="w-full hidden lg:block" icon={faClock} size="2x" />
+								</button>
+								<span class="mt-1">Halftime</span>
 							</div>
 						</div>
 

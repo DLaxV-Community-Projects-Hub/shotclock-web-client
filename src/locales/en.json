@@ -14,9 +14,10 @@
 		"create_custom": "Create <br/> custom",
 		"supported_by": "Supported by",
 		"send_feedback": "Send Feedback",
-		"shot_clock": "Shot Clock (seconds)",
-		"timeout": "Timeout (seconds)",
-		"quarter": "Quarter (seconds)"
+		"shot_clock": "Shot Clock (sec)",
+		"timeout": "Timeout (sec)",
+		"quarter": "Quarter (sec)",
+		"halftime": "Halftime (sec)"
 	},
 	"control": {
     "start": "Start",
