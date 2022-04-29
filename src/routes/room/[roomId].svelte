@@ -69,7 +69,7 @@
 						if (shotclock == 0) alarm();
 						else deactivateAlarm();
 						break;
-					case 'title': // Title
+					case 'T': // Title
 						title = data[0];
 						if (title == "")
 							title = undefined;
