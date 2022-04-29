@@ -223,7 +223,7 @@
 			</div>
 		</div>
 
-		<div class="w-full flex flex-col lg:flex-row justify-start lg:justify-between">
+		<div class="lg:h-full w-full flex flex-col lg:flex-row justify-start lg:justify-between">
 			<!-- Shotclock -->
 			<div class="flex flex-col justify-center items-center m-5 lg:mr-20 lg:m-0">
 				{#if title}
