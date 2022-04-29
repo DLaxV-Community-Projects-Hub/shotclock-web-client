@@ -69,6 +69,11 @@
 						if (shotclock == 0) alarm();
 						else deactivateAlarm();
 						break;
+					case 'title': // Title
+						title = data[0];
+						if (title == "")
+							title = undefined;
+						break;
 				}
 			}
 		};

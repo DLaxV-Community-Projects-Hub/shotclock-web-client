@@ -108,6 +108,11 @@
 					case 'r': // Running
 						running = data[0] === '1';
 						break;
+					case 'title': // Title
+						title = data[0];
+						if (title == "")
+							title = undefined;
+						break;
 				}
 			}
 		};
