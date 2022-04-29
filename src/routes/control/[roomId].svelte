@@ -96,13 +96,16 @@
 			} else if (event.data === 'AUTHENTICATED') {
 				authenticated = true;
 				if (searchParams.has('shotclock')) {
-					ws.send('setInitialShotclock;' + $page['url']['searchParams'].get('shotclock'));
+					ws.send('setInitialShotclock;' + searchParams.get('shotclock'));
 				}
 				if (searchParams.has('timeout')) {
-					ws.send('setTimeout;' + $page['url']['searchParams'].get('timeout'));
+					ws.send('setTimeout;' + searchParams.get('timeout'));
 				}
 				if (searchParams.has('quarter')) {
-					ws.send('setQuarter;' + $page['url']['searchParams'].get('quarter'));
+					ws.send('setQuarter;' + searchParams.get('quarter'));
+				}
+				if (searchParams.has('halftime')) {
+					ws.send('setHalftime;' + searchParams.get('halftime'));
 				}
 			} else if (event.data === 'HORN') {
 				beep();
