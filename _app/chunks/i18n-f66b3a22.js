@@ -1,0 +1,1 @@
+import{_}from"./preload-helper-e4860ae8.js";import{y as a,$ as e,z as o,F as l}from"./runtime.esm-fccffeed.js";a("en",()=>_(()=>import("./en-55e7992b.js"),[]));a("de",()=>_(()=>import("./de-1d93fa4a.js"),[]));const t="en";e({fallbackLocale:t,initialLocale:o("lang")!=null?o("lang"):l()});export{t as d};
