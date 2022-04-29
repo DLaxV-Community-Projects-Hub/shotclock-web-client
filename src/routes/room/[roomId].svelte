@@ -22,12 +22,13 @@
 	let shotclockStringPart1: string = '';
 	let shotclockStringPart2: string = '';
 	$: if (shotclock !== undefined) {
-		if (shotclock <= 60)
+		if (shotclock <= 60){
 			shotclockString = shotclock.toString().padStart(2, '0');
-		else
+		} else {
 			shotclockStringPart1 = Math.floor(shotclock / 60).toString().padStart(2, '0') + ":";
 			shotclockStringPart2 = (shotclock % 60).toString().padStart(2, '0');
 			shotclockString = shotclockStringPart1 + shotclockStringPart2;
+		}
 	}
 	let shotclockRed: boolean = false;
 

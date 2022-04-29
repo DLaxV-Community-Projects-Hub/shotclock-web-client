@@ -14,7 +14,9 @@
 		faFastBackward,
 		faBullhorn,
 		faChevronDown,
-		faChevronRight
+		faChevronRight,
+		faUsers,
+		faClock
 	} from '@fortawesome/free-solid-svg-icons';
 	import { goto } from '$app/navigation';
 
@@ -33,12 +35,13 @@
 	let shotclockStringPart1: string = '';
 	let shotclockStringPart2: string = '';
 	$: if (shotclock !== undefined) {
-		if (shotclock <= 60)
+		if (shotclock <= 60) {
 			shotclockString = shotclock.toString().padStart(2, '0');
-		else
+		} else {
 			shotclockStringPart1 = Math.floor(shotclock / 60).toString().padStart(2, '0') + ":";
 			shotclockStringPart2 = (shotclock % 60).toString().padStart(2, '0');
 			shotclockString = shotclockStringPart1 + shotclockStringPart2;
+		}
 	}
 	let shotclockRed: boolean = false;
 
@@ -60,11 +63,11 @@
 		}
 		if (pin) {
 			sessionStorage.setItem('PIN-' + roomId, pin);
-			join(pin);
+			join(pin, $page['url']['searchParams']);
 			audio = new Audio(base + '/audio/beep.mp3');
 		} else {
-			goto(base + '/');
-		}
+		goto(base + '/');
+	}
 
 		if (navigator.share)
 			advancedOptionsShown = false;
@@ -77,7 +80,7 @@
 		audio.load();
 	}
 
-	function join(pin: string) {
+	function join(pin: string, searchParams: URLSearchParams) {
 		ws = new WebSocket(websocketProtocol + '://' + serverBaseUrl + '/' + roomId + '?pin=' + pin);
 		ws.onerror = function (error) {
 			console.log(error);
@@ -92,6 +95,15 @@
 				goto(base + '/');
 			} else if (event.data === 'AUTHENTICATED') {
 				authenticated = true;
+				if (searchParams.has('shotclock')) {
+					ws.send('setInitialShotclock;' + $page['url']['searchParams'].get('shotclock'));
+				}
+				if (searchParams.has('timeout')) {
+					ws.send('setTimeout;' + $page['url']['searchParams'].get('timeout'));
+				}
+				if (searchParams.has('quarter')) {
+					ws.send('setQuarter;' + $page['url']['searchParams'].get('quarter'));
+				}
 			} else if (event.data === 'HORN') {
 				beep();
 			} else {
@@ -137,6 +149,14 @@
 
 	function manualHorn() {
 		ws.send('horn');
+	}
+
+	function timeout() {
+		ws.send('timeout');
+	}
+
+	function quarter() {
+		ws.send('quarter');
 	}
 
 	function alarm() {
@@ -317,7 +337,7 @@
 
 					<div class="flex flex-col lg:flex-col-reverse lg:justify-end">
 						<div class="lg:text-right flex flex-row lg:flex-col justify-evenly lg:justify-start m-3 mt-1">
-							<div>
+							<div class="my-5">
 								<button
 									class="controlButtonExtraSmall shadow-reset text-white bg-button-bg-reset"
 									class:buttonDisabled={shotclock <= 2}
@@ -326,6 +346,26 @@
 								>
 									<Fa class="w-full lg:hidden" icon={faBullhorn} />
 									<Fa class="w-full hidden lg:block" icon={faBullhorn} size="2x" />
+								</button>
+							</div>
+							<div class="my-5">
+								<button
+									class="controlButtonExtraSmall shadow-reset text-white bg-button-bg-reset"
+									title="Timeout"
+									on:click={() => timeout()}
+								>
+								<Fa class="w-full lg:hidden" icon={faUsers} />
+								<Fa class="w-full hidden lg:block" icon={faUsers} size="2x" />
+								</button>
+							</div>
+							<div class="my-5">
+								<button
+									class="controlButtonExtraSmall shadow-reset text-white bg-button-bg-reset"
+									title="Quarter"
+									on:click={() => quarter()}
+								>
+								<Fa class="w-full lg:hidden" icon={faClock} />
+								<Fa class="w-full hidden lg:block" icon={faClock} size="2x" />
 								</button>
 							</div>
 						</div>

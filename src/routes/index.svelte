@@ -11,6 +11,9 @@
 	let joinId: string;
 	let createId: string;
 	let createPin: string;
+	let initialShotclock: number = 30;
+	let timeoutTime: number = 30;
+	let quarterTime: number = 180;
 
 	let showAdvancedCreateSettings: boolean = false;
 
@@ -88,7 +91,12 @@
 			// No slashes in room name allowed
 			createId = createId.replace('/', '-');
 			goto(
-				base + '/control/' + createId + '?pin=' + createPin + (language ? '&lang=' + language : '')
+				base + '/control/' + createId + 
+				'?pin=' + createPin + 
+				'&shotclock=' + initialShotclock + 
+				'&timeout=' + timeoutTime + 
+				'&quarter=' + quarterTime + 
+				(language ? '&lang=' + language : '')
 			);
 		}
 	}
@@ -145,15 +153,23 @@
 							{#if showAdvancedCreateSettings}
 								<div class="grid grid-cols-inputs-3 mb-3">
 									<span class="uppercase text-white text-xs font-bold">{$_('index.room_id')}</span>
-									<span class="uppercase text-white text-xs font-bold"
-										>{$_('index.control_pin')}</span
-									>
+									<span class="uppercase text-white text-xs font-bold">
+										{$_('index.control_pin')}
+									</span >
 									<div />
 									<input class="px-3 py-2 mr-2 rounded" bind:value={createId} />
 									<input class="px-3 py-2 rounded" bind:value={createPin} />
-									<button class="btn text-xs ml-2" on:click={createRoom}
-										>{@html $_('index.create_custom')}</button
-									>
+									<button class="btn text-xs ml-2" on:click={createRoom}>
+										{@html $_('index.create_custom')}
+									</button>
+								</div>
+								<div class="grid grid-cols-3 mb-3">
+									<span class="uppercase text-white text-xs font-bold">{@html $_('index.shot_clock')}</span>
+									<span class="uppercase text-white text-xs font-bold">{@html $_('index.timeout')}</span>
+									<span class="uppercase text-white text-xs font-bold">{@html $_('index.quarter')}</span>
+									<input type="number" class="px-3 py-2 mr-2 rounded" bind:value={initialShotclock} />
+									<input type="number" class="px-3 py-2 mr-2 rounded" bind:value={timeoutTime} />
+									<input type="number" class="px-3 py-2 mr-2 rounded" bind:value={quarterTime} />
 								</div>
 							{/if}
 						</div>

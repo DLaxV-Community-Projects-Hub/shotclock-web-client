@@ -13,7 +13,10 @@
     "control_pin": "Steuerungs-PIN",
     "create_custom": "Erstellen",
     "supported_by": "Unterstützt von",
-    "send_feedback": "Feedback senden"
+    "send_feedback": "Feedback senden",
+    "shot_clock": "Shot Clock (Sekunden)",
+		"timeout": "Timeout (Sekunden)",
+		"quarter": "Quarter (Sekunden)"
 	},
 	"control": {
     "start": "Start",

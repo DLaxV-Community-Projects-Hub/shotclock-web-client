@@ -5,7 +5,7 @@
 	"index": {
 		"room_id": "Shot clock ID",
 		"join_room": "Display shot clock",
-    "join_room_button": "Display <br/> shot clock",
+    	"join_room_button": "Display <br/> shot clock",
 		"open_controller": "Open <br/> Controller",
 		"create_room": "Create shot clock",
 		"quick_create": "Quick create",
@@ -13,7 +13,10 @@
 		"control_pin": "Control PIN",
 		"create_custom": "Create <br/> custom",
 		"supported_by": "Supported by",
-		"send_feedback": "Send Feedback"
+		"send_feedback": "Send Feedback",
+		"shot_clock": "Shot Clock (seconds)",
+		"timeout": "Timeout (seconds)",
+		"quarter": "Quarter (seconds)"
 	},
 	"control": {
     "start": "Start",
