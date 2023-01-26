@@ -38,7 +38,10 @@
 		if (shotclock <= 60) {
 			shotclockString = shotclock.toString().padStart(2, '0');
 		} else {
-			shotclockStringPart1 = Math.floor(shotclock / 60).toString().padStart(2, '0') + ":";
+			shotclockStringPart1 =
+				Math.floor(shotclock / 60)
+					.toString()
+					.padStart(2, '0') + ':';
 			shotclockStringPart2 = (shotclock % 60).toString().padStart(2, '0');
 			shotclockString = shotclockStringPart1 + shotclockStringPart2;
 		}
@@ -66,11 +69,8 @@
 			join(pin, $page['url']['searchParams']);
 			audio = new Audio(base + '/audio/beep.mp3');
 		} else {
-		goto(base + '/');
-	}
-
-		if (navigator.share)
-			advancedOptionsShown = false;
+			goto(base + '/');
+		}
 	});
 
 	function activateAudio() {
@@ -125,8 +125,7 @@
 						break;
 					case 'T': // Title
 						title = data[0];
-						if (title == "")
-							title = undefined;
+						if (title == '') title = undefined;
 						break;
 				}
 			}
@@ -262,15 +261,30 @@
 					<span class="title mt-5">{title}</span>
 				{/if}
 				{#if shotclock <= 60}
-					<span class="clock" class:text-red-600={shotclockRed} class:clock-small={title} class:clock-large={!title}>
+					<span
+						class="clock"
+						class:text-red-600={shotclockRed}
+						class:clock-small={title}
+						class:clock-large={!title}
+					>
 						{shotclockString}
 					</span>
 				{:else}
 					<div class="flex portrait:flex-col landscape:flex-row">
-						<span class="clock" class:text-red-600={shotclockRed} class:clock-small={title} class:clock-large={!title}>
+						<span
+							class="clock"
+							class:text-red-600={shotclockRed}
+							class:clock-small={title}
+							class:clock-large={!title}
+						>
 							{shotclockStringPart1}
 						</span>
-						<span class="clock" class:text-red-600={shotclockRed} class:clock-small={title} class:clock-large={!title}>
+						<span
+							class="clock"
+							class:text-red-600={shotclockRed}
+							class:clock-small={title}
+							class:clock-large={!title}
+						>
 							{shotclockStringPart2}
 						</span>
 					</div>
@@ -293,12 +307,18 @@
 						{/if}
 					</span>
 				</button>
-				<button class="controlButton shadow-reset text-white bg-button-bg-reset" on:click={reset} title="Hotkeys: M, C, Backspace"
-					>RESET</button
+				<button
+					class="controlButton shadow-reset text-white bg-button-bg-reset"
+					on:click={reset}
+					title="Hotkeys: M, C, Backspace">RESET</button
 				>
 			</div>
 
-			<div class="w--7/8 lg:w-full mx-2 lg:mx-0 p-1 lg:p-0 border lg:border-0 rounded mt-3 lg:mt-0" class:pb-8={advancedOptionsShown} class:mb-5={advancedOptionsShown}>
+			<div
+				class="w--7/8 lg:w-full mx-2 lg:mx-0 p-1 lg:p-0 border lg:border-0 rounded mt-3 lg:mt-0"
+				class:pb-8={advancedOptionsShown}
+				class:mb-5={advancedOptionsShown}
+			>
 				<button class="lg:hidden" on:click={() => (advancedOptionsShown = !advancedOptionsShown)}>
 					<div class="flex flex-row justify-center">
 						{#if advancedOptionsShown}
@@ -314,7 +334,10 @@
 						{/if}
 					</div>
 				</button>
-				<div class="h-full flex flex-col lg:flex-row justify-between lg:pb-0" class:hidden={!advancedOptionsShown}>
+				<div
+					class="h-full flex flex-col lg:flex-row justify-between lg:pb-0"
+					class:hidden={!advancedOptionsShown}
+				>
 					<div class="flex flex-row lg:flex-col justify-evenly mt-5 lg:mt-0 lg:ml-20">
 						<button
 							class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
@@ -343,7 +366,9 @@
 					</div>
 
 					<div class="flex flex-col lg:flex-col-reverse lg:justify-end">
-						<div class="lg:text-right flex flex-row lg:flex-col justify-evenly lg:justify-start m-3 mt-1">
+						<div
+							class="lg:text-right flex flex-row lg:flex-col justify-evenly lg:justify-start m-3 mt-1"
+						>
 							<div class="my-5 flex flex-col items-center">
 								<button
 									class="controlButtonExtraSmall shadow-reset text-white bg-button-bg-reset"
@@ -392,7 +417,9 @@
 						</div>
 
 						<!-- Infos -->
-						<div class="lg:text-right flex flex-row lg:flex-col justify-between lg:justify-start m-3 lg:mt-20">
+						<div
+							class="lg:text-right flex flex-row lg:flex-col justify-between lg:justify-start m-3 lg:mt-20"
+						>
 							<div class="w-1/2 lg:w-full">
 								<div class="hidden lg:flex flex-col mb-3">
 									<span class="text-xs">Shot clock URL</span>
