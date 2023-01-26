@@ -12,3 +12,9 @@ npm run dev
 # or start the server and open the app in a new browser tab
 npm run dev -- --open
 ```
+
+
+## More Information and Instructions
+
+For more information and instructions please visit our [wiki](https://github.com/DLaxV-Community-Projects-Hub/shotclock-web-client/wiki)!
+
