@@ -1,11 +1,11 @@
 {
-  "locale": "en",
+	"locale": "en",
 	"title": "Lacrosse Shot Clock",
 	"subtitle": "Free & Open Source online shot clock application",
 	"index": {
 		"room_id": "Shot clock ID",
 		"join_room": "Display shot clock",
-    	"join_room_button": "Display <br/> shot clock",
+		"join_room_button": "Display <br/> shot clock",
 		"open_controller": "Open <br/> Controller",
 		"create_room": "Create shot clock",
 		"quick_create": "Quick create",
@@ -14,20 +14,21 @@
 		"create_custom": "Create <br/> custom",
 		"supported_by": "Supported by",
 		"send_feedback": "Send Feedback",
+		"instructions": "Instructions",
 		"shot_clock": "Shot Clock (sec)",
 		"timeout": "Timeout (sec)",
 		"quarter": "Quarter (sec)",
 		"halftime": "Halftime (sec)"
 	},
 	"control": {
-    "start": "Start",
-    "stop": "Stop",
-    "reset": "Reset",
-    "room": "Shot clock ID",
-    "room_url": "Shot clock URL",
-    "share_room_url": "Share shot clock URL",
-    "pin": "PIN",
-    "controller_url": "Controller URL",
-    "share_controller_url": "Share controller URL"
-  }
+		"start": "Start",
+		"stop": "Stop",
+		"reset": "Reset",
+		"room": "Shot clock ID",
+		"room_url": "Shot clock URL",
+		"share_room_url": "Share shot clock URL",
+		"pin": "PIN",
+		"controller_url": "Controller URL",
+		"share_controller_url": "Share controller URL"
+	}
 }

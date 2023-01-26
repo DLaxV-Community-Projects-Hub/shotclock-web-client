@@ -92,13 +92,20 @@
 			// No slashes in room name allowed
 			createId = createId.replace('/', '-');
 			goto(
-				base + '/control/' + createId + 
-				'?pin=' + createPin + 
-				'&shotclock=' + initialShotclock + 
-				'&timeout=' + timeoutTime + 
-				'&quarter=' + quarterTime + 
-				'&halftime=' + halftimeTime + 
-				(language ? '&lang=' + language : '')
+				base +
+					'/control/' +
+					createId +
+					'?pin=' +
+					createPin +
+					'&shotclock=' +
+					initialShotclock +
+					'&timeout=' +
+					timeoutTime +
+					'&quarter=' +
+					quarterTime +
+					'&halftime=' +
+					halftimeTime +
+					(language ? '&lang=' + language : '')
 			);
 		}
 	}
@@ -116,7 +123,14 @@
 <main class="w-full h-full flex justify-center">
 	{#if loaded && !$isLoading}
 		<div class="absolute top-2 left-2 lg:top-3 lg:left-3">
-			<a href="mailto:shotclock@dlaxv.de" class="p-1 border rounded bg-button">{$_('index.send_feedback')}</a>
+			<a href="mailto:shotclock@dlaxv.de" class="p-1 border rounded bg-button"
+				>{$_('index.send_feedback')}</a
+			>
+			<a
+				href="https://github.com/DLaxV-Community-Projects-Hub/shotclock-web-client/wiki/Instructions"
+				target="_blank"
+				class="p-1 border rounded bg-button">{$_('index.instructions')}</a
+			>
 		</div>
 		<div class="absolute top-2 right-2 lg:top-3 lg:right-3">
 			<select name="lang" id="lang" class="p-1 border rounded" bind:value={language}>
@@ -157,7 +171,7 @@
 									<span class="uppercase text-white text-xs font-bold">{$_('index.room_id')}</span>
 									<span class="uppercase text-white text-xs font-bold">
 										{$_('index.control_pin')}
-									</span >
+									</span>
 									<div />
 									<input class="px-3 py-2 mr-2 rounded" bind:value={createId} />
 									<input class="px-3 py-2 rounded" bind:value={createPin} />
@@ -166,11 +180,23 @@
 									</button>
 								</div>
 								<div class="grid grid-cols-4 mb-3">
-									<span class="uppercase text-white text-xs font-bold">{@html $_('index.shot_clock')}</span>
-									<span class="uppercase text-white text-xs font-bold">{@html $_('index.timeout')}</span>
-									<span class="uppercase text-white text-xs font-bold">{@html $_('index.quarter')}</span>
-									<span class="uppercase text-white text-xs font-bold">{@html $_('index.halftime')}</span>
-									<input type="number" class="px-3 py-2 mr-2 rounded" bind:value={initialShotclock} />
+									<span class="uppercase text-white text-xs font-bold"
+										>{@html $_('index.shot_clock')}</span
+									>
+									<span class="uppercase text-white text-xs font-bold"
+										>{@html $_('index.timeout')}</span
+									>
+									<span class="uppercase text-white text-xs font-bold"
+										>{@html $_('index.quarter')}</span
+									>
+									<span class="uppercase text-white text-xs font-bold"
+										>{@html $_('index.halftime')}</span
+									>
+									<input
+										type="number"
+										class="px-3 py-2 mr-2 rounded"
+										bind:value={initialShotclock}
+									/>
 									<input type="number" class="px-3 py-2 mr-2 rounded" bind:value={timeoutTime} />
 									<input type="number" class="px-3 py-2 mr-2 rounded" bind:value={quarterTime} />
 									<input type="number" class="px-3 py-2 mr-2 rounded" bind:value={halftimeTime} />
@@ -194,7 +220,8 @@
 										if (e.key === 'Enter') joinRoom();
 									}}
 								/>
-								<button class="btn text-xl ml-2" on:click={joinRoom}>{@html $_('index.join_room_button')}</button
+								<button class="btn text-xl ml-2" on:click={joinRoom}
+									>{@html $_('index.join_room_button')}</button
 								>
 								<button class="btn text-xs ml-2" on:click={openController}
 									>{@html $_('index.open_controller')}</button

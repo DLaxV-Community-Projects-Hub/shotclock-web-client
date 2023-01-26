@@ -1,33 +1,34 @@
 {
-  "locale": "de",
+	"locale": "de",
 	"title": "Lacrosse Shot Clock",
-  "subtitle": "Free & Open Source online shot clock application",
+	"subtitle": "Free & Open Source online shot clock application",
 	"index": {
 		"room_id": "Shot Clock ID",
 		"join_room": "Shot Clock anzeigen",
-    "join_room_button": "Shot Clock <br/> anzeigen",
+		"join_room_button": "Shot Clock <br/> anzeigen",
 		"open_controller": "Controller <br/>öffnen",
-    "create_room": "Shot Clock erstellen",
-    "quick_create": "Schnell erstellen",
-    "custom_settings": "Eigene Einstellung",
-    "control_pin": "Steuerungs-PIN",
-    "create_custom": "Erstellen",
-    "supported_by": "Unterstützt von",
-    "send_feedback": "Feedback senden",
-    "shot_clock": "Shot Clock (Sek)",
+		"create_room": "Shot Clock erstellen",
+		"quick_create": "Schnell erstellen",
+		"custom_settings": "Eigene Einstellung",
+		"control_pin": "Steuerungs-PIN",
+		"create_custom": "Erstellen",
+		"supported_by": "Unterstützt von",
+		"send_feedback": "Feedback senden",
+		"instructions": "Anleitung",
+		"shot_clock": "Shot Clock (Sek)",
 		"timeout": "Timeout (Sek)",
 		"quarter": "Quarter (Sek)",
-    "halftime": "Halbzeit (Sek)"
+		"halftime": "Halbzeit (Sek)"
 	},
 	"control": {
-    "start": "Start",
-    "stop": "Stop",
-    "reset": "Reset",
-    "room": "Shot Clock ID",
-    "room_url": "Shot Clock URL",
-    "share_room_url": "Shot Clock URL teilen",
-    "pin": "PIN",
-    "controller_url": "Steuerungs URL",
-    "share_controller_url": "Steuerungs URL teilen"
-  }
+		"start": "Start",
+		"stop": "Stop",
+		"reset": "Reset",
+		"room": "Shot Clock ID",
+		"room_url": "Shot Clock URL",
+		"share_room_url": "Shot Clock URL teilen",
+		"pin": "PIN",
+		"controller_url": "Steuerungs URL",
+		"share_controller_url": "Steuerungs URL teilen"
+	}
 }
