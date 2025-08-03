@@ -6,8 +6,6 @@
 	import { isLoading } from 'svelte-i18n';
 </script>
 
-<script defer data-domain="shotclock.dlaxv.de" src="https://analytics.tobi.re/js/script.js"></script>
-
 {#if $isLoading}
 	<LoadingInfo />
 {:else}
