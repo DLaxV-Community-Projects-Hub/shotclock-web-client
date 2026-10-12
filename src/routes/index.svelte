@@ -87,6 +87,14 @@
 		createRoom();
 	}
 
+	function toggleCustomSettings() {
+		showAdvancedCreateSettings = !showAdvancedCreateSettings;
+		if (showAdvancedCreateSettings) {
+			if (!createId) createId = generateRoomId();
+			if (!createPin) createPin = generatePin();
+		}
+	}
+
 	function createRoom() {
 		if (createId && createPin) {
 			// No slashes in room name allowed
@@ -160,9 +168,7 @@
 								<button class="btn text-lg" on:click={quickCreateRoom}
 									>{$_('index.quick_create')}</button
 								>
-								<button
-									class="btn text-lg ml-2"
-									on:click={() => (showAdvancedCreateSettings = !showAdvancedCreateSettings)}
+								<button class="btn text-lg ml-2" on:click={toggleCustomSettings}
 									>{$_('index.custom_settings')}</button
 								>
 							</div>
