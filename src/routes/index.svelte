@@ -87,6 +87,14 @@
 		createRoom();
 	}
 
+	function quickCreateWorldLacrosseField() {
+		initialShotclock = 80;
+		timeoutTime = 90;
+		quarterTime = 120;
+		halftimeTime = 600;
+		quickCreateRoom();
+	}
+
 	function createRoom() {
 		if (createId && createPin) {
 			// No slashes in room name allowed
@@ -156,12 +164,15 @@
 							<div class="mb-3">
 								<h4 class="text-white text-md uppercase">{$_('index.create_room')}</h4>
 							</div>
-							<div class="flex mb-3">
+							<div class="flex flex-wrap gap-2 mb-3">
 								<button class="btn text-lg" on:click={quickCreateRoom}
 									>{$_('index.quick_create')}</button
 								>
+								<button class="btn text-lg" on:click={quickCreateWorldLacrosseField}
+									>{$_('index.quick_create_wl_field')}</button
+								>
 								<button
-									class="btn text-lg ml-2"
+									class="btn text-lg"
 									on:click={() => (showAdvancedCreateSettings = !showAdvancedCreateSettings)}
 									>{$_('index.custom_settings')}</button
 								>
