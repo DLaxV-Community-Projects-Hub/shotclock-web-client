@@ -21,8 +21,10 @@
 	let shotclockString: string = '';
 	let shotclockStringPart1: string = '';
 	let shotclockStringPart2: string = '';
+	// The shot clock (no title) shows plain seconds below 100, e.g. 80 for WL field
+	$: plainSeconds = title ? shotclock <= 60 : shotclock < 100;
 	$: if (shotclock !== undefined) {
-		if (shotclock <= 60){
+		if (plainSeconds){
 			shotclockString = shotclock.toString().padStart(2, '0');
 		} else {
 			shotclockStringPart1 = Math.floor(shotclock / 60).toString().padStart(2, '0') + ":";
@@ -122,7 +124,7 @@
 			{#if title}
 				<span class="title portrait:mt-5">{title}</span>
 			{/if}
-			{#if shotclock <= 60}
+			{#if plainSeconds}
 				<span class="clock" class:text-red-600={shotclockRed} class:clock-small={title} class:clock-large={!title}>
 					{shotclockString}
 				</span>
