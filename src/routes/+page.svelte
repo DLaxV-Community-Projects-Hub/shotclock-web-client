@@ -86,8 +86,8 @@
 			bind:value={language}
 			onchange={changeLanguage}
 		>
-			<option value="en">EN</option>
-			<option value="de">DE</option>
+			<option value="en">🇺🇸 EN</option>
+			<option value="de">🇩🇪 DE</option>
 		</select>
 	</div>
 
