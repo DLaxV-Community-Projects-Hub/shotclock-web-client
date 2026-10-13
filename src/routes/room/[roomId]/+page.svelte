@@ -2,6 +2,7 @@
 	import { page } from '$app/state';
 	import { onMount } from 'svelte';
 	import ClockDisplay from '#lib/components/ClockDisplay.svelte';
+	import FullscreenToggle from '#lib/components/FullscreenToggle.svelte';
 	import VolumeToggle from '#lib/components/VolumeToggle.svelte';
 	import { RoomClient } from '#lib/room.svelte.ts';
 
@@ -17,6 +18,7 @@
 
 <div id="main" class="w-full h-full">
 	<VolumeToggle player={client.beep} />
+	<FullscreenToggle />
 	<div class="h-full w-full flex flex-col justify-start items-center">
 		<ClockDisplay
 			size="display"

@@ -25,7 +25,8 @@
 		"short_shot_clock": "Shot clock",
 		"short_timeout": "Timeout",
 		"short_quarter": "Quarter break",
-		"short_halftime": "Halftime break"
+		"short_halftime": "Halftime break",
+		"language": "Language"
 	},
 	"control": {
 		"start": "Start",
@@ -49,7 +50,8 @@
 		"hotkeys_reset": "Hotkeys: M, C, Backspace",
 		"rewind": "Rewind to last reset",
 		"manual_horn": "Sound horn manually",
-		"toggle_sound": "Toggle sound"
+		"toggle_sound": "Toggle sound",
+		"toggle_fullscreen": "Toggle full screen"
 	},
 	"errors": {
 		"room_not_found": "The shot clock {id} does not exist",

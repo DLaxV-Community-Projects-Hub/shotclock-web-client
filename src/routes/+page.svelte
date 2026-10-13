@@ -39,7 +39,7 @@
 	}
 
 	function joinRoom() {
-		if (joinId) goto(`${resolve('/room/[roomId]', { roomId: joinId })}?lang=${language}`);
+		if (joinId) goto(`${resolve('/clock/[roomId]', { roomId: joinId })}?lang=${language}`);
 	}
 
 	function openController() {
@@ -78,9 +78,16 @@
 				class="chip">{$_('index.instructions')}</a
 			>
 		</div>
-		<select name="lang" id="lang" class="chip" bind:value={language} onchange={changeLanguage}>
-			<option value="en">🇺🇸</option>
-			<option value="de">🇩🇪</option>
+		<select
+			name="lang"
+			id="lang"
+			class="chip"
+			aria-label={$_('index.language')}
+			bind:value={language}
+			onchange={changeLanguage}
+		>
+			<option value="en">EN</option>
+			<option value="de">DE</option>
 		</select>
 	</div>
 

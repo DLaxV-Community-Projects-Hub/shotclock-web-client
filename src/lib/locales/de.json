@@ -25,7 +25,8 @@
 		"short_shot_clock": "Shot Clock",
 		"short_timeout": "Timeout",
 		"short_quarter": "Viertelpause",
-		"short_halftime": "Halbzeitpause"
+		"short_halftime": "Halbzeitpause",
+		"language": "Sprache"
 	},
 	"control": {
 		"start": "Start",
@@ -49,7 +50,8 @@
 		"hotkeys_reset": "Tastenkürzel: M, C, Rücktaste",
 		"rewind": "Zurück zum letzten Reset",
 		"manual_horn": "Hupe manuell auslösen",
-		"toggle_sound": "Ton ein-/ausschalten"
+		"toggle_sound": "Ton ein-/ausschalten",
+		"toggle_fullscreen": "Vollbild ein-/ausschalten"
 	},
 	"errors": {
 		"room_not_found": "Die Shot Clock {id} existiert nicht",

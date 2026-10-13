@@ -82,7 +82,7 @@
 		}
 	}
 
-	const roomPath = $derived(resolve('/room/[roomId]', { roomId }));
+	const roomPath = $derived(resolve('/clock/[roomId]', { roomId }));
 	const controllerPath = $derived(resolve('/control/[roomId]', { roomId }));
 
 	function share(titleKey: string, url: string) {
@@ -214,7 +214,7 @@
 							class="lg:text-right flex flex-row lg:flex-col justify-evenly lg:justify-start m-3 mt-1"
 						>
 							{#each actions as action}
-								<div class="my-5 flex flex-col items-center">
+								<div class="my-5 short:my-2 flex flex-col items-center">
 									<button
 										class="controlButtonExtraSmall shadow-reset text-white bg-button-bg-reset"
 										class:buttonDisabled={'disabledAt' in action &&
@@ -233,7 +233,7 @@
 
 						<!-- URLs -->
 						<div
-							class="lg:text-right flex flex-row lg:flex-col justify-between lg:justify-start m-3 lg:mt-20"
+							class="lg:text-right flex flex-row lg:flex-col justify-between lg:justify-start m-3 lg:mt-20 short:lg:mt-6"
 						>
 							{@render urlBlock(
 								$_('control.room_url'),

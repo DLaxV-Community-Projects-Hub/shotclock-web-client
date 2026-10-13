@@ -26,21 +26,24 @@
 	--shadow-reset: 0 0 0 2px rgb(105 105 105 / 0.3);
 }
 
-/* Control buttons scale with the screen */
+/* Control buttons scale with the screen, but never taller than the screen allows */
 @utility size-button {
-	width: 17vmax;
-	height: 17vmax;
+	width: min(17vmax, 30vh);
+	height: min(17vmax, 30vh);
 }
 
 @utility size-button-small {
-	width: 7vmax;
-	height: 7vmax;
+	width: min(7vmax, 12.5vh);
+	height: min(7vmax, 12.5vh);
 }
 
 @utility size-button-extra-small {
-	width: 4vmax;
-	height: 4vmax;
+	width: min(4vmax, 7.2vh);
+	height: min(4vmax, 7.2vh);
 }
 
 @custom-variant portrait (@media (orientation: portrait));
 @custom-variant landscape (@media (orientation: landscape));
+
+/* Wide but short screens, e.g. laptops with a small browser window */
+@custom-variant short (@media (max-height: 820px));
