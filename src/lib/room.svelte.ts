@@ -66,6 +66,18 @@ export class RoomClient {
 				forgetPin(this.roomId);
 				goto(resolve('/'));
 				return;
+			case 'RATE_LIMITED':
+				alert(get(_)('errors.rate_limited'));
+				goto(resolve('/'));
+				return;
+			case 'SERVER_BUSY':
+				alert(get(_)('errors.server_busy'));
+				goto(resolve('/'));
+				return;
+			case 'INVALID_REQUEST':
+				alert(get(_)('errors.invalid_request'));
+				goto(resolve('/'));
+				return;
 			case 'AUTHENTICATED':
 				this.authenticated = true;
 				this.#onAuthenticated?.();

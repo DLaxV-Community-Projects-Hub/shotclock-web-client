@@ -56,6 +56,9 @@
 	"errors": {
 		"room_not_found": "Die Shot Clock {id} existiert nicht",
 		"wrong_pin": "Falsche PIN",
-		"enter_pin": "Bitte die Controller-PIN für die Shot Clock {id} eingeben"
+		"enter_pin": "Bitte die Controller-PIN für die Shot Clock {id} eingeben",
+		"rate_limited": "Zu viele Anfragen. Bitte einige Minuten warten und erneut versuchen.",
+		"server_busy": "Der Server ist ausgelastet. Bitte gleich noch einmal versuchen.",
+		"invalid_request": "Ungültige Shot-Clock-ID oder PIN (maximal 64 Zeichen)"
 	}
 }
