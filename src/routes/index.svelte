@@ -81,18 +81,35 @@
 		if (joinId) goto(base + '/control/' + joinId + (language ? '?lang=' + language : ''));
 	}
 
-	function quickCreateRoom() {
+	type Preset = {
+		labelKey: string;
+		shotclock: number;
+		timeout: number;
+		quarter: number;
+		halftime: number;
+	};
+
+	const presets: Preset[] = [
+		{ labelKey: 'index.quick_create', shotclock: 30, timeout: 30, quarter: 120, halftime: 300 },
+		{
+			labelKey: 'index.quick_create_wl_field',
+			shotclock: 80,
+			timeout: 90,
+			quarter: 120,
+			halftime: 600
+		},
+		{ labelKey: 'index.quick_create_box', shotclock: 30, timeout: 45, quarter: 120, halftime: 720 },
+		{ labelKey: 'index.quick_create_sixes', shotclock: 30, timeout: 60, quarter: 120, halftime: 300 }
+	];
+
+	function createFromPreset(preset: Preset) {
+		initialShotclock = preset.shotclock;
+		timeoutTime = preset.timeout;
+		quarterTime = preset.quarter;
+		halftimeTime = preset.halftime;
 		createId = generateRoomId();
 		createPin = generatePin();
 		createRoom();
-	}
-
-	function quickCreateWorldLacrosseField() {
-		initialShotclock = 80;
-		timeoutTime = 90;
-		quarterTime = 120;
-		halftimeTime = 600;
-		quickCreateRoom();
 	}
 
 	function toggleCustomSettings() {
@@ -136,154 +153,185 @@
 	};
 </script>
 
-<main class="w-full h-full flex justify-center">
+<main class="w-full min-h-full flex justify-center">
 	{#if loaded && !$isLoading}
-		<div class="absolute top-2 left-2 lg:top-3 lg:left-3">
-			<a href="mailto:shotclock@dlaxv.de" class="p-1 border rounded bg-button"
-				>{$_('index.send_feedback')}</a
-			>
-			<a
-				href="https://github.com/DLaxV-Community-Projects-Hub/shotclock-web-client/wiki/Instructions"
-				target="_blank"
-				class="p-1 border rounded bg-button">{$_('index.instructions')}</a
-			>
-		</div>
-		<div class="absolute top-2 right-2 lg:top-3 lg:right-3">
-			<select name="lang" id="lang" class="p-1 border rounded" bind:value={language}>
+		<div class="absolute top-3 left-3 right-3 lg:top-4 lg:left-4 lg:right-4 flex justify-between">
+			<div class="flex gap-2">
+				<a href="mailto:shotclock@dlaxv.de" class="chip">{$_('index.send_feedback')}</a>
+				<a
+					href="https://github.com/DLaxV-Community-Projects-Hub/shotclock-web-client/wiki/Instructions"
+					target="_blank"
+					class="chip">{$_('index.instructions')}</a
+				>
+			</div>
+			<select name="lang" id="lang" class="chip" bind:value={language}>
 				<option value="en">🇺🇸</option>
 				<option value="de">🇩🇪</option>
 			</select>
 		</div>
-		<div class="flex justify-center mt-5 lg:mt-0 p-5 lg:p-10 pt-10 h-full w-full xl:w-1/2">
-			<div class="flex flex-col justify-between h-full w-full">
-				<!-- Top Content -->
-				<div class="flex flex-col items-center w-full">
-					<div class="flex flex-col items-center w-full">
-						<!-- Title -->
-						<div class="flex flex-col items-center mb-5 lg:mb-10">
-							<h1 class="text-white text-3xl md:text-4xl lg:text-5xl mb-2">{$_('title')}</h1>
-							<h3 class="text-white text-md lg:text-xl text-center">
-								{$_('subtitle')}
-							</h3>
-						</div>
 
-						<!-- Create Room -->
-						<div class="w-full lg:w-7/12 mb-5 lg:mb-10">
-							<div class="mb-3">
-								<h4 class="text-white text-md uppercase">{$_('index.create_room')}</h4>
-							</div>
-							<div class="flex flex-wrap gap-2 mb-3">
-								<button class="btn text-lg" on:click={quickCreateRoom}
-									>{$_('index.quick_create')}</button
-								>
-								<button class="btn text-lg" on:click={quickCreateWorldLacrosseField}
-									>{$_('index.quick_create_wl_field')}</button
-								>
-								<button class="btn text-lg" on:click={toggleCustomSettings}
-									>{$_('index.custom_settings')}</button
-								>
-							</div>
-							{#if showAdvancedCreateSettings}
-								<div class="grid grid-cols-inputs-3 mb-3">
-									<span class="uppercase text-white text-xs font-bold">{$_('index.room_id')}</span>
-									<span class="uppercase text-white text-xs font-bold">
-										{$_('index.control_pin')}
-									</span>
-									<div />
-									<input class="px-3 py-2 mr-2 rounded" bind:value={createId} />
-									<input class="px-3 py-2 rounded" bind:value={createPin} />
-									<button class="btn text-xs ml-2" on:click={createRoom}>
-										{@html $_('index.create_custom')}
-									</button>
-								</div>
-								<div class="grid grid-cols-4 mb-3">
-									<span class="uppercase text-white text-xs font-bold"
-										>{@html $_('index.shot_clock')}</span
-									>
-									<span class="uppercase text-white text-xs font-bold"
-										>{@html $_('index.timeout')}</span
-									>
-									<span class="uppercase text-white text-xs font-bold"
-										>{@html $_('index.quarter')}</span
-									>
-									<span class="uppercase text-white text-xs font-bold"
-										>{@html $_('index.halftime')}</span
-									>
-									<input
-										type="number"
-										class="px-3 py-2 mr-2 rounded"
-										bind:value={initialShotclock}
-									/>
-									<input type="number" class="px-3 py-2 mr-2 rounded" bind:value={timeoutTime} />
-									<input type="number" class="px-3 py-2 mr-2 rounded" bind:value={quarterTime} />
-									<input type="number" class="px-3 py-2 mr-2 rounded" bind:value={halftimeTime} />
-								</div>
-							{/if}
-						</div>
+		<div class="flex flex-col items-center w-full max-w-xl px-3 sm:px-5 pt-16 sm:pt-20 pb-8 sm:pb-10 gap-4 sm:gap-8">
+			<!-- Title -->
+			<header class="flex flex-col items-center text-center">
+				<h1 class="text-white text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight mb-2">
+					{$_('title')}
+				</h1>
+				<p class="text-white/60 text-sm lg:text-base">{$_('subtitle')}</p>
+			</header>
 
-						<!-- Join Room -->
-						<div class="w-full lg:w-7/12">
-							<div class="mb-3">
-								<h4 class="text-white text-md uppercase">{$_('index.join_room')}</h4>
-							</div>
-							<div class="grid grid-cols-inputs-3-button mb-3">
-								<span class="uppercase text-white text-xs font-bold">{$_('index.room_id')}</span>
-								<div />
-								<div />
-								<input
-									class="px-3 py-2 rounded"
-									bind:value={joinId}
-									on:keypress={(e) => {
-										if (e.key === 'Enter') joinRoom();
-									}}
-								/>
-								<button class="btn text-xl ml-2" on:click={joinRoom}
-									>{@html $_('index.join_room_button')}</button
-								>
-								<button class="btn text-xs ml-2" on:click={openController}
-									>{@html $_('index.open_controller')}</button
-								>
-							</div>
-						</div>
-					</div>
+			<!-- Create Room -->
+			<section class="card w-full">
+				<h2 class="section-title">{$_('index.create_room')}</h2>
+				<h3 class="text-white/90 text-sm font-medium mb-2">{$_('index.presets')}</h3>
+				<div class="grid grid-cols-2 gap-2 sm:gap-3">
+					{#each presets as preset}
+						<button class="preset" on:click={() => createFromPreset(preset)}>
+							<span class="text-[13px] sm:text-lg font-medium leading-tight">{$_(preset.labelKey)}</span>
+							<dl class="w-full mt-1 text-[11px] sm:text-xs text-white/60 leading-snug">
+								{#each [['short_shot_clock', preset.shotclock], ['short_timeout', preset.timeout], ['short_quarter', preset.quarter], ['short_halftime', preset.halftime]] as [key, value]}
+									<div class="flex justify-between gap-2">
+										<dt>{$_('index.' + key)}</dt>
+										<dd>{value}s</dd>
+									</div>
+								{/each}
+							</dl>
+						</button>
+					{/each}
 				</div>
 
-				<!-- Logos -->
-				<div class="h-32 lg:h-80 flex flex-col items-center justify-end">
-					<div class="text-white font-bold mb-5 text-2xl">{$_('index.supported_by')}</div>
-					<div class="w-80">
-						<div class="flex flex-col h-4/6">
-							<div class="h-full mx-5 mb-5">
-								<a href="https://dlaxv.de/" target="_blank">
-									<img src="img/logo-dlaxv.svg" alt="Logo DLaxV" class="h-full" />
-								</a>
+				<!-- Custom settings -->
+				<div class="mt-3 sm:mt-5 pt-3 sm:pt-4 border-t border-white/10">
+					<button
+						class="flex items-center justify-between w-full text-left text-white/80 hover:text-white"
+						aria-expanded={showAdvancedCreateSettings}
+						on:click={toggleCustomSettings}
+					>
+						<span class="font-medium">{$_('index.custom_settings')}</span>
+						<span class="text-xl transition-transform" class:rotate-180={showAdvancedCreateSettings}
+							>⌄</span
+						>
+					</button>
+					{#if showAdvancedCreateSettings}
+						<div class="mt-4 flex flex-col gap-4">
+							<div class="grid grid-cols-2 gap-3">
+								<label class="field">
+									<span>{$_('index.room_id')}</span>
+									<input bind:value={createId} />
+								</label>
+								<label class="field">
+									<span>{$_('index.control_pin')}</span>
+									<input bind:value={createPin} />
+								</label>
 							</div>
-							<div class="h-full mx-5">
-								<a href="https://worldlacrosse.sport/" target="_blank">
-									<img src="img/logo-worldlacrosse.svg" alt="Logo World Lacrosse" class="h-full" />
-								</a>
+							<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+								<label class="field">
+									<span>{@html $_('index.shot_clock')}</span>
+									<input type="number" bind:value={initialShotclock} />
+								</label>
+								<label class="field">
+									<span>{@html $_('index.timeout')}</span>
+									<input type="number" bind:value={timeoutTime} />
+								</label>
+								<label class="field">
+									<span>{@html $_('index.quarter')}</span>
+									<input type="number" bind:value={quarterTime} />
+								</label>
+								<label class="field">
+									<span>{@html $_('index.halftime')}</span>
+									<input type="number" bind:value={halftimeTime} />
+								</label>
 							</div>
+							<button class="btn-primary self-end" on:click={createRoom}>
+								{@html $_('index.create_custom').replace(/<br\s*\/?>/g, ' ')}
+							</button>
 						</div>
-					</div>
+					{/if}
 				</div>
-			</div>
+			</section>
+
+			<!-- Join Room -->
+			<section class="card w-full">
+				<h2 class="section-title">{$_('index.join_room')}</h2>
+				<label class="field mb-3">
+					<span>{$_('index.room_id')}</span>
+					<input
+						bind:value={joinId}
+						on:keypress={(e) => {
+							if (e.key === 'Enter') joinRoom();
+						}}
+					/>
+				</label>
+				<div class="flex gap-3">
+					<button class="btn-primary flex-1" on:click={joinRoom}
+						>{@html $_('index.join_room_button').replace(/<br\s*\/?>/g, ' ')}</button
+					>
+					<button class="btn-secondary flex-1" on:click={openController}
+						>{@html $_('index.open_controller').replace(/<br\s*\/?>/g, ' ')}</button
+					>
+				</div>
+			</section>
+
+			<!-- Logos -->
+			<footer class="flex flex-col items-center mt-4">
+				<div class="text-white/60 text-sm uppercase tracking-wider mb-4">
+					{$_('index.supported_by')}
+				</div>
+				<div class="flex flex-col items-center gap-4">
+					<a href="https://dlaxv.de/" target="_blank" class="w-72 max-w-full rounded-xl bg-white/90 hover:bg-white px-6 py-4 transition-colors">
+						<img src="img/logo-dlaxv.svg" alt="Logo DLaxV" class="w-full h-auto" />
+					</a>
+					<a href="https://worldlacrosse.sport/" target="_blank" class="w-72 max-w-full rounded-xl bg-white/90 hover:bg-white px-6 py-4 transition-colors">
+						<img src="img/logo-worldlacrosse.svg" alt="Logo World Lacrosse" class="w-full h-auto" />
+					</a>
+				</div>
+			</footer>
 		</div>
 	{/if}
 </main>
 
 <style lang="postcss">
 	main {
-		min-height: 46rem;
-		background: rgb(158, 158, 158);
-		background: radial-gradient(
-			circle,
-			rgba(158, 158, 158, 1) 0%,
-			rgba(117, 117, 117, 1) 35%,
-			rgba(66, 66, 66, 1) 100%
-		);
+		background: radial-gradient(ellipse at top, #9a9ea6 0%, #6b7079 45%, #3f434a 100%);
+		background-attachment: fixed;
 	}
 
-	.btn {
-		@apply px-2 py-1 border rounded text-white;
+	.card {
+		@apply rounded-2xl border border-white/20 bg-black/25 p-5 backdrop-blur;
+	}
+
+	.section-title {
+		@apply text-white/70 text-xs font-semibold uppercase tracking-widest mb-3 sm:mb-4;
+	}
+
+	.chip {
+		@apply px-3 py-1 text-sm rounded-full border border-white/20 bg-white/10 text-white hover:bg-white/20 transition-colors;
+	}
+
+	.chip option {
+		@apply text-black;
+	}
+
+	.preset {
+		@apply flex flex-col items-start text-left text-white rounded-xl border border-white/20 bg-white/10 px-2 py-2 sm:px-4 sm:py-3 transition hover:bg-white/20 hover:border-green-400/60;
+	}
+
+	.field {
+		@apply flex flex-col gap-1 min-w-0;
+	}
+
+	.field span {
+		@apply text-white/60 text-xs uppercase tracking-wide;
+	}
+
+	.field input {
+		@apply w-full px-3 py-2 rounded-lg bg-black/30 border border-white/20 text-white outline-none focus:border-green-400/70 transition-colors;
+	}
+
+	.btn-primary {
+		@apply px-4 py-2 rounded-lg font-medium text-black bg-green-400 hover:bg-green-300 transition-colors;
+	}
+
+	.btn-secondary {
+		@apply px-4 py-2 rounded-lg font-medium text-white border border-white/20 bg-white/10 hover:bg-white/20 transition-colors;
 	}
 </style>

@@ -19,6 +19,7 @@
 		faClock
 	} from '@fortawesome/free-solid-svg-icons';
 	import { goto } from '$app/navigation';
+	import { _ } from 'svelte-i18n';
 
 	let roomId: string = $page['params']['roomId'];
 	let pin: string;
@@ -198,7 +199,7 @@
 	function shareRoomURL() {
 		if (navigator.share) {
 			navigator.share({
-				title: 'Shot Clock room ' + roomId,
+				title: $_('control.share_room_title', { values: { id: roomId } }),
 				url: base + '/room/' + roomId
 			});
 		}
@@ -207,7 +208,7 @@
 	function shareControlURL() {
 		if (navigator.share) {
 			navigator.share({
-				title: 'Shot Clock controller ' + roomId,
+				title: $_('control.share_controller_title', { values: { id: roomId } }),
 				url: base + '/control/' + roomId
 			});
 		}
@@ -246,11 +247,11 @@
 		<div class="absolute top-3 right-3">
 			<div class="flex flex-row">
 				<div class="mr-5">
-					<span class="text-xs">Room</span>
+					<span class="text-xs">{$_('control.id')}</span>
 					<span class="text-xl">{roomId}</span>
 				</div>
 				<div class="">
-					<span class="text-xs">PIN</span>
+					<span class="text-xs">{$_('control.pin')}</span>
 					<span class="text-xl">{pin}</span>
 				</div>
 			</div>
@@ -301,18 +302,18 @@
 					class:buttonDisabled={shotclock == 0}
 					on:click={startStop}
 				>
-					<span title="Hotkeys: Spacebar, Enter">
+					<span title={$_('control.hotkeys_start')}>
 						{#if running}
-							STOP
+							{$_('control.stop')}
 						{:else}
-							START
+							{$_('control.start')}
 						{/if}
 					</span>
 				</button>
 				<button
 					class="controlButton shadow-reset text-white bg-button-bg-reset"
 					on:click={reset}
-					title="Hotkeys: M, C, Backspace">RESET</button
+					title={$_('control.hotkeys_reset')}>{$_('control.reset')}</button
 				>
 			</div>
 
@@ -327,12 +328,12 @@
 							<div class="mt-1">
 								<Fa icon={faChevronDown} />
 							</div>
-							<span class="ml-2">Hide advanced controls</span>
+							<span class="ml-2">{$_('control.hide_advanced')}</span>
 						{:else}
 							<div class="mt-1">
 								<Fa icon={faChevronRight} />
 							</div>
-							<span class="ml-2">Show advanced controls</span>
+							<span class="ml-2">{$_('control.show_advanced')}</span>
 						{/if}
 					</div>
 				</button>
@@ -351,7 +352,7 @@
 						>
 						<button
 							class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
-							title="Rewind to last reset"
+							title={$_('control.rewind')}
 							on:click={rewind}
 						>
 							<Fa class="w-full lg:hidden" icon={faFastBackward} />
@@ -375,46 +376,46 @@
 								<button
 									class="controlButtonExtraSmall shadow-reset text-white bg-button-bg-reset"
 									class:buttonDisabled={shotclock <= 2}
-									title="Manual horn"
+									title={$_('control.manual_horn')}
 									on:click={() => manualHorn()}
 								>
 									<Fa class="w-full lg:hidden" icon={faBullhorn} />
 									<Fa class="w-full hidden lg:block" icon={faBullhorn} size="2x" />
 								</button>
-								<span class="mt-1">Horn</span>
+								<span class="mt-1">{$_('control.horn')}</span>
 							</div>
 							<div class="my-5 flex flex-col items-center">
 								<button
 									class="controlButtonExtraSmall shadow-reset text-white bg-button-bg-reset"
-									title="Timeout"
+									title={$_('control.timeout')}
 									on:click={() => timeout()}
 								>
 									<Fa class="w-full lg:hidden" icon={faUsers} />
 									<Fa class="w-full hidden lg:block" icon={faUsers} size="2x" />
 								</button>
-								<span class="mt-1">Timeout</span>
+								<span class="mt-1">{$_('control.timeout')}</span>
 							</div>
 							<div class="my-5 flex flex-col items-center">
 								<button
 									class="controlButtonExtraSmall shadow-reset text-white bg-button-bg-reset"
-									title="Quarter"
+									title={$_('control.quarter')}
 									on:click={() => quarter()}
 								>
 									<Fa class="w-full lg:hidden" icon={faClock} />
 									<Fa class="w-full hidden lg:block" icon={faClock} size="2x" />
 								</button>
-								<span class="mt-1">Quarter</span>
+								<span class="mt-1">{$_('control.quarter')}</span>
 							</div>
 							<div class="my-5 flex flex-col items-center">
 								<button
 									class="controlButtonExtraSmall shadow-reset text-white bg-button-bg-reset"
-									title="Quarter"
+									title={$_('control.halftime')}
 									on:click={() => halftime()}
 								>
 									<Fa class="w-full lg:hidden" icon={faClock} />
 									<Fa class="w-full hidden lg:block" icon={faClock} size="2x" />
 								</button>
-								<span class="mt-1">Halftime</span>
+								<span class="mt-1">{$_('control.halftime')}</span>
 							</div>
 						</div>
 
@@ -424,13 +425,13 @@
 						>
 							<div class="w-1/2 lg:w-full">
 								<div class="hidden lg:flex flex-col mb-3">
-									<span class="text-xs">Shot clock URL</span>
+									<span class="text-xs">{$_('control.room_url')}</span>
 									<a href="{base}/room/{roomId}">{currentHost}{base}/room/{roomId}</a>
 								</div>
 								<div class:hidden={!navigator.share}>
 									<button class="shareButton lg:text-lg">
 										<div class="flex flex-row items-center" on:click={shareRoomURL}>
-											<span class="mr-2">Share shot clock URL</span>
+											<span class="mr-2">{$_('control.share_room_url')}</span>
 											<Fa icon={faShareAlt} size="lg" />
 										</div>
 									</button>
@@ -438,13 +439,13 @@
 							</div>
 							<div class="w-1/2 lg:w-full">
 								<div class="hidden lg:flex flex-col mb-3">
-									<span class="text-xs">Controller URL</span>
+									<span class="text-xs">{$_('control.controller_url')}</span>
 									<a href="{base}/control/{roomId}">{currentHost}{base}/control/{roomId}</a>
 								</div>
 								<div class:hidden={!navigator.share}>
 									<button class="shareButton lg:text-lg">
 										<div class="flex flex-row items-center" on:click={shareControlURL}>
-											<span class="mr-2">Share Controller URL</span>
+											<span class="mr-2">{$_('control.share_controller_url')}</span>
 											<Fa icon={faShareAlt} size="lg" />
 										</div>
 									</button>
