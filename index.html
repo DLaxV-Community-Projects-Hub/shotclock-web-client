@@ -1,97 +1,72 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link
+			rel="icon"
+			href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⏱️</text></svg>"
+		/>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Lacrosse Shot Clock</title>
+		<script
+			defer
+			data-domain="shotclock.dlaxv.de"
+			src="https://analytics.tobi.re/js/script.js"
+		></script>
+		<link href="./_app/immutable/entry/start.BuwsRk8v.js" rel="modulepreload">
+		<link href="./_app/immutable/entry/payload.DSmR2FwN.js" rel="modulepreload">
+		<link href="./_app/immutable/chunks/CRzLMJPS.js" rel="modulepreload">
+		<link href="./_app/immutable/chunks/BdTJjOLv.js" rel="modulepreload">
+		<link href="./_app/immutable/chunks/BquSAhrP.js" rel="modulepreload">
+		<link href="./_app/immutable/chunks/DFZTvRpm.js" rel="modulepreload">
+		<link href="./_app/immutable/chunks/D68rU7-b.js" rel="modulepreload">
+		<link href="./_app/immutable/entry/app.C7Ykp4TU.js" rel="modulepreload">
+		<link href="./_app/immutable/nodes/0.HO5C9IRX.js" rel="modulepreload">
+		<link href="./_app/immutable/chunks/CrZAspvk.js" rel="modulepreload">
+		<link href="./_app/immutable/chunks/BrQgSUSH.js" rel="modulepreload">
+		<link href="./_app/immutable/chunks/kXZcy5l4.js" rel="modulepreload">
+		<link href="./_app/immutable/chunks/CItFpX6L.js" rel="modulepreload">
+		<link href="./_app/immutable/nodes/2.DrXzbr3X.js" rel="modulepreload">
+		<link href="./_app/immutable/chunks/BqQFwZJd.js" rel="modulepreload">
+		<link href="./_app/immutable/chunks/C0qd5aZg.js" rel="modulepreload">
+		<link href="./_app/immutable/chunks/DHi_lj0Q.js" rel="modulepreload">
+		
+		<link href="./_app/immutable/assets/free-solid-svg-icons.y8yh4b69.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/0.B6Gw8S4C.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/2.C9EI4Qp9.css" rel="stylesheet">
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="description" content="" />
-  <link rel="icon"
-    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⏱️</text></svg>">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lacrosse Shot Clock</title>
-  <script defer data-domain="shotclock.dlaxv.de" src="https://analytics.tobi.re/js/script.js"></script>
-  <meta http-equiv="content-security-policy" content="">
-	<link rel="stylesheet" href="/_app/assets/pages/__layout.svelte-f9e6a21f.css">
-	<link rel="stylesheet" href="/_app/assets/LoadingInfo-14ac7dc4.css">
-	<link rel="stylesheet" href="/_app/assets/pages/index.svelte-3a9c5fcb.css">
-	<link rel="modulepreload" href="/_app/start-fcc012c4.js">
-	<link rel="modulepreload" href="/_app/chunks/index-0ad21126.js">
-	<link rel="modulepreload" href="/_app/chunks/index-b1256bb1.js">
-	<link rel="modulepreload" href="/_app/chunks/singletons-1b661bce.js">
-	<link rel="modulepreload" href="/_app/chunks/preload-helper-e4860ae8.js">
-	<link rel="modulepreload" href="/_app/pages/__layout.svelte-2a870b3d.js">
-	<link rel="modulepreload" href="/_app/chunks/i18n-e8910612.js">
-	<link rel="modulepreload" href="/_app/chunks/runtime.esm-fccffeed.js">
-	<link rel="modulepreload" href="/_app/chunks/LoadingInfo-418234a4.js">
-	<link rel="modulepreload" href="/_app/pages/index.svelte-64616a03.js">
-	<link rel="modulepreload" href="/_app/chunks/navigation-d1154fc1.js">
-
-  <!-- Start Single Page Apps for GitHub Pages -->
-  <script type="text/javascript">
-    // Single Page Apps for GitHub Pages
-    // MIT License
-    // https://github.com/rafgraph/spa-github-pages
-    // This script checks to see if a redirect is present in the query string,
-    // converts it back into the correct url and adds it to the
-    // browser's history using window.history.replaceState(...),
-    // which won't cause the browser to attempt to load the new url.
-    // When the single page app is loaded further down in this file,
-    // the correct url will be waiting in the browser's history for
-    // the single page app to route accordingly.
-    (function (l) {
-      if (l.search[1] === '/') {
-        var decoded = l.search.slice(1).split('&').map(function (s) {
-          return s.replace(/~and~/g, '&')
-        }).join('?');
-        window.history.replaceState(null, null,
-          l.pathname.slice(0, -1) + decoded + l.hash
-        );
-      }
-    }(window.location))
-  </script>
-  <!-- End Single Page Apps for GitHub Pages -->
-
-  <style>
-    html,
-    body {
-      height: 100%;
-      background-color: black;
-    }
-
-    #svelte {
-      height: 100%;
-    }
-  </style>
-</head>
-
-<body>
-  <div id="svelte">
-
-
-<main class="w-full h-full flex justify-center svelte-1795rfi">
-</main>
-
-
-		<script type="module" data-hydrate="1u8tblq">
-		import { start } from "/_app/start-fcc012c4.js";
-		start({
-			target: document.querySelector('[data-hydrate="1u8tblq"]').parentNode,
-			paths: {"base":"","assets":""},
-			session: {},
-			route: true,
-			spa: false,
-			trailing_slash: "never",
-			hydrate: {
-				status: 200,
-				error: null,
-				nodes: [
-					import("/_app/pages/__layout.svelte-2a870b3d.js"),
-						import("/_app/pages/index.svelte-64616a03.js")
-				],
-				params: {},
-				routeId: ""
+		<style>
+			html,
+			body {
+				height: 100%;
+				background-color: black;
 			}
-		});
-	</script></div>
-</body>
 
+			#svelte {
+				height: 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="svelte">
+			<script>
+				{
+					__sveltekit_36md6g = {
+						base: new URL(".", location).pathname.slice(0, -1),
+						version: "1791911012687"
+					};
+
+					const element = document.currentScript.parentElement;
+
+					import("./_app/immutable/entry/start.BuwsRk8v.js").then(async (kit) => {
+						kit.init(__sveltekit_36md6g);
+						const app = await import("./_app/immutable/entry/app.C7Ykp4TU.js");
+						kit.start(app, element);
+					});
+				}
+			</script>
+		</div>
+	</body>
 </html>

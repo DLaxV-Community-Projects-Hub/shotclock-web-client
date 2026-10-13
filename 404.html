@@ -1,43 +1,67 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="description" content="" />
+		<link
+			rel="icon"
+			href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⏱️</text></svg>"
+		/>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Lacrosse Shot Clock</title>
+		<script
+			defer
+			data-domain="shotclock.dlaxv.de"
+			src="https://analytics.tobi.re/js/script.js"
+		></script>
+		<link href="/_app/immutable/entry/start.BuwsRk8v.js" rel="modulepreload">
+		<link href="/_app/immutable/entry/payload.DSmR2FwN.js" rel="modulepreload">
+		<link href="/_app/immutable/chunks/CRzLMJPS.js" rel="modulepreload">
+		<link href="/_app/immutable/chunks/BdTJjOLv.js" rel="modulepreload">
+		<link href="/_app/immutable/chunks/BquSAhrP.js" rel="modulepreload">
+		<link href="/_app/immutable/chunks/DFZTvRpm.js" rel="modulepreload">
+		<link href="/_app/immutable/chunks/D68rU7-b.js" rel="modulepreload">
+		<link href="/_app/immutable/entry/app.C7Ykp4TU.js" rel="modulepreload">
+		<link href="/_app/immutable/nodes/0.HO5C9IRX.js" rel="modulepreload">
+		<link href="/_app/immutable/chunks/CrZAspvk.js" rel="modulepreload">
+		<link href="/_app/immutable/chunks/BrQgSUSH.js" rel="modulepreload">
+		<link href="/_app/immutable/chunks/kXZcy5l4.js" rel="modulepreload">
+		<link href="/_app/immutable/chunks/CItFpX6L.js" rel="modulepreload">
+		
+		<link href="/_app/immutable/assets/free-solid-svg-icons.y8yh4b69.css" rel="stylesheet">
+		<link href="/_app/immutable/assets/0.B6Gw8S4C.css" rel="stylesheet">
 
-<head>
-  <meta charset="utf-8">
-  <title>Lacrosse Shot Clock</title>
-  <script type="text/javascript">
-    // Single Page Apps for GitHub Pages
-    // MIT License
-    // https://github.com/rafgraph/spa-github-pages
-    // This script takes the current url and converts the path and query
-    // string into just a query string, and then redirects the browser
-    // to the new url with only a query string and hash fragment,
-    // e.g. https://www.foo.tld/one/two?a=b&c=d#qwe, becomes
-    // https://www.foo.tld/?/one/two&a=b~and~c=d#qwe
-    // Note: this 404.html file must be at least 512 bytes for it to work
-    // with Internet Explorer (it is currently > 512 bytes)
+		<style>
+			html,
+			body {
+				height: 100%;
+				background-color: black;
+			}
 
-    // If you're creating a Project Pages site and NOT using a custom domain,
-    // then set pathSegmentsToKeep to 1 (enterprise users may need to set it to > 1).
-    // This way the code will only replace the route part of the path, and not
-    // the real directory in which the app resides, for example:
-    // https://username.github.io/repo-name/one/two?a=b&c=d#qwe becomes
-    // https://username.github.io/repo-name/?/one/two&a=b~and~c=d#qwe
-    // Otherwise, leave pathSegmentsToKeep as 0.
-    var pathSegmentsToKeep = 0;
+			#svelte {
+				height: 100%;
+			}
+		</style>
+	</head>
 
-    var l = window.location;
-    l.replace(
-      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-      l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-      l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-      (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-      l.hash
-    );
+	<body>
+		<div id="svelte">
+			<script>
+				{
+					__sveltekit_36md6g = {
+						base: "",
+						version: "1791911012687"
+					};
 
-  </script>
-</head>
+					const element = document.currentScript.parentElement;
 
-<body>
-</body>
-
+					import("/_app/immutable/entry/start.BuwsRk8v.js").then(async (kit) => {
+						kit.init(__sveltekit_36md6g);
+						const app = await import("/_app/immutable/entry/app.C7Ykp4TU.js");
+						kit.start(app, element);
+					});
+				}
+			</script>
+		</div>
+	</body>
 </html>
