@@ -95,6 +95,14 @@
 		quickCreateRoom();
 	}
 
+	function toggleCustomSettings() {
+		showAdvancedCreateSettings = !showAdvancedCreateSettings;
+		if (showAdvancedCreateSettings) {
+			if (!createId) createId = generateRoomId();
+			if (!createPin) createPin = generatePin();
+		}
+	}
+
 	function createRoom() {
 		if (createId && createPin) {
 			// No slashes in room name allowed
@@ -171,9 +179,7 @@
 								<button class="btn text-lg" on:click={quickCreateWorldLacrosseField}
 									>{$_('index.quick_create_wl_field')}</button
 								>
-								<button
-									class="btn text-lg"
-									on:click={() => (showAdvancedCreateSettings = !showAdvancedCreateSettings)}
+								<button class="btn text-lg" on:click={toggleCustomSettings}
 									>{$_('index.custom_settings')}</button
 								>
 							</div>
