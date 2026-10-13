@@ -1,1 +1,0 @@
-import{D as e,W as t,k as n,nt as r}from"./DFZTvRpm.js";import{d as i,s as a}from"./CItFpX6L.js";var o=n(`<div class="h-full flex justify-center"><div class="flex flex-col justify-center"><!></div></div>`);function s(n){var s=o(),c=t(s),l=t(c);i(l,{get icon(){return a},size:`5x`,spin:!0}),r(c),r(s),e(n,s)}export{s as t};

@@ -1,0 +1,1 @@
+import{D as e,W as t,k as n,nt as r}from"./DFZTvRpm.js";import{l as i,p as a}from"./DMyBEa9v.js";var o=n(`<div class="h-full flex justify-center"><div class="flex flex-col justify-center"><!></div></div>`);function s(n){var s=o(),c=t(s),l=t(c);a(l,{get icon(){return i},size:`5x`,spin:!0}),r(c),r(s),e(n,s)}export{s as t};

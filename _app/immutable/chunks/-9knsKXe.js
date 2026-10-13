@@ -1,0 +1,1 @@
+import{a as e,i as t,o as n,s as r}from"./CrZAspvk.js";import{t as i}from"./CRzLMJPS.js";r(`en`,()=>i(()=>import(`./BUkOI_3Y.js`),[],import.meta.url)),r(`de`,()=>i(()=>import(`./LfAgoowK.js`),[],import.meta.url)),n({fallbackLocale:`en`,initialLocale:e(`lang`)??t()});
