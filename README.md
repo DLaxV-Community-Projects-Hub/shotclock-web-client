@@ -1,6 +1,6 @@
 # shotclock-web-client
 
-Web-Client for the shot clock application built with Svelte
+Web-Client for the shot clock application built with Svelte 5 and SvelteKit (static single page app, deployed to GitHub Pages)
 
 ## Developing
 
@@ -13,6 +13,16 @@ npm run dev
 npm run dev -- --open
 ```
 
+
+Other useful scripts:
+
+```bash
+npm run check   # type check (svelte-check)
+npm run lint    # formatting check (prettier)
+npm run build   # static build into ./build
+```
+
+The app talks to a [shotclock-web-server](https://github.com/DLaxV-Community-Projects-Hub/shotclock-web-server); in dev mode it expects it on `localhost:8080`.
 
 ## More Information and Instructions
 

@@ -1,295 +1,199 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { base } from '$app/paths';
-	import { onMount } from 'svelte';
-	import { browser } from '$app/env';
-	import { _, locale, isLoading } from 'svelte-i18n';
-	import { defaultLocale } from '../i18n';
+	import { goto, replaceState } from '$app/navigation';
+	import { asset, resolve } from '$app/paths';
+	import { page } from '$app/state';
+	import { _, locale } from 'svelte-i18n';
+	import { defaultLocale } from '#lib/i18n.ts';
+	import { generatePin, generateRoomId } from '#lib/ids.ts';
+	import { defaultTimings, presets, type Timings } from '#lib/presets.ts';
 
-	let loaded: boolean = false;
+	let joinId = $state('');
+	let createId = $state('');
+	let createPin = $state('');
+	let timings = $state<Timings>({ ...defaultTimings });
+	let showCustomSettings = $state(false);
+	let language = $state($_('locale'));
 
-	let joinId: string;
-	let createId: string;
-	let createPin: string;
-	let initialShotclock: number = 30;
-	let timeoutTime: number = 30;
-	let quarterTime: number = 120;
-	let halftimeTime: number = 300;
+	const timingFields = [
+		{ key: 'shotclock', label: 'index.shot_clock', shortLabel: 'index.short_shot_clock' },
+		{ key: 'timeout', label: 'index.timeout', shortLabel: 'index.short_timeout' },
+		{ key: 'quarter', label: 'index.quarter', shortLabel: 'index.short_quarter' },
+		{ key: 'halftime', label: 'index.halftime', shortLabel: 'index.short_halftime' }
+	] as const;
 
-	let showAdvancedCreateSettings: boolean = false;
-
-	let language: string;
-	$: {
-		if (browser && !$isLoading) {
-			setTimeout(() => {
-				locale.set(language);
-				replaceStateWithQuery({
-					lang: language !== defaultLocale ? language : null
-				});
-			}, 1);
+	const logos = [
+		{ href: 'https://dlaxv.de/', src: asset('img/logo-dlaxv.svg'), alt: 'Logo DLaxV' },
+		{
+			href: 'https://worldlacrosse.sport/',
+			src: asset('img/logo-worldlacrosse.svg'),
+			alt: 'Logo World Lacrosse'
 		}
-	}
+	];
 
-	onMount(() => {
-		language = $_('locale');
-
-		// Redirect traffic from 404 page to corresponding room
-		let path: string = new URL(window.location.href).pathname;
-		let basePath: string = base + '/';
-
-		if (path !== basePath) {
-			const relevantPath: string = new URL(window.location.href).pathname.replace(base + '/', '');
-			if (relevantPath.includes('/')) {
-				const slashPosition: number = relevantPath.indexOf('/');
-				joinId = relevantPath.substring(slashPosition + 1);
-				switch (relevantPath.substring(0, slashPosition)) {
-					case 'room':
-						joinRoom();
-						break;
-					case 'control':
-						openController();
-						break;
-					default:
-						goto(basePath);
-				}
-			} else {
-				joinId = relevantPath;
-				joinRoom();
-			}
-		} else {
-			loaded = true;
-		}
-	});
-
-	function generateRoomId(): string {
-		const min: number = 10000;
-		const max: number = 99999;
-		return Math.floor(Math.random() * (max - min + 1) + min).toString();
-	}
-
-	function generatePin(): string {
-		let length: number = 4;
-		let chars: string = '0123456789';
-		return [...Array(length)].map((i) => chars[Math.floor(Math.random() * chars.length)]).join('');
+	function changeLanguage() {
+		locale.set(language);
+		const url = new URL(page.url.href);
+		if (language === defaultLocale) url.searchParams.delete('lang');
+		else url.searchParams.set('lang', language);
+		replaceState(url, {});
 	}
 
 	function joinRoom() {
-		if (joinId) goto(base + '/room/' + joinId + (language ? '?lang=' + language : ''));
+		if (joinId) goto(`${resolve('/room/[roomId]', { roomId: joinId })}?lang=${language}`);
 	}
 
 	function openController() {
-		if (joinId) goto(base + '/control/' + joinId + (language ? '?lang=' + language : ''));
+		if (joinId) goto(`${resolve('/control/[roomId]', { roomId: joinId })}?lang=${language}`);
 	}
 
-	type Preset = {
-		labelKey: string;
-		shotclock: number;
-		timeout: number;
-		quarter: number;
-		halftime: number;
-	};
-
-	const presets: Preset[] = [
-		{ labelKey: 'index.quick_create', shotclock: 30, timeout: 30, quarter: 120, halftime: 300 },
-		{
-			labelKey: 'index.quick_create_wl_field',
-			shotclock: 80,
-			timeout: 90,
-			quarter: 120,
-			halftime: 600
-		},
-		{ labelKey: 'index.quick_create_box', shotclock: 30, timeout: 45, quarter: 120, halftime: 720 },
-		{ labelKey: 'index.quick_create_sixes', shotclock: 30, timeout: 60, quarter: 120, halftime: 300 }
-	];
-
-	function createFromPreset(preset: Preset) {
-		initialShotclock = preset.shotclock;
-		timeoutTime = preset.timeout;
-		quarterTime = preset.quarter;
-		halftimeTime = preset.halftime;
-		createId = generateRoomId();
-		createPin = generatePin();
-		createRoom();
+	/** Opens the controller of a new room; the controller then configures the room on the server. */
+	function createRoom(id: string, pin: string, roomTimings: Timings) {
+		if (!id || !pin) return;
+		const query = new URLSearchParams({
+			pin,
+			...Object.fromEntries(Object.entries(roomTimings).map(([k, v]) => [k, String(v)])),
+			lang: language
+		});
+		// No slashes in room names allowed
+		const roomId = id.replaceAll('/', '-');
+		goto(`${resolve('/control/[roomId]', { roomId })}?${query}`);
 	}
 
 	function toggleCustomSettings() {
-		showAdvancedCreateSettings = !showAdvancedCreateSettings;
-		if (showAdvancedCreateSettings) {
-			if (!createId) createId = generateRoomId();
-			if (!createPin) createPin = generatePin();
+		showCustomSettings = !showCustomSettings;
+		if (showCustomSettings) {
+			createId ||= generateRoomId();
+			createPin ||= generatePin();
 		}
 	}
-
-	function createRoom() {
-		if (createId && createPin) {
-			// No slashes in room name allowed
-			createId = createId.replace('/', '-');
-			goto(
-				base +
-					'/control/' +
-					createId +
-					'?pin=' +
-					createPin +
-					'&shotclock=' +
-					initialShotclock +
-					'&timeout=' +
-					timeoutTime +
-					'&quarter=' +
-					quarterTime +
-					'&halftime=' +
-					halftimeTime +
-					(language ? '&lang=' + language : '')
-			);
-		}
-	}
-
-	export const replaceStateWithQuery = (values: Record<string, string>) => {
-		const url = new URL(window.location.toString());
-		for (let [k, v] of Object.entries(values)) {
-			if (!!v) url.searchParams.set(encodeURIComponent(k), encodeURIComponent(v));
-			else url.searchParams.delete(k);
-		}
-		history.replaceState({}, '', url);
-	};
 </script>
 
 <main class="w-full min-h-full flex justify-center">
-	{#if loaded && !$isLoading}
-		<div class="absolute top-3 left-3 right-3 lg:top-4 lg:left-4 lg:right-4 flex justify-between">
-			<div class="flex gap-2">
-				<a href="mailto:shotclock@dlaxv.de" class="chip">{$_('index.send_feedback')}</a>
-				<a
-					href="https://github.com/DLaxV-Community-Projects-Hub/shotclock-web-client/wiki/Instructions"
-					target="_blank"
-					class="chip">{$_('index.instructions')}</a
-				>
-			</div>
-			<select name="lang" id="lang" class="chip" bind:value={language}>
-				<option value="en">🇺🇸</option>
-				<option value="de">🇩🇪</option>
-			</select>
+	<div class="absolute top-3 left-3 right-3 lg:top-4 lg:left-4 lg:right-4 flex justify-between">
+		<div class="flex gap-2">
+			<a href="mailto:shotclock@dlaxv.de" class="chip">{$_('index.send_feedback')}</a>
+			<a
+				href="https://github.com/DLaxV-Community-Projects-Hub/shotclock-web-client/wiki/Instructions"
+				target="_blank"
+				class="chip">{$_('index.instructions')}</a
+			>
 		</div>
+		<select name="lang" id="lang" class="chip" bind:value={language} onchange={changeLanguage}>
+			<option value="en">🇺🇸</option>
+			<option value="de">🇩🇪</option>
+		</select>
+	</div>
 
-		<div class="flex flex-col items-center w-full max-w-xl px-3 sm:px-5 pt-16 sm:pt-20 pb-8 sm:pb-10 gap-4 sm:gap-8">
-			<!-- Title -->
-			<header class="flex flex-col items-center text-center">
-				<h1 class="text-white text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight mb-2">
-					{$_('title')}
-				</h1>
-				<p class="text-white/60 text-sm lg:text-base">{$_('subtitle')}</p>
-			</header>
+	<div
+		class="flex flex-col items-center w-full max-w-xl px-3 sm:px-5 pt-16 sm:pt-20 pb-8 sm:pb-10 gap-4 sm:gap-8"
+	>
+		<header class="flex flex-col items-center text-center">
+			<h1 class="text-white text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight mb-2">
+				{$_('title')}
+			</h1>
+			<p class="text-white/60 text-sm lg:text-base">{$_('subtitle')}</p>
+		</header>
 
-			<!-- Create Room -->
-			<section class="card w-full">
-				<h2 class="section-title">{$_('index.create_room')}</h2>
-				<h3 class="text-white/90 text-sm font-medium mb-2">{$_('index.presets')}</h3>
-				<div class="grid grid-cols-2 gap-2 sm:gap-3">
-					{#each presets as preset}
-						<button class="preset" on:click={() => createFromPreset(preset)}>
-							<span class="text-[13px] sm:text-lg font-medium leading-tight">{$_(preset.labelKey)}</span>
-							<dl class="w-full mt-1 text-[11px] sm:text-xs text-white/60 leading-snug">
-								{#each [['short_shot_clock', preset.shotclock], ['short_timeout', preset.timeout], ['short_quarter', preset.quarter], ['short_halftime', preset.halftime]] as [key, value]}
-									<div class="flex justify-between gap-2">
-										<dt>{$_('index.' + key)}</dt>
-										<dd>{value}s</dd>
-									</div>
-								{/each}
-							</dl>
-						</button>
-					{/each}
-				</div>
-
-				<!-- Custom settings -->
-				<div class="mt-3 sm:mt-5 pt-3 sm:pt-4 border-t border-white/10">
+		<!-- Create room -->
+		<section class="card w-full">
+			<h2 class="section-title">{$_('index.create_room')}</h2>
+			<h3 class="text-white/90 text-sm font-medium mb-2">{$_('index.presets')}</h3>
+			<div class="grid grid-cols-2 gap-2 sm:gap-3">
+				{#each presets as { labelKey, ...preset }}
 					<button
-						class="flex items-center justify-between w-full text-left text-white/80 hover:text-white"
-						aria-expanded={showAdvancedCreateSettings}
-						on:click={toggleCustomSettings}
+						class="preset"
+						onclick={() => createRoom(generateRoomId(), generatePin(), preset)}
 					>
-						<span class="font-medium">{$_('index.custom_settings')}</span>
-						<span class="text-xl transition-transform" class:rotate-180={showAdvancedCreateSettings}
-							>⌄</span
-						>
+						<span class="text-[13px] sm:text-lg font-medium leading-tight">{$_(labelKey)}</span>
+						<dl class="w-full mt-1 text-[11px] sm:text-xs text-white/60 leading-snug">
+							{#each timingFields as { key, shortLabel }}
+								<div class="flex justify-between gap-2">
+									<dt>{$_(shortLabel)}</dt>
+									<dd>{preset[key]}s</dd>
+								</div>
+							{/each}
+						</dl>
 					</button>
-					{#if showAdvancedCreateSettings}
-						<div class="mt-4 flex flex-col gap-4">
-							<div class="grid grid-cols-2 gap-3">
-								<label class="field">
-									<span>{$_('index.room_id')}</span>
-									<input bind:value={createId} />
-								</label>
-								<label class="field">
-									<span>{$_('index.control_pin')}</span>
-									<input bind:value={createPin} />
-								</label>
-							</div>
-							<div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-								<label class="field">
-									<span>{@html $_('index.shot_clock')}</span>
-									<input type="number" bind:value={initialShotclock} />
-								</label>
-								<label class="field">
-									<span>{@html $_('index.timeout')}</span>
-									<input type="number" bind:value={timeoutTime} />
-								</label>
-								<label class="field">
-									<span>{@html $_('index.quarter')}</span>
-									<input type="number" bind:value={quarterTime} />
-								</label>
-								<label class="field">
-									<span>{@html $_('index.halftime')}</span>
-									<input type="number" bind:value={halftimeTime} />
-								</label>
-							</div>
-							<button class="btn-primary self-end" on:click={createRoom}>
-								{@html $_('index.create_custom').replace(/<br\s*\/?>/g, ' ')}
-							</button>
+				{/each}
+			</div>
+
+			<div class="mt-3 sm:mt-5 pt-3 sm:pt-4 border-t border-white/10">
+				<button
+					class="flex items-center justify-between w-full text-left text-white/80 hover:text-white"
+					aria-expanded={showCustomSettings}
+					onclick={toggleCustomSettings}
+				>
+					<span class="font-medium">{$_('index.custom_settings')}</span>
+					<span class="text-xl transition-transform" class:rotate-180={showCustomSettings}>⌄</span>
+				</button>
+				{#if showCustomSettings}
+					<div class="mt-4 flex flex-col gap-4">
+						<div class="grid grid-cols-2 gap-3">
+							<label class="field">
+								<span>{$_('index.room_id')}</span>
+								<input bind:value={createId} />
+							</label>
+							<label class="field">
+								<span>{$_('index.control_pin')}</span>
+								<input bind:value={createPin} />
+							</label>
 						</div>
-					{/if}
-				</div>
-			</section>
+						<div class="grid grid-cols-2 items-end gap-3 sm:grid-cols-4">
+							{#each timingFields as { key, label }}
+								<label class="field">
+									<span>{$_(label)}</span>
+									<input type="number" bind:value={timings[key]} />
+								</label>
+							{/each}
+						</div>
+						<button
+							class="btn-primary self-end"
+							onclick={() => createRoom(createId, createPin, timings)}
+						>
+							{$_('index.create_custom')}
+						</button>
+					</div>
+				{/if}
+			</div>
+		</section>
 
-			<!-- Join Room -->
-			<section class="card w-full">
-				<h2 class="section-title">{$_('index.join_room')}</h2>
-				<label class="field mb-3">
-					<span>{$_('index.room_id')}</span>
-					<input
-						bind:value={joinId}
-						on:keypress={(e) => {
-							if (e.key === 'Enter') joinRoom();
-						}}
-					/>
-				</label>
-				<div class="flex gap-3">
-					<button class="btn-primary flex-1" on:click={joinRoom}
-						>{@html $_('index.join_room_button').replace(/<br\s*\/?>/g, ' ')}</button
-					>
-					<button class="btn-secondary flex-1" on:click={openController}
-						>{@html $_('index.open_controller').replace(/<br\s*\/?>/g, ' ')}</button
-					>
-				</div>
-			</section>
+		<!-- Join room -->
+		<section class="card w-full">
+			<h2 class="section-title">{$_('index.join_room')}</h2>
+			<label class="field mb-3">
+				<span>{$_('index.room_id')}</span>
+				<input bind:value={joinId} onkeydown={(e) => e.key === 'Enter' && joinRoom()} />
+			</label>
+			<div class="flex gap-3">
+				<button class="btn-primary flex-1" onclick={joinRoom}>{$_('index.join_room')}</button>
+				<button class="btn-secondary flex-1" onclick={openController}>
+					{$_('index.open_controller')}
+				</button>
+			</div>
+		</section>
 
-			<!-- Logos -->
-			<footer class="flex flex-col items-center mt-4">
-				<div class="text-white/60 text-sm uppercase tracking-wider mb-4">
-					{$_('index.supported_by')}
-				</div>
-				<div class="flex flex-col items-center gap-4">
-					<a href="https://dlaxv.de/" target="_blank" class="w-72 max-w-full rounded-xl bg-white/90 hover:bg-white px-6 py-4 transition-colors">
-						<img src="img/logo-dlaxv.svg" alt="Logo DLaxV" class="w-full h-auto" />
+		<footer class="flex flex-col items-center mt-4">
+			<div class="text-white/60 text-sm uppercase tracking-wider mb-4">
+				{$_('index.supported_by')}
+			</div>
+			<div class="flex flex-col items-center gap-4">
+				{#each logos as { href, src, alt }}
+					<a
+						{href}
+						target="_blank"
+						class="w-72 max-w-full rounded-xl bg-white/90 hover:bg-white px-6 py-4 transition-colors"
+					>
+						<img {src} {alt} class="w-full h-auto" />
 					</a>
-					<a href="https://worldlacrosse.sport/" target="_blank" class="w-72 max-w-full rounded-xl bg-white/90 hover:bg-white px-6 py-4 transition-colors">
-						<img src="img/logo-worldlacrosse.svg" alt="Logo World Lacrosse" class="w-full h-auto" />
-					</a>
-				</div>
-			</footer>
-		</div>
-	{/if}
+				{/each}
+			</div>
+		</footer>
+	</div>
 </main>
 
 <style lang="postcss">
+	@reference '../app.css';
+
 	main {
 		background: radial-gradient(ellipse at top, #9a9ea6 0%, #6b7079 45%, #3f434a 100%);
 		background-attachment: fixed;
@@ -324,7 +228,7 @@
 	}
 
 	.field input {
-		@apply w-full px-3 py-2 rounded-lg bg-black/30 border border-white/20 text-white outline-none focus:border-green-400/70 transition-colors;
+		@apply w-full px-3 py-2 rounded-lg bg-black/30 border border-white/20 text-white outline-hidden focus:border-green-400/70 transition-colors;
 	}
 
 	.btn-primary {

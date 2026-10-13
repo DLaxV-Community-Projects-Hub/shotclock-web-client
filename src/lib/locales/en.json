@@ -5,14 +5,13 @@
 	"index": {
 		"room_id": "Shot clock ID",
 		"join_room": "View shot clock",
-		"join_room_button": "View <br/> shot clock",
-		"open_controller": "Open <br/> controller",
+		"open_controller": "Open controller",
 		"create_room": "Create shot clock",
 		"presets": "Choose a preset",
 		"quick_create": "Default",
-		"quick_create_wl_field": "WorldLacrosse field",
-		"quick_create_box": "WorldLacrosse box",
-		"quick_create_sixes": "WorldLacrosse sixes",
+		"quick_create_wl_field": "WorldLacrosse Field",
+		"quick_create_box": "WorldLacrosse Box",
+		"quick_create_sixes": "WorldLacrosse Sixes",
 		"custom_settings": "Custom settings",
 		"control_pin": "Controller PIN",
 		"create_custom": "Create",
@@ -49,6 +48,12 @@
 		"hotkeys_start": "Hotkeys: Space, Enter",
 		"hotkeys_reset": "Hotkeys: M, C, Backspace",
 		"rewind": "Rewind to last reset",
-		"manual_horn": "Sound horn manually"
+		"manual_horn": "Sound horn manually",
+		"toggle_sound": "Toggle sound"
+	},
+	"errors": {
+		"room_not_found": "The shot clock {id} does not exist",
+		"wrong_pin": "Wrong PIN",
+		"enter_pin": "Please enter the controller PIN for shot clock {id}"
 	}
 }

@@ -1,13 +1,15 @@
 <script lang="ts">
 	import '../app.css';
-	import '../i18n.ts';
+	import '#lib/i18n.ts';
 
-	import LoadingInfo from '../components/LoadingInfo.svelte';
+	import LoadingInfo from '#lib/components/LoadingInfo.svelte';
 	import { isLoading } from 'svelte-i18n';
+
+	let { children } = $props();
 </script>
 
 {#if $isLoading}
 	<LoadingInfo />
 {:else}
-	<slot />
+	{@render children()}
 {/if}

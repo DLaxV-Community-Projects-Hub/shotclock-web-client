@@ -1,222 +1,75 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
+	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import { onMount } from 'svelte';
-	import { base } from '$app/paths';
-	import { websocketProtocol, serverBaseUrl } from '../../config.js';
-
-	import LoadingInfo from '../../components/LoadingInfo.svelte';
-
+	import { _ } from 'svelte-i18n';
 	import Fa from 'svelte-fa';
 	import {
-		faVolumeUp,
-		faVolumeMute,
-		faShareAlt,
+		faShareNodes,
 		faFastBackward,
 		faBullhorn,
 		faChevronDown,
 		faChevronRight,
 		faUsers,
-		faClock
+		faClock,
+		type IconDefinition
 	} from '@fortawesome/free-solid-svg-icons';
-	import { goto } from '$app/navigation';
-	import { _ } from 'svelte-i18n';
+	import ClockDisplay from '#lib/components/ClockDisplay.svelte';
+	import LoadingInfo from '#lib/components/LoadingInfo.svelte';
+	import VolumeToggle from '#lib/components/VolumeToggle.svelte';
+	import { resolvePin } from '#lib/pin.ts';
+	import { timingCommands } from '#lib/presets.ts';
+	import { RoomClient } from '#lib/room.svelte.ts';
 
-	let roomId: string = $page['params']['roomId'];
-	let pin: string;
-	let currentHost: string;
+	const roomId = page.params.roomId!;
+	const currentHost = window.location.host;
+	const canShare = !!navigator.share;
 
-	let authenticated: boolean = false;
+	const pin = resolvePin(
+		roomId,
+		page.url.searchParams,
+		$_('errors.enter_pin', { values: { id: roomId } })
+	);
 
-	let ws: WebSocket;
-
-	let title: string | undefined;
-
-	let shotclock: number;
-	let shotclockString: string = '';
-	let shotclockStringPart1: string = '';
-	let shotclockStringPart2: string = '';
-	// The shot clock (no title) shows plain seconds below 100, e.g. 80 for WL field
-	$: plainSeconds = title ? shotclock <= 60 : shotclock < 100;
-	$: if (shotclock !== undefined) {
-		if (plainSeconds) {
-			shotclockString = shotclock.toString().padStart(2, '0');
-		} else {
-			shotclockStringPart1 =
-				Math.floor(shotclock / 60)
-					.toString()
-					.padStart(2, '0') + ':';
-			shotclockStringPart2 = (shotclock % 60).toString().padStart(2, '0');
-			shotclockString = shotclockStringPart1 + shotclockStringPart2;
-		}
-	}
-	let shotclockRed: boolean = false;
-
-	let running: boolean;
-
-	let alarmTimer: ReturnType<typeof setInterval>;
-	let audioActive: boolean = false;
-	let audio: HTMLAudioElement;
-
-	let advancedOptionsShown: boolean = true;
-
-	onMount(() => {
-		currentHost = window.location.host;
-		if ($page['url']['searchParams'].has('pin')) {
-			pin = $page['url']['searchParams'].get('pin');
-		} else {
-			pin = sessionStorage.getItem('PIN-' + roomId);
-			if (!pin) pin = prompt('Please enter the control PIN for room ' + roomId);
-		}
-		if (pin) {
-			sessionStorage.setItem('PIN-' + roomId, pin);
-			join(pin, $page['url']['searchParams']);
-			audio = new Audio(base + '/audio/beep.mp3');
-		} else {
-			goto(base + '/');
+	const client = new RoomClient({
+		roomId,
+		pin: pin ?? undefined,
+		// A freshly created room gets its timings from the query string.
+		onAuthenticated: () => {
+			for (const [param, command] of Object.entries(timingCommands)) {
+				const value = page.url.searchParams.get(param);
+				if (value !== null) client.send(command, value);
+			}
 		}
 	});
 
-	function activateAudio() {
-		audioActive = true;
-		audio.play();
-		audio.pause();
-		audio.load();
-	}
+	let advancedOptionsShown = $state(true);
 
-	function join(pin: string, searchParams: URLSearchParams) {
-		ws = new WebSocket(websocketProtocol + '://' + serverBaseUrl + '/' + roomId + '?pin=' + pin);
-		ws.onerror = function (error) {
-			console.log(error);
-		};
-		ws.onmessage = function (event) {
-			if (event.data === 'ROOM_NOT_FOUND') {
-				alert('The room ' + roomId + ' does not exist');
-				goto(base + '/');
-			} else if (event.data === 'WRONG_PIN') {
-				alert('Wrong PIN');
-				sessionStorage.removeItem('PIN-' + roomId);
-				goto(base + '/');
-			} else if (event.data === 'AUTHENTICATED') {
-				authenticated = true;
-				if (searchParams.has('shotclock')) {
-					ws.send('setInitialShotclock;' + searchParams.get('shotclock'));
-				}
-				if (searchParams.has('timeout')) {
-					ws.send('setTimeout;' + searchParams.get('timeout'));
-				}
-				if (searchParams.has('quarter')) {
-					ws.send('setQuarter;' + searchParams.get('quarter'));
-				}
-				if (searchParams.has('halftime')) {
-					ws.send('setHalftime;' + searchParams.get('halftime'));
-				}
-			} else if (event.data === 'HORN') {
-				beep();
-			} else {
-				let id: string = event.data.substring(0, 1);
-				let data: Array<string> = event.data.substring(2).includes(';')
-					? event.data.substring(2).split(';')
-					: [event.data.substring(2)];
-				switch (id) {
-					case 't': // Time
-						shotclock = parseInt(data[1]);
-						if (shotclock == 0) alarm();
-						else deactivateAlarm();
-						break;
-					case 'r': // Running
-						running = data[0] === '1';
-						break;
-					case 'T': // Title
-						title = data[0];
-						if (title == '') title = undefined;
-						break;
-				}
-			}
-		};
-	}
+	const timeSteps = { before: [-5, -1], after: [1, 5] };
+
+	const actions = [
+		{ key: 'horn', icon: faBullhorn, disabledAt: 2 },
+		{ key: 'timeout', icon: faUsers },
+		{ key: 'quarter', icon: faClock },
+		{ key: 'halftime', icon: faClock }
+	] as const;
+
+	onMount(() => {
+		if (!pin) {
+			goto(resolve('/'));
+			return;
+		}
+		client.connect();
+		return () => client.disconnect();
+	});
 
 	function startStop() {
-		if (running) ws.send('pause');
-		else ws.send('start');
+		client.send(client.running ? 'pause' : 'start');
 	}
 
-	function reset() {
-		ws.send('reset');
-	}
-
-	function rewind() {
-		ws.send('rewind');
-	}
-
-	function updateTime(t: number) {
-		ws.send('updateTime;' + t);
-	}
-
-	function manualHorn() {
-		ws.send('horn');
-	}
-
-	function timeout() {
-		ws.send('timeout');
-	}
-
-	function quarter() {
-		ws.send('quarter');
-	}
-
-	function halftime() {
-		ws.send('halftime');
-	}
-
-	function alarm() {
-		if (alarmTimer === undefined) {
-			shotclockRed = true;
-			beep();
-			alarmTimer = setInterval(function () {
-				shotclockRed = !shotclockRed;
-			}, 500);
-		}
-	}
-
-	function deactivateAlarm() {
-		if (alarmTimer) {
-			clearInterval(alarmTimer);
-			alarmTimer = undefined;
-			shotclockRed = false;
-		}
-	}
-
-	function beep() {
-		if (audioActive) {
-			audio.play();
-			setTimeout(function () {
-				audio.pause();
-				audio.load();
-			}, 2000);
-		}
-	}
-
-	function shareRoomURL() {
-		if (navigator.share) {
-			navigator.share({
-				title: $_('control.share_room_title', { values: { id: roomId } }),
-				url: base + '/room/' + roomId
-			});
-		}
-	}
-
-	function shareControlURL() {
-		if (navigator.share) {
-			navigator.share({
-				title: $_('control.share_controller_title', { values: { id: roomId } }),
-				url: base + '/control/' + roomId
-			});
-		}
-	}
-
-	function handleKeydown(e) {
+	function handleKeydown(e: KeyboardEvent) {
 		if (e.key === ' ' || e.key === 'Enter') {
-			// Space/Enter
 			startStop();
 			e.preventDefault();
 		} else if (
@@ -224,33 +77,64 @@
 			e.key.toLowerCase() === 'c' ||
 			e.key === 'Backspace'
 		) {
-			// M/C/Backspace
-			reset();
+			client.send('reset');
 			e.preventDefault();
 		}
 	}
+
+	const roomPath = $derived(resolve('/room/[roomId]', { roomId }));
+	const controllerPath = $derived(resolve('/control/[roomId]', { roomId }));
+
+	function share(titleKey: string, url: string) {
+		navigator.share({ title: $_(titleKey, { values: { id: roomId } }), url });
+	}
 </script>
 
-<svelte:window on:keydown={handleKeydown} />
+<svelte:window onclick={() => client.beep.enable()} onkeydown={handleKeydown} />
 
-<div id="main" class="w-full h-full" on:click|once={activateAudio}>
-	{#if authenticated}
-		<!-- Volume Icon -->
-		<div class="absolute top-3 left-3" on:click={() => (audioActive = !audioActive)}>
-			{#if audioActive}
-				<Fa icon={faVolumeUp} size="2x" />
-			{:else}
-				<Fa icon={faVolumeMute} size="2x" />
-			{/if}
+{#snippet icon(definition: IconDefinition)}
+	<Fa class="w-full lg:hidden" icon={definition} />
+	<Fa class="w-full hidden lg:block" icon={definition} size="2x" />
+{/snippet}
+
+{#snippet timeStep(delta: number)}
+	<button
+		class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
+		onclick={() => client.send('updateTime', delta)}
+	>
+		{delta > 0 ? '+' : ''}{delta}s
+	</button>
+{/snippet}
+
+{#snippet urlBlock(label: string, url: string, shareLabel: string, shareTitleKey: string)}
+	<div class="w-1/2 lg:w-full">
+		<div class="hidden lg:flex flex-col mb-3">
+			<span class="text-xs">{label}</span>
+			<a href={url}>{currentHost}{url}</a>
 		</div>
-		<!-- Room ID Info -->
+		<div class:hidden={!canShare}>
+			<button
+				class="shareButton lg:text-lg flex flex-row items-center"
+				onclick={() => share(shareTitleKey, url)}
+			>
+				<span class="mr-2">{shareLabel}</span>
+				<Fa icon={faShareNodes} size="lg" />
+			</button>
+		</div>
+	</div>
+{/snippet}
+
+<div id="main" class="w-full h-full">
+	{#if client.authenticated}
+		<VolumeToggle player={client.beep} />
+
 		<div class="absolute top-3 right-3">
 			<div class="flex flex-row">
 				<div class="mr-5">
 					<span class="text-xs">{$_('control.id')}</span>
 					<span class="text-xl">{roomId}</span>
 				</div>
-				<div class="">
+				<div>
 					<span class="text-xs">{$_('control.pin')}</span>
 					<span class="text-xl">{pin}</span>
 				</div>
@@ -258,199 +142,111 @@
 		</div>
 
 		<div class="lg:h-full w-full flex flex-col lg:flex-row justify-start lg:justify-between">
-			<!-- Shotclock -->
 			<div class="flex flex-col justify-center items-center m-5 lg:mr-20 lg:m-0">
-				{#if title}
-					<span class="title mt-5">{title}</span>
-				{/if}
-				{#if plainSeconds}
-					<span
-						class="clock"
-						class:text-red-600={shotclockRed}
-						class:clock-small={title}
-						class:clock-large={!title}
-					>
-						{shotclockString}
-					</span>
-				{:else}
-					<div class="flex portrait:flex-col landscape:flex-row">
-						<span
-							class="clock"
-							class:text-red-600={shotclockRed}
-							class:clock-small={title}
-							class:clock-large={!title}
-						>
-							{shotclockStringPart1}
-						</span>
-						<span
-							class="clock"
-							class:text-red-600={shotclockRed}
-							class:clock-small={title}
-							class:clock-large={!title}
-						>
-							{shotclockStringPart2}
-						</span>
-					</div>
-				{/if}
+				<ClockDisplay
+					size="controller"
+					title={client.title}
+					seconds={client.shotclock}
+					red={client.alarmRed}
+				/>
 			</div>
-			<!-- Controls -->
+
+			<!-- Main controls -->
 			<div class="flex flex-row lg:flex-col justify-evenly m-5 lg:m-0">
 				<button
 					class="controlButton"
-					class:startButton={!running && shotclock > 0}
-					class:stopButton={running && shotclock > 0}
-					class:buttonDisabled={shotclock == 0}
-					on:click={startStop}
+					class:startButton={!client.running && client.shotclock! > 0}
+					class:stopButton={client.running && client.shotclock! > 0}
+					class:buttonDisabled={client.shotclock === 0}
+					onclick={startStop}
+					title={$_('control.hotkeys_start')}
 				>
-					<span title={$_('control.hotkeys_start')}>
-						{#if running}
-							{$_('control.stop')}
-						{:else}
-							{$_('control.start')}
-						{/if}
-					</span>
+					{client.running ? $_('control.stop') : $_('control.start')}
 				</button>
 				<button
 					class="controlButton shadow-reset text-white bg-button-bg-reset"
-					on:click={reset}
-					title={$_('control.hotkeys_reset')}>{$_('control.reset')}</button
+					onclick={() => client.send('reset')}
+					title={$_('control.hotkeys_reset')}
 				>
+					{$_('control.reset')}
+				</button>
 			</div>
 
 			<div
-				class="w--7/8 lg:w-full mx-2 lg:mx-0 p-1 lg:p-0 border lg:border-0 rounded mt-3 lg:mt-0"
+				class="w--7/8 lg:w-full mx-2 lg:mx-0 p-1 lg:p-0 border lg:border-0 rounded-sm mt-3 lg:mt-0"
 				class:pb-8={advancedOptionsShown}
 				class:mb-5={advancedOptionsShown}
 			>
-				<button class="lg:hidden" on:click={() => (advancedOptionsShown = !advancedOptionsShown)}>
+				<button class="lg:hidden" onclick={() => (advancedOptionsShown = !advancedOptionsShown)}>
 					<div class="flex flex-row justify-center">
-						{#if advancedOptionsShown}
-							<div class="mt-1">
-								<Fa icon={faChevronDown} />
-							</div>
-							<span class="ml-2">{$_('control.hide_advanced')}</span>
-						{:else}
-							<div class="mt-1">
-								<Fa icon={faChevronRight} />
-							</div>
-							<span class="ml-2">{$_('control.show_advanced')}</span>
-						{/if}
+						<div class="mt-1">
+							<Fa icon={advancedOptionsShown ? faChevronDown : faChevronRight} />
+						</div>
+						<span class="ml-2">
+							{advancedOptionsShown ? $_('control.hide_advanced') : $_('control.show_advanced')}
+						</span>
 					</div>
 				</button>
 				<div
 					class="h-full flex flex-col lg:flex-row justify-between lg:pb-0"
 					class:hidden={!advancedOptionsShown}
 				>
+					<!-- Time adjustment -->
 					<div class="flex flex-row lg:flex-col justify-evenly mt-5 lg:mt-0 lg:ml-20">
-						<button
-							class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
-							on:click={() => updateTime(-5)}>-5s</button
-						>
-						<button
-							class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
-							on:click={() => updateTime(-1)}>-1s</button
-						>
+						{#each timeSteps.before as delta}
+							{@render timeStep(delta)}
+						{/each}
 						<button
 							class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
 							title={$_('control.rewind')}
-							on:click={rewind}
+							onclick={() => client.send('rewind')}
 						>
-							<Fa class="w-full lg:hidden" icon={faFastBackward} />
-							<Fa class="w-full hidden lg:block" icon={faFastBackward} size="2x" />
+							{@render icon(faFastBackward)}
 						</button>
-						<button
-							class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
-							on:click={() => updateTime(1)}>+1s</button
-						>
-						<button
-							class="controlButtonSmall shadow-reset text-white bg-button-bg-reset"
-							on:click={() => updateTime(5)}>+5s</button
-						>
+						{#each timeSteps.after as delta}
+							{@render timeStep(delta)}
+						{/each}
 					</div>
 
 					<div class="flex flex-col lg:flex-col-reverse lg:justify-end">
+						<!-- Horn and countdowns -->
 						<div
 							class="lg:text-right flex flex-row lg:flex-col justify-evenly lg:justify-start m-3 mt-1"
 						>
-							<div class="my-5 flex flex-col items-center">
-								<button
-									class="controlButtonExtraSmall shadow-reset text-white bg-button-bg-reset"
-									class:buttonDisabled={shotclock <= 2}
-									title={$_('control.manual_horn')}
-									on:click={() => manualHorn()}
-								>
-									<Fa class="w-full lg:hidden" icon={faBullhorn} />
-									<Fa class="w-full hidden lg:block" icon={faBullhorn} size="2x" />
-								</button>
-								<span class="mt-1">{$_('control.horn')}</span>
-							</div>
-							<div class="my-5 flex flex-col items-center">
-								<button
-									class="controlButtonExtraSmall shadow-reset text-white bg-button-bg-reset"
-									title={$_('control.timeout')}
-									on:click={() => timeout()}
-								>
-									<Fa class="w-full lg:hidden" icon={faUsers} />
-									<Fa class="w-full hidden lg:block" icon={faUsers} size="2x" />
-								</button>
-								<span class="mt-1">{$_('control.timeout')}</span>
-							</div>
-							<div class="my-5 flex flex-col items-center">
-								<button
-									class="controlButtonExtraSmall shadow-reset text-white bg-button-bg-reset"
-									title={$_('control.quarter')}
-									on:click={() => quarter()}
-								>
-									<Fa class="w-full lg:hidden" icon={faClock} />
-									<Fa class="w-full hidden lg:block" icon={faClock} size="2x" />
-								</button>
-								<span class="mt-1">{$_('control.quarter')}</span>
-							</div>
-							<div class="my-5 flex flex-col items-center">
-								<button
-									class="controlButtonExtraSmall shadow-reset text-white bg-button-bg-reset"
-									title={$_('control.halftime')}
-									on:click={() => halftime()}
-								>
-									<Fa class="w-full lg:hidden" icon={faClock} />
-									<Fa class="w-full hidden lg:block" icon={faClock} size="2x" />
-								</button>
-								<span class="mt-1">{$_('control.halftime')}</span>
-							</div>
+							{#each actions as action}
+								<div class="my-5 flex flex-col items-center">
+									<button
+										class="controlButtonExtraSmall shadow-reset text-white bg-button-bg-reset"
+										class:buttonDisabled={'disabledAt' in action &&
+											(client.shotclock ?? Infinity) <= action.disabledAt}
+										title={action.key === 'horn'
+											? $_('control.manual_horn')
+											: $_(`control.${action.key}`)}
+										onclick={() => client.send(action.key)}
+									>
+										{@render icon(action.icon)}
+									</button>
+									<span class="mt-1">{$_(`control.${action.key}`)}</span>
+								</div>
+							{/each}
 						</div>
 
-						<!-- Infos -->
+						<!-- URLs -->
 						<div
 							class="lg:text-right flex flex-row lg:flex-col justify-between lg:justify-start m-3 lg:mt-20"
 						>
-							<div class="w-1/2 lg:w-full">
-								<div class="hidden lg:flex flex-col mb-3">
-									<span class="text-xs">{$_('control.room_url')}</span>
-									<a href="{base}/room/{roomId}">{currentHost}{base}/room/{roomId}</a>
-								</div>
-								<div class:hidden={!navigator.share}>
-									<button class="shareButton lg:text-lg">
-										<div class="flex flex-row items-center" on:click={shareRoomURL}>
-											<span class="mr-2">{$_('control.share_room_url')}</span>
-											<Fa icon={faShareAlt} size="lg" />
-										</div>
-									</button>
-								</div>
-							</div>
-							<div class="w-1/2 lg:w-full">
-								<div class="hidden lg:flex flex-col mb-3">
-									<span class="text-xs">{$_('control.controller_url')}</span>
-									<a href="{base}/control/{roomId}">{currentHost}{base}/control/{roomId}</a>
-								</div>
-								<div class:hidden={!navigator.share}>
-									<button class="shareButton lg:text-lg">
-										<div class="flex flex-row items-center" on:click={shareControlURL}>
-											<span class="mr-2">{$_('control.share_controller_url')}</span>
-											<Fa icon={faShareAlt} size="lg" />
-										</div>
-									</button>
-								</div>
-							</div>
+							{@render urlBlock(
+								$_('control.room_url'),
+								roomPath,
+								$_('control.share_room_url'),
+								'control.share_room_title'
+							)}
+							{@render urlBlock(
+								$_('control.controller_url'),
+								controllerPath,
+								$_('control.share_controller_url'),
+								'control.share_controller_title'
+							)}
 						</div>
 					</div>
 				</div>
@@ -462,37 +258,23 @@
 </div>
 
 <style lang="postcss">
+	@reference '../../../app.css';
+
 	#main {
 		@apply text-white;
 		touch-action: manipulation;
 	}
 
-	.clock {
-		font-family: 'SevenSeg';
-	}
-
-	.clock-large {
-		font-size: 50vmin;
-	}
-
-	.clock-small {
-		font-size: 30vmin;
-	}
-
-	.title {
-		font-size: 10vmin;
-	}
-
 	.controlButton {
-		@apply text-2xl lg:text-5xl border-2 border-black rounded-[50%] w-button h-button uppercase;
+		@apply text-2xl lg:text-5xl border-2 border-black rounded-[50%] size-button uppercase;
 	}
 
 	.controlButtonSmall {
-		@apply text-lg lg:text-xl border-2 border-black rounded-[50%] w-buttonSmall h-buttonSmall;
+		@apply text-lg lg:text-xl border-2 border-black rounded-[50%] size-button-small;
 	}
 
 	.controlButtonExtraSmall {
-		@apply text-lg lg:text-xl border-2 border-black rounded-[50%] w-buttonSmall h-buttonSmall lg:w-buttonExtraSmall lg:h-buttonExtraSmall;
+		@apply text-lg lg:text-xl border-2 border-black rounded-[50%] size-button-small lg:size-button-extra-small;
 	}
 
 	.startButton {
@@ -509,13 +291,5 @@
 
 	.shareButton {
 		@apply px-2 py-1 border rounded text-white;
-	}
-
-	@font-face {
-		font-family: 'SevenSeg';
-		font-style: normal;
-		src: url('/fonts/DSEG7Classic-Regular.ttf') format('truetype'),
-			url('/fonts/DSEG7Classic-Regular.woff2') format('woff2'),
-			url('/fonts/DSEG7Classic-Regular.woff') format('woff');
 	}
 </style>

@@ -5,8 +5,7 @@
 	"index": {
 		"room_id": "Shot Clock ID",
 		"join_room": "Shot Clock ansehen",
-		"join_room_button": "Shot Clock <br/> ansehen",
-		"open_controller": "Controller <br/> öffnen",
+		"open_controller": "Controller öffnen",
 		"create_room": "Shot Clock erstellen",
 		"presets": "Voreinstellung wählen",
 		"quick_create": "Standard",
@@ -49,6 +48,12 @@
 		"hotkeys_start": "Tastenkürzel: Leertaste, Enter",
 		"hotkeys_reset": "Tastenkürzel: M, C, Rücktaste",
 		"rewind": "Zurück zum letzten Reset",
-		"manual_horn": "Hupe manuell auslösen"
+		"manual_horn": "Hupe manuell auslösen",
+		"toggle_sound": "Ton ein-/ausschalten"
+	},
+	"errors": {
+		"room_not_found": "Die Shot Clock {id} existiert nicht",
+		"wrong_pin": "Falsche PIN",
+		"enter_pin": "Bitte die Controller-PIN für die Shot Clock {id} eingeben"
 	}
 }

@@ -1,4 +1,46 @@
-/* Write your global styles here, in PostCSS syntax */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+/* Keep Tailwind 3's default border color (v4 switched to currentcolor) */
+@layer base {
+	*,
+	::after,
+	::before,
+	::backdrop,
+	::file-selector-button {
+		border-color: var(--color-gray-200, currentcolor);
+	}
+}
+
+@theme {
+	--color-button: #e9e9ed;
+	--color-button-green: rgb(0 255 0);
+	--color-button-bg-green: rgb(0 255 0 / 0.2);
+	--color-button-red: rgb(255 165 0);
+	--color-button-bg-red: rgb(255 165 0 / 0.2);
+	--color-button-bg-reset: rgb(105 105 105 / 0.3);
+	--color-button-disabled: rgb(105 105 105 / 0.1);
+	--color-button-bg-disabled: rgb(105 105 105 / 0.2);
+
+	--shadow-startstop-green: 0 0 0 2px rgb(0 255 0 / 0.2);
+	--shadow-startstop-red: 0 0 0 2px rgb(255 165 0 / 0.2);
+	--shadow-reset: 0 0 0 2px rgb(105 105 105 / 0.3);
+}
+
+/* Control buttons scale with the screen */
+@utility size-button {
+	width: 17vmax;
+	height: 17vmax;
+}
+
+@utility size-button-small {
+	width: 7vmax;
+	height: 7vmax;
+}
+
+@utility size-button-extra-small {
+	width: 4vmax;
+	height: 4vmax;
+}
+
+@custom-variant portrait (@media (orientation: portrait));
+@custom-variant landscape (@media (orientation: landscape));
