@@ -7,12 +7,16 @@ import { roomSocketUrl } from './config.ts';
 import { forgetPin } from './pin.ts';
 
 const ALARM_BLINK_MS = 500;
+const RECONNECT_BASE_MS = 1000;
+const RECONNECT_MAX_MS = 10_000;
+/** The server sends the clock at least every 10 s, so longer silence means a dead connection. */
+const WATCHDOG_MS = 25_000;
 
 type Options = {
 	roomId: string;
 	/** Controllers authenticate with a PIN, plain displays don't. */
 	pin?: string;
-	/** Called once the server accepted the PIN. */
+	/** Called once the server accepted the PIN (not again after a reconnect). */
 	onAuthenticated?: () => void;
 };
 
@@ -27,11 +31,18 @@ export class RoomClient {
 	authenticated = $state(false);
 	/** Toggles while the clock sits at zero to make it blink. */
 	alarmRed = $state(false);
+	/** True while the connection was lost and is being re-established. */
+	reconnecting = $state(false);
 
 	#pin?: string;
 	#onAuthenticated?: () => void;
 	#socket?: WebSocket;
 	#alarmTimer?: ReturnType<typeof setInterval>;
+	#reconnectTimer?: ReturnType<typeof setTimeout>;
+	#watchdogTimer?: ReturnType<typeof setTimeout>;
+	#attempts = 0;
+	#stopped = true;
+	#wasAuthenticated = false;
 
 	constructor({ roomId, pin, onAuthenticated }: Options) {
 		this.roomId = roomId;
@@ -40,47 +51,123 @@ export class RoomClient {
 	}
 
 	connect() {
-		this.#socket = new WebSocket(roomSocketUrl(this.roomId, this.#pin));
-		this.#socket.onerror = (error) => console.log(error);
-		this.#socket.onmessage = (event) => this.#handleMessage(event.data);
+		this.#stopped = false;
+		window.addEventListener('online', this.#reconnectNow);
+		document.addEventListener('visibilitychange', this.#reconnectNow);
+		this.#open();
 	}
 
 	disconnect() {
-		this.#socket?.close();
+		this.#stopped = true;
+		window.removeEventListener('online', this.#reconnectNow);
+		document.removeEventListener('visibilitychange', this.#reconnectNow);
+		clearTimeout(this.#reconnectTimer);
+		clearTimeout(this.#watchdogTimer);
+		this.#detach(this.#socket)?.close();
+		this.#socket = undefined;
 		this.#stopAlarm();
+	}
+
+	#open() {
+		clearTimeout(this.#reconnectTimer);
+		const socket = new WebSocket(roomSocketUrl(this.roomId, this.#pin));
+		this.#socket = socket;
+		socket.onerror = (error) => console.log(error);
+		socket.onmessage = (event) => {
+			this.#attempts = 0;
+			this.reconnecting = false;
+			this.#resetWatchdog();
+			this.#handleMessage(event.data);
+		};
+		socket.onclose = () => this.#handleConnectionLost(socket);
+		this.#resetWatchdog();
+	}
+
+	#detach(socket?: WebSocket) {
+		if (socket) socket.onclose = socket.onmessage = socket.onerror = null;
+		return socket;
+	}
+
+	/** The server restarted or the network dropped: try again with growing delays. */
+	#handleConnectionLost(socket: WebSocket) {
+		if (this.#socket !== socket) return;
+		this.#detach(socket);
+		this.#socket = undefined;
+		clearTimeout(this.#watchdogTimer);
+		if (this.#stopped) return;
+		this.reconnecting = true;
+		const delay = Math.min(RECONNECT_BASE_MS * 2 ** this.#attempts, RECONNECT_MAX_MS);
+		this.#attempts++;
+		// Jitter, so that all clients do not hit a restarting server at the same moment
+		this.#reconnectTimer = setTimeout(() => this.#open(), delay * (0.5 + Math.random() / 2));
+	}
+
+	/** Reconnect right away, e.g. when the network is back or the tab becomes visible again. */
+	#reconnectNow = () => {
+		if (this.#stopped || document.visibilityState === 'hidden') return;
+		const state = this.#socket?.readyState;
+		if (state === WebSocket.CONNECTING || state === WebSocket.OPEN) return;
+		this.#attempts = 0;
+		this.#open();
+	};
+
+	#resetWatchdog() {
+		clearTimeout(this.#watchdogTimer);
+		this.#watchdogTimer = setTimeout(() => {
+			const socket = this.#socket;
+			if (!socket) return;
+			// A silently dead connection never fires "close" on its own
+			this.#handleConnectionLost(socket);
+			socket.close();
+		}, WATCHDOG_MS);
+	}
+
+	/** The server rejected us, reconnecting would not help. */
+	#giveUp() {
+		this.disconnect();
 	}
 
 	/** Sends a command like `updateTime;5` to the server. */
 	send(command: string, ...args: (string | number)[]) {
-		this.#socket?.send([command, ...args].join(';'));
+		if (this.#socket?.readyState === WebSocket.OPEN) {
+			this.#socket.send([command, ...args].join(';'));
+		}
 	}
 
 	#handleMessage(message: string) {
 		switch (message) {
 			case 'ROOM_NOT_FOUND':
 				alert(get(_)('errors.room_not_found', { values: { id: this.roomId } }));
+				this.#giveUp();
 				goto(resolve('/'));
 				return;
 			case 'WRONG_PIN':
 				alert(get(_)('errors.wrong_pin'));
 				forgetPin(this.roomId);
+				this.#giveUp();
 				goto(resolve('/'));
 				return;
 			case 'RATE_LIMITED':
 				alert(get(_)('errors.rate_limited'));
+				this.#giveUp();
 				goto(resolve('/'));
 				return;
 			case 'SERVER_BUSY':
 				alert(get(_)('errors.server_busy'));
+				this.#giveUp();
 				goto(resolve('/'));
 				return;
 			case 'INVALID_REQUEST':
 				alert(get(_)('errors.invalid_request'));
+				this.#giveUp();
 				goto(resolve('/'));
 				return;
 			case 'AUTHENTICATED':
 				this.authenticated = true;
-				this.#onAuthenticated?.();
+				if (!this.#wasAuthenticated) {
+					this.#wasAuthenticated = true;
+					this.#onAuthenticated?.();
+				}
 				return;
 			case 'HORN':
 				this.beep.beep();

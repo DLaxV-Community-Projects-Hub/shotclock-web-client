@@ -16,6 +16,7 @@
 		type IconDefinition
 	} from '@fortawesome/free-solid-svg-icons';
 	import ClockDisplay from '#lib/components/ClockDisplay.svelte';
+	import ReconnectBanner from '#lib/components/ReconnectBanner.svelte';
 	import LoadingInfo from '#lib/components/LoadingInfo.svelte';
 	import VolumeToggle from '#lib/components/VolumeToggle.svelte';
 	import { resolvePin } from '#lib/pin.ts';
@@ -126,6 +127,7 @@
 
 <div id="main" class="w-full h-full">
 	{#if client.authenticated}
+		<ReconnectBanner visible={client.reconnecting} />
 		<VolumeToggle player={client.beep} />
 
 		<div class="absolute top-3 right-3">

@@ -59,6 +59,7 @@
 		"enter_pin": "Please enter the controller PIN for shot clock {id}",
 		"rate_limited": "Too many requests. Please wait a few minutes and try again.",
 		"server_busy": "The server is busy. Please try again in a moment.",
-		"invalid_request": "Invalid shot clock ID or PIN (maximum 64 characters)"
+		"invalid_request": "Invalid shot clock ID or PIN (maximum 64 characters)",
+		"reconnecting": "Connection lost, reconnecting…"
 	}
 }
